@@ -8,9 +8,12 @@ import {
 import { type Adapter } from "next-auth/adapters";
 import OktaProvider from "next-auth/providers/okta";
 
+import { users } from "~/server/db/schema";
+
 import { env } from "~/env";
 import { db } from "~/server/db";
 import { createTable } from "~/server/db/schema";
+import { eq } from "drizzle-orm";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -40,13 +43,41 @@ declare module "next-auth" {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-      },
-    }),
+    session: async ({ session, user }) => {
+      if (!user) {
+        return session;
+      }
+
+      // const filteredUser = await db
+      //   .select()
+      //   .from(users)
+      //   .where(eq(users.id, user.id));
+      // console.log(filteredUser);
+
+      const id = user.id;
+
+      const first = await db.query.users.findFirst({
+        where: (users, { eq }) => eq(users.id, id),
+      });
+      if (!first) {
+        return session;
+      }
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: user.id,
+          userRoleType: first.userRoleType,
+        },
+      };
+    },
+    // session: ({ session, user }) => ({
+    //   ...session,
+    //   user: {
+    //     ...session.user,
+    //     id: user.id,
+    //   },
+    // }),
   },
   adapter: DrizzleAdapter(db, createTable) as Adapter,
   providers: [
