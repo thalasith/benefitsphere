@@ -118,10 +118,10 @@ export const verificationTokens = createTable(
 );
 
 export const clients = createTable("client", {
-  id: varchar("id", { length: 255 }).notNull().primaryKey(),
+  id: serial("id").notNull().primaryKey(),
   clientName: varchar("clientName", { length: 255 }),
   industry: varchar("industry", { length: 255 }),
-  base_currency: varchar("base_currency", { length: 3 }),
+  baseCurrency: varchar("baseCurrency", { length: 3 }),
 });
 
 export const clientsRelations = relations(clients, ({ many }) => ({
@@ -129,10 +129,10 @@ export const clientsRelations = relations(clients, ({ many }) => ({
 }));
 
 export const usersToClients = createTable("usersToClients", {
-  userId: varchar("userId", { length: 255 })
+  userId: varchar("user_id", { length: 255 })
     .notNull()
     .references(() => users.id),
-  clientId: varchar("clientId", { length: 255 })
+  clientId: integer("client_id")
     .notNull()
     .references(() => clients.id),
 });
