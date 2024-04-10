@@ -17,10 +17,10 @@ export const AddClientContainer: React.FC = () => {
   console.log(sessionData);
   const [clientName, setClientName] = useState("");
   const [selectedIndustry, setSelectedIndustry] = useState(
-    industries[0] || "High Tech",
+    industries[0] ?? "High Tech",
   );
   const [selectedCurrency, setSelectedCurrency] = useState(
-    currencies[0] || "USD",
+    currencies[0] ?? "USD",
   );
 
   const handleAddClient = () => {
