@@ -6,7 +6,7 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import { clients, usersToClients } from "~/server/db/schema";
+import { clients, usersToClients, users } from "~/server/db/schema";
 
 export const clientRouter = createTRPCRouter({
   create: protectedProcedure
@@ -29,7 +29,13 @@ export const clientRouter = createTRPCRouter({
     const listOfClients = await ctx.db
       .select()
       .from(clients)
-      .innerJoin(usersToClients, eq(usersToClients.clientId, clients.id));
+      .innerJoin(usersToClients, eq(usersToClients.clientId, clients.id))
+      .innerJoin(users, eq(users.id, usersToClients.userId));
+    return listOfClients;
+  }),
+
+  getClients: protectedProcedure.query(async ({ ctx }) => {
+    const listOfClients = await ctx.db.select().from(clients);
     return listOfClients;
   }),
 });

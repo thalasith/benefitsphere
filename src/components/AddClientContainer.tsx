@@ -2,6 +2,7 @@ import React, { useState, Fragment } from "react";
 import { useSession } from "next-auth/react";
 import { Listbox, Transition } from "@headlessui/react";
 import { api } from "~/utils/api";
+import Container from "./Container";
 
 const currencies = ["USD", "EUR", "GBP", "CAD", "AUD"];
 const industries = [
@@ -38,7 +39,7 @@ export const AddClientContainer: React.FC = () => {
   const createClient = api.client.create.useMutation();
 
   return (
-    <div>
+    <Container>
       <label
         htmlFor="client-name"
         className="block text-sm font-medium leading-6 text-gray-900"
@@ -107,7 +108,6 @@ export const AddClientContainer: React.FC = () => {
           </div>
         </Listbox>
       </div>
-
       <label
         htmlFor="client-name"
         className="block text-sm font-medium leading-6 text-gray-900"
@@ -162,7 +162,7 @@ export const AddClientContainer: React.FC = () => {
       <button className="mt-2" onClick={() => handleAddClient()}>
         Submit
       </button>
-    </div>
+    </Container>
   );
 };
 
