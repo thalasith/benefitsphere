@@ -1,15 +1,39 @@
 import Head from "next/head";
 import Container from "~/components/Container";
 import Header from "~/components/Header";
-
+import React, { useState } from "react";
+import Router from "next/router";
 import { api } from "~/utils/api";
 
 export default function ClientManagement() {
+  const [selectedClientId, setSelectedClientId] = useState(0);
+  const [selectedUserId, setSelectedUserId] = useState("");
+
   const { data: userData } = api.user.getUsers.useQuery();
   const { data: clientData } = api.client.getClients.useQuery();
   const { data: usersToClientsData } = api.client.getUsersToClients.useQuery();
 
-  console.log(usersToClientsData);
+  const { mutate: addUserToClientRelation } =
+    api.client.addUsersToClientsRelation.useMutation({
+      onSuccess: () => {
+        void Router.push("/client_management");
+      },
+    });
+
+  const handleAddUserToClientRelation = () => {
+    if (!selectedClientId || !selectedUserId) {
+      return;
+    }
+
+    try {
+      addUserToClientRelation({
+        clientId: selectedClientId,
+        userId: selectedUserId,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <>
@@ -21,6 +45,57 @@ export default function ClientManagement() {
       <main>
         <Header />
         <Container>
+          <h1 className="text-3xl font-bold">Client Management</h1>
+          <div className="my-2 flex border border-gray-500 p-2">
+            <div className="my-2 w-1/3">
+              <label
+                htmlFor="client"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Client
+              </label>
+              <select
+                id="client"
+                name="client"
+                autoComplete="client-name"
+                onChange={(e) => setSelectedClientId(parseInt(e.target.value))}
+                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+              >
+                {clientData?.map((client) => (
+                  <option key={client.id} value={client.id}>
+                    {client.clientName}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="my-2 w-1/3">
+              <label
+                htmlFor="user"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                User Name
+              </label>
+              <select
+                id="user"
+                name="user"
+                autoComplete="user-name"
+                onChange={(e) => setSelectedUserId(e.target.value)}
+                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+              >
+                {userData?.map((user) => (
+                  <option key={user.id} value={user.id}>
+                    {user.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="my-2 w-1/3">
+              <button onClick={() => void handleAddUserToClientRelation()}>
+                Submit
+              </button>
+            </div>
+          </div>
+
           <table className="min-w-full divide-y divide-gray-200">
             <thead>
               <tr>

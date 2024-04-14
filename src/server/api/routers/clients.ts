@@ -34,6 +34,20 @@ export const clientRouter = createTRPCRouter({
     return listOfClients;
   }),
 
+  addUsersToClientsRelation: protectedProcedure
+    .input(
+      z.object({
+        userId: z.string().min(1),
+        clientId: z.number(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db.insert(usersToClients).values({
+        userId: input.userId,
+        clientId: input.clientId,
+      });
+    }),
+
   getClients: protectedProcedure.query(async ({ ctx }) => {
     const listOfClients = await ctx.db.select().from(clients);
     return listOfClients;
