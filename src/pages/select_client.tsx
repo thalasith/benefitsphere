@@ -12,7 +12,7 @@ const SelectClient: NextPage = () => {
   const [userClient, setUserClient] = useState<string | null>(null);
   const { data: sessionData, update: updateSession, status } = useSession();
   const { data: clients } = api.client.getClientsByUserId.useQuery({
-    userId: sessionData?.user.id || "",
+    userId: sessionData?.user.id ?? "",
   });
 
   const { mutate: updateUserActiveClient } =
@@ -42,7 +42,7 @@ const SelectClient: NextPage = () => {
       });
 
       await updateUserActiveClient({
-        userId: sessionData?.user.id || "",
+        userId: sessionData?.user.id ?? "",
         activeClient: parseInt(userClient),
       });
     } catch (error) {
