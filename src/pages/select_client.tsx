@@ -41,7 +41,7 @@ const SelectClient: NextPage = () => {
         activeClient: parseInt(userClient),
       });
 
-      await updateUserActiveClient({
+      updateUserActiveClient({
         userId: sessionData?.user.id ?? "",
         activeClient: parseInt(userClient),
       });
