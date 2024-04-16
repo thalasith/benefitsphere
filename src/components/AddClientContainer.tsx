@@ -1,6 +1,6 @@
 import React, { useState, Fragment } from "react";
 import { useSession } from "next-auth/react";
-import { Listbox, Transition } from "@headlessui/react";
+import Router from "next/router";
 import { api } from "~/utils/api";
 import Container from "./Container";
 import { DropDown } from "./Dropdown";
@@ -35,6 +35,7 @@ export const AddClientContainer: React.FC = () => {
       industry: selectedIndustry,
       baseCurrency: selectedCurrency,
     });
+    Router.push("/").catch((err) => console.log(err));
   };
 
   const createClient = api.client.create.useMutation();

@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { signIn, signOut, useSession } from "next-auth/react";
+import Logo from "../../public/logo.png";
+import Image from "next/image";
 
 const navigation = [
   { name: "Add Client", href: "add_client" },
@@ -40,10 +42,7 @@ export default function Header() {
         aria-label="Global"
       >
         <div className="flex lg:flex-1">
-          <a href="#" className="-m-1.5 p-1.5">
-            <span className="sr-only">Your Company</span>
-            Benesphere
-          </a>
+          <Image src={Logo} alt="Benesphere" width={30} height={30} />
         </div>
         <div className="flex lg:hidden">
           <button

@@ -13,4 +13,17 @@ export const userRouter = createTRPCRouter({
     const listOfUsers = await ctx.db.select().from(users);
     return listOfUsers;
   }),
+  updateUserActiveClient: protectedProcedure
+    .input(
+      z.object({
+        userId: z.string().min(1),
+        activeClient: z.number(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db
+        .update(users)
+        .set({ activeClient: input.activeClient })
+        .where(eq(users.id, input.userId));
+    }),
 });
