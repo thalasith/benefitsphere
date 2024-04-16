@@ -9,8 +9,8 @@ import Container from "~/components/Container";
 import Header from "~/components/Header";
 
 const SelectClient: NextPage = () => {
-  const [userClient, setUserClient] = useState<string | null>(null);
   const { data: sessionData, update: updateSession, status } = useSession();
+  const [userClient, setUserClient] = useState<string | null>(null);
   const { data: clients } = api.client.getClientsByUserId.useQuery({
     userId: sessionData?.user.id ?? "",
   });
@@ -41,9 +41,13 @@ const SelectClient: NextPage = () => {
         activeClient: parseInt(userClient),
       });
 
-      updateUserActiveClient({
+      await updateUserActiveClient({
         userId: sessionData?.user.id ?? "",
         activeClient: parseInt(userClient),
+      });
+
+      void Router.push("/").catch((err) => {
+        console.log(err);
       });
     } catch (error) {
       console.log(error);

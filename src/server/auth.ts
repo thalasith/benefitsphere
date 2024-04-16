@@ -4,6 +4,7 @@ import {
   getServerSession,
   type DefaultSession,
   type NextAuthOptions,
+  DefaultUser,
 } from "next-auth";
 import { type Adapter } from "next-auth/adapters";
 import OktaProvider from "next-auth/providers/okta";
@@ -32,10 +33,27 @@ declare module "next-auth" {
     } & DefaultSession["user"];
   }
 
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
+  interface User extends DefaultUser {
+    // ...other properties
+    // role: UserRole;
+    userRoleType: string;
+    activeClient: number;
+  }
+}
+
+interface User {
+  name: string | null;
+  email: string;
+  image: string | null;
+  id: string;
+  userRoleType: string | null;
+  activeClient: string | null;
+}
+
+interface Session {
+  user: User;
+  expires: string;
+  activeClient: string;
 }
 
 /**
@@ -45,17 +63,10 @@ declare module "next-auth" {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    session: async ({ session, user }) => {
+    session: async ({ session, user, trigger, newSession }) => {
       if (!user) {
         return session;
       }
-
-      // const filteredUser = await db
-      //   .select()
-      //   .from(users)
-      //   .where(eq(users.id, user.id));
-      // console.log(filteredUser);
-
       const id = user.id;
 
       const first = await db.query.users.findFirst({
@@ -64,15 +75,52 @@ export const authOptions: NextAuthOptions = {
       if (!first) {
         return session;
       }
-      return {
+
+      session = {
         ...session,
         user: {
           ...session.user,
           id: user.id,
-          userRoleType: first.userRoleType,
-          activeClient: first.activeClient,
+          userRoleType: first.userRoleType ?? "",
+          activeClient: first.activeClient ?? 0,
         },
       };
+
+      if (trigger === "update") {
+        session = {
+          ...session,
+          user: {
+            ...session.user,
+            activeClient: parseInt((newSession as Session).activeClient),
+          },
+        };
+      }
+
+      // if (trigger === "update") {
+      //   const activeClient = (newSession as Session).activeClient;
+      //   console.log("activeClient", activeClient);
+
+      //   return newSession;
+      // }
+
+      // const id = user.id;
+
+      // const first = await db.query.users.findFirst({
+      //   where: (users, { eq }) => eq(users.id, id),
+      // });
+      // if (!first) {
+      //   return session;
+      // }
+      // return {
+      //   ...session,
+      //   user: {
+      //     ...session.user,
+      //     id: user.id,
+      //     userRoleType: first.userRoleType,
+      //     activeClient: first.activeClient,
+      //   },
+      // };
+      return session;
     },
     // session: ({ session, user }) => ({
     //   ...session,
