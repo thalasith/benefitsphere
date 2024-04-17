@@ -25,6 +25,8 @@ export const AddClientContainer: React.FC = () => {
     currencies[0] ?? "USD",
   );
 
+  const createClient = api.client.create.useMutation();
+
   const handleAddClient = () => {
     if (!clientName) {
       return;
@@ -37,9 +39,6 @@ export const AddClientContainer: React.FC = () => {
     });
     Router.push("/").catch((err) => console.log(err));
   };
-
-  const createClient = api.client.create.useMutation();
-
   return (
     <Container>
       <label

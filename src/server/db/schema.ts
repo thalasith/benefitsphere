@@ -1,5 +1,6 @@
 import { relations, sql } from "drizzle-orm";
 import {
+  boolean,
   index,
   integer,
   pgTableCreator,
@@ -127,6 +128,7 @@ export const clients = createTable("client", {
 
 export const clientsRelations = relations(clients, ({ many }) => ({
   usersToClients: many(usersToClients),
+  riskPlans: many(riskPlans),
 }));
 
 export const usersToClients = createTable("usersToClients", {
@@ -142,6 +144,50 @@ export const usersToClientsRelations = relations(usersToClients, ({ one }) => ({
   user: one(users, { fields: [usersToClients.userId], references: [users.id] }),
   client: one(clients, {
     fields: [usersToClients.clientId],
+    references: [clients.id],
+  }),
+}));
+
+export const riskPlans = createTable("riskPlans", {
+  id: serial("id").notNull().primaryKey(),
+  clientId: integer("client_id")
+    .notNull()
+    .references(() => clients.id),
+  offered: boolean("offered").default(false),
+  mandated: boolean("mandated").default(false),
+  planName: varchar("planName", { length: 255 }),
+  eligibility: varchar("eligibility", { length: 255 }),
+  country: varchar("country", { length: 255 }),
+  currency: varchar("currency", { length: 3 }),
+  benefitType: varchar("benefitType", { length: 255 }),
+  benefitForm: varchar("benefitForm", { length: 255 }),
+  benefitMultiple: integer("benefitMultiple"),
+  benefitMultipleDuration: varchar("benefitMultipleDuration", { length: 255 }),
+  benefitFixedAmount: integer("benefitFixedAmount"),
+  benefitMaximumAmount: integer("benefitMaximumAmount"),
+  waitingPeriodDuration: varchar("waitingPeriodDuration", { length: 255 }),
+  waitingPeriodAmount: integer("waitingPeriodAmount"),
+  employeeContribution: varchar("employeeContribution", { length: 255 }),
+  employeeCoshare: varchar("employeeCoshare", { length: 255 }),
+  employerContribution: varchar("employerContribution", { length: 255 }),
+  employerCoshare: varchar("employerCoshare", { length: 255 }),
+  funding: boolean("funding").default(false),
+  nonevidenceLimit: integer("nonevidenceLimit"),
+  provider: varchar("provider", { length: 255 }),
+  policyNumber: varchar("policyNumber", { length: 255 }),
+  policyStartDate: timestamp("policyStartDate", { mode: "date" }),
+  policyEndDate: timestamp("policyEndDate", { mode: "date" }),
+  cancellationDuration: varchar("cancellationDuration", { length: 255 }),
+  cancellationAmount: integer("cancellationAmount"),
+  invoicing: varchar("invoicing", { length: 255 }),
+  headcount: integer("headcount"),
+  totalSumInsured: integer("totalSumInsured"),
+  totalPremium: integer("totalPremium"),
+});
+
+export const riskPlansRelations = relations(riskPlans, ({ one }) => ({
+  client: one(clients, {
+    fields: [riskPlans.clientId],
     references: [clients.id],
   }),
 }));
