@@ -1,3 +1,4 @@
+import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
@@ -18,5 +19,19 @@ export const riskPlanRouter = createTRPCRouter({
         planName: input.planName,
         mandated: input.mandated,
       });
+    }),
+
+  getRiskPlansByClientId: protectedProcedure
+    .input(
+      z.object({
+        clientId: z.number().min(1),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const listOfRiskPlans = await ctx.db
+        .select()
+        .from(riskPlans)
+        .where(eq(riskPlans.clientId, input.clientId));
+      return listOfRiskPlans;
     }),
 });

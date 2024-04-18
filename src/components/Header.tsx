@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { signIn, signOut, useSession } from "next-auth/react";
-import Logo from "../../public/logo.png";
+import Logo from "../../public/logo.svg";
 import Image from "next/image";
 
 const navigation = [
@@ -15,19 +15,16 @@ export default function Header() {
   const { data: sessionData } = useSession();
 
   const Login = (
-    <button
-      className="text-sm font-semibold leading-6 text-gray-900"
-      onClick={() => signIn()}
-    >
+    <button className="font-semibold leading-6" onClick={() => signIn()}>
       Log in <span aria-hidden="true">&rarr;</span>
     </button>
   );
 
   const Logout = (
     <div className="flex">
-      <p className="mx-2">Logged in as: {sessionData?.user?.name}</p>
+      <p className="mx-2  py-1">Logged in as: {sessionData?.user?.name}</p>
       <button
-        className="text-sm font-semibold leading-6 text-gray-900"
+        className="bg-accent hover:text-primary rounded-lg px-2 py-1 font-semibold text-white"
         onClick={() => signOut()}
       >
         Log out
@@ -36,18 +33,18 @@ export default function Header() {
   );
 
   return (
-    <header className="bg-white">
+    <header className="text-sm">
       <nav
         className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
         aria-label="Global"
       >
-        <div className="flex lg:flex-1">
+        <div className="flex py-1 lg:flex-1">
           <Image src={Logo} alt="Benesphere" width={30} height={30} />
         </div>
         <div className="flex lg:hidden">
           <button
             type="button"
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5"
             onClick={() => setMobileMenuOpen(true)}
           >
             <span className="sr-only">Open main menu</span>
@@ -59,7 +56,7 @@ export default function Header() {
             <a
               key={item.name}
               href={item.href}
-              className="text-sm font-semibold leading-6 text-gray-900"
+              className="text-sm font-semibold leading-6"
             >
               {item.name}
             </a>
@@ -84,7 +81,7 @@ export default function Header() {
             </a>
             <button
               type="button"
-              className="-m-2.5 rounded-md p-2.5 text-gray-700"
+              className="-m-2.5 rounded-md p-2.5"
               onClick={() => setMobileMenuOpen(false)}
             >
               <span className="sr-only">Close menu</span>
@@ -98,7 +95,7 @@ export default function Header() {
                   <a
                     key={item.name}
                     href={item.href}
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-gray-50"
                   >
                     {item.name}
                   </a>
@@ -107,7 +104,7 @@ export default function Header() {
               <div className="py-6">
                 <a
                   href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 hover:bg-gray-50"
                 >
                   Log in
                 </a>

@@ -18,7 +18,7 @@ export const DropDown: React.FC<DropDownProps> = ({
     <div className="mt-2">
       <label
         htmlFor="client-name"
-        className="block text-sm font-medium leading-6 text-gray-900"
+        className="block text-sm font-medium leading-6 "
       >
         {labelName}
       </label>
