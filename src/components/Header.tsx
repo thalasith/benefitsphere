@@ -18,7 +18,7 @@ export default function Header() {
     <button className="font-semibold leading-6" onClick={() => signIn()}>
       Log in <span aria-hidden="true">&rarr;</span>
     </button>
-  );
+  ) as JSX.Element;
 
   const Logout = (
     <div className="flex">
@@ -30,7 +30,7 @@ export default function Header() {
         Log out
       </button>
     </div>
-  );
+  ) as JSX.Element;
 
   return (
     <header className="text-sm">
