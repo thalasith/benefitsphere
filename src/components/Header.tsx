@@ -39,7 +39,8 @@ export default function Header() {
         aria-label="Global"
       >
         <div className="flex py-1 lg:flex-1">
-          <Image src={Logo} alt="Benesphere" width={30} height={30} />
+          {/* <Image src={Logo} alt="Benesphere" width={30} height={30} /> */}
+          Benefitsphere
         </div>
         <div className="flex lg:hidden">
           <button
