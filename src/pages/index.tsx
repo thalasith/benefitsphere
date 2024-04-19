@@ -23,19 +23,12 @@ export default function Home() {
       </Head>
       <main className="text-primary">
         <Header />
-        <Container>
-          <h1 className="text-center text-6xl font-bold">
+
+        <div className="from-tertiary to-danger flex h-screen w-full items-center justify-between bg-gradient-to-b p-6 text-white">
+          <h1 className="m-auto text-center text-6xl font-bold">
             Welcome to Benefitsphere
           </h1>
-          <h2 className="text-center text-4xl font-bold">Risk Plans</h2>
-          <ul>
-            {riskPlans?.map((riskPlan) => (
-              <li key={riskPlan.id}>
-                <p>{riskPlan.planName}</p>
-              </li>
-            ))}
-          </ul>
-        </Container>
+        </div>
       </main>
     </>
   );
