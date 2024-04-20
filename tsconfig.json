@@ -36,8 +36,8 @@
     "**/*.tsx",
     "**/*.cjs",
     "**/*.js",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "./types"
   ],
-  "typeRoots": ["./types"],
   "exclude": ["node_modules"]
 }
