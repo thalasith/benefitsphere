@@ -18,5 +18,8 @@ const config = {
     defaultLocale: "en",
   },
 };
+const withImages = require("next-images");
+
+module.exports = withImages();
 
 export default config;
