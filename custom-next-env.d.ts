@@ -1,4 +1,3 @@
-declare module "*.svg" {
-  const content: React.FC<React.SVGProps<SVGSVGElement>>;
-  export default content;
-}
+/// <reference types="next" />
+/// <reference types="next/types/global" />
+/// <reference types="next/image-types/global" />
