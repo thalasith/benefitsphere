@@ -6,6 +6,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 // import {MercerLogo as Logo} from "../../public/mercer-logo.svg";
 
 import MercerLogo from "./MercerLogo";
+import BenefitsphereLogo from "./BenefitsphereLogo";
 
 const navigation = [
   { name: "Add Client", href: "add_client" },
@@ -45,6 +46,7 @@ export default function Header() {
           {/* <Image src={MercerLogo} alt="Mercer" width={120} height={30} /> */}
           <div className="mx-2 flex">
             <p className="mx-2 text-xl font-semibold"> | </p>
+            <BenefitsphereLogo />
             {/* <Image src={Logo} alt="Benesphere" width={30} height={30} /> */}
             <p className="mx-2 text-xl font-semibold">Benefitsphere </p>
           </div>{" "}
