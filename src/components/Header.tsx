@@ -2,9 +2,10 @@ import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { signIn, signOut, useSession } from "next-auth/react";
-import Logo from "../../public/logo.svg";
-import MercerLogo from "../../public/mercer-logo.svg";
-import Image from "next/image";
+// import Logo from "../../public/logo.svg";
+// import {MercerLogo as Logo} from "../../public/mercer-logo.svg";
+
+import MercerLogo from "./MercerLogo";
 
 const navigation = [
   { name: "Add Client", href: "add_client" },
@@ -40,10 +41,11 @@ export default function Header() {
         aria-label="Global"
       >
         <div className="flex py-1 lg:flex-1">
-          <Image src={MercerLogo} alt="Mercer" width={120} height={30} />
+          <MercerLogo />
+          {/* <Image src={MercerLogo} alt="Mercer" width={120} height={30} /> */}
           <div className="mx-2 flex">
             <p className="mx-2 text-xl font-semibold"> | </p>
-            <Image src={Logo} alt="Benesphere" width={30} height={30} />
+            {/* <Image src={Logo} alt="Benesphere" width={30} height={30} /> */}
             <p className="mx-2 text-xl font-semibold">Benefitsphere </p>
           </div>{" "}
         </div>
