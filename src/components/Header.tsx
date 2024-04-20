@@ -3,6 +3,7 @@ import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Logo from "../../public/logo.svg";
+import MercerLogo from "../../public/mercer-logo.svg";
 import Image from "next/image";
 
 const navigation = [
@@ -24,7 +25,7 @@ export default function Header() {
     <div className="flex">
       <p className="mx-2  py-1">Logged in as: {sessionData?.user?.name}</p>
       <button
-        className="bg-accent hover:text-primary rounded-lg px-2 py-1 font-semibold text-white"
+        className="bg-accent hover:text-primary max-h-full rounded-lg px-2 py-1 font-semibold text-white"
         onClick={() => signOut()}
       >
         Log out
@@ -35,12 +36,16 @@ export default function Header() {
   return (
     <header className="text-sm">
       <nav
-        className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
+        className="mx-auto flex max-w-full items-center justify-between overflow-x-hidden p-6 lg:px-8"
         aria-label="Global"
       >
         <div className="flex py-1 lg:flex-1">
-          {/* <Image src={Logo} alt="Benesphere" width={30} height={30} /> */}
-          Benefitsphere
+          <Image src={MercerLogo} alt="Mercer" width={120} height={30} />
+          <div className="mx-2 flex">
+            <p className="mx-2 text-xl font-semibold"> | </p>
+            <Image src={Logo} alt="Benesphere" width={30} height={30} />
+            <p className="mx-2 text-xl font-semibold">Benefitsphere </p>
+          </div>{" "}
         </div>
         <div className="flex lg:hidden">
           <button
