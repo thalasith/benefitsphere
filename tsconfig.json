@@ -38,5 +38,6 @@
     "**/*.js",
     ".next/types/**/*.ts"
   ],
+  "typeRoots": ["./types"],
   "exclude": ["node_modules"]
 }
