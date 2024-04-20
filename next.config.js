@@ -7,7 +7,6 @@ await import("./src/env.js");
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
-
   /**
    * If you are using `appDir` then you must comment the below `i18n` config out.
    *
@@ -18,8 +17,5 @@ const config = {
     defaultLocale: "en",
   },
 };
-const withImages = require("next-images");
-
-module.exports = withImages();
 
 export default config;
