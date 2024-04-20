@@ -24,7 +24,6 @@ export default function Home() {
 
       <main className="text-primary">
         <Header />
-
         <div className="from-tertiary to-danger flex h-screen max-h-full w-full items-center justify-between bg-gradient-to-b p-6 text-white">
           <h1 className="m-auto text-center text-6xl font-bold">
             Welcome to Benefitsphere
