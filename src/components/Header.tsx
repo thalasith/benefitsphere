@@ -1,12 +1,12 @@
 import { Fragment, useState } from "react";
-
-import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
+import { Dialog, Popover, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 import MercerLogo from "./MercerLogo";
 import BenefitsphereLogo from "./BenefitsphereLogo";
+import Link from "next/link";
 
 const navigation = [
   { name: "Add Client", href: "add_client" },
@@ -84,12 +84,12 @@ export default function Header() {
         </div>
 
         <Popover.Group className="hidden lg:flex lg:gap-x-12">
-          <a
+          <Link
             href="/homepage"
             className="rounded-lg px-3 py-2 text-sm leading-6 hover:bg-slate-50"
           >
             View your benefits
-          </a>
+          </Link>
 
           <Popover className="relative">
             <Popover.Button className="flex items-center gap-x-1 rounded-lg px-3 py-2 text-sm leading-6 hover:bg-slate-50">
