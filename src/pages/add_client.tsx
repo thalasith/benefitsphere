@@ -2,8 +2,6 @@ import Head from "next/head";
 import { AddClientContainer } from "~/components/AddClientContainer";
 import Header from "~/components/Header";
 
-import { api } from "~/utils/api";
-
 export default function AddClient() {
   return (
     <>

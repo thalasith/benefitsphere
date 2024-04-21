@@ -12,7 +12,11 @@ export default {
         primary: "#1B386D",
         secondary: "#00AB4E",
         tertiary: "#0198D8",
+        "tertiary-lt": "#C6EDFF",
+        "tertiary-dk": "#0164AC",
         danger: "#EE3C8C",
+        "danger-lt": "#FDDFE5",
+        "danger-dk": "#B2025A",
       },
       spacing: {
         "8xl": "88rem",

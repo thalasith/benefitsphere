@@ -29,7 +29,12 @@ export const riskPlanRouter = createTRPCRouter({
     )
     .query(async ({ ctx, input }) => {
       const listOfRiskPlans = await ctx.db
-        .select()
+        .select({
+          field1: riskPlans.id,
+          field2: riskPlans.country,
+          field3: riskPlans.benefitType,
+          field4: riskPlans.planName,
+        })
         .from(riskPlans)
         .where(eq(riskPlans.clientId, input.clientId));
       return listOfRiskPlans;

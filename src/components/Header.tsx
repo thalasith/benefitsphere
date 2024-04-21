@@ -26,10 +26,10 @@ export default function Header() {
   const Logout = (
     <Popover.Group className="hidden lg:flex lg:gap-x-12">
       <Popover className="relative">
-        <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
+        <Popover.Button className="flex items-center gap-x-1 px-3 py-2 text-sm font-semibold leading-6 hover:bg-slate-50">
           Welcome {sessionData?.user?.name}
           <ChevronDownIcon
-            className="h-5 w-5 flex-none text-gray-400"
+            className="h-5 w-5 flex-none text-slate-400"
             aria-hidden="true"
           />
         </Popover.Button>
@@ -43,9 +43,9 @@ export default function Header() {
           leaveFrom="opacity-100 translate-y-0"
           leaveTo="opacity-0 translate-y-1"
         >
-          <Popover.Panel className="absolute top-full z-10 mt-3 w-56 rounded-xl bg-white p-2 shadow-lg ring-1 ring-gray-900/5">
+          <Popover.Panel className="hover:text-danger absolute top-full z-10 mt-3 w-56 rounded-xl bg-white p-2 shadow-lg ring-1 ring-slate-900/5 hover:bg-slate-50">
             <button
-              className="bg-accent hover:text-primary rounded-lg px-2 py-1 font-semibold "
+              className="bg-accent rounded-lg  px-2 py-1 font-semibold"
               onClick={() => signOut()}
             >
               Log out
@@ -62,12 +62,14 @@ export default function Header() {
         className="max-w-9xl mx-auto flex items-center justify-between p-6 lg:px-8"
         aria-label="Global"
       >
-        <div className="flex py-1 lg:flex-1">
+        <div className="flex items-end lg:flex-1">
           <MercerLogo />
-          <div className="mx-2 flex">
+          <div className="mr-2 flex">
             <p className="mx-2 text-xl font-semibold"> | </p>
             <BenefitsphereLogo />
-            <p className="mx-2 text-xl font-semibold">Benefitsphere </p>
+            <p className="mx-2 align-text-bottom text-xl font-semibold">
+              Benefitsphere{" "}
+            </p>
           </div>{" "}
         </div>
         <div className="flex lg:hidden">
@@ -82,18 +84,18 @@ export default function Header() {
         </div>
 
         <Popover.Group className="hidden lg:flex lg:gap-x-12">
-          <a href="#" className="text-sm font-semibold leading-6 ">
-            Features
-          </a>
-          <a href="#" className="text-sm font-semibold leading-6 ">
-            Marketplace
+          <a
+            href="/homepage"
+            className="rounded-lg px-3 py-2 text-sm leading-6 hover:bg-slate-50"
+          >
+            View your benefits
           </a>
 
           <Popover className="relative">
-            <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 ">
+            <Popover.Button className="flex items-center gap-x-1 rounded-lg px-3 py-2 text-sm leading-6 hover:bg-slate-50">
               Client Management
               <ChevronDownIcon
-                className="h-5 w-5 flex-none text-gray-400"
+                className="h-5 w-5 flex-none text-slate-400"
                 aria-hidden="true"
               />
             </Popover.Button>
@@ -107,12 +109,12 @@ export default function Header() {
               leaveFrom="opacity-100 translate-y-0"
               leaveTo="opacity-0 translate-y-1"
             >
-              <Popover.Panel className="absolute top-full z-10 mt-3 w-56 rounded-xl bg-white p-2 shadow-lg ring-1 ring-gray-900/5">
+              <Popover.Panel className="absolute top-full z-10 mt-3 w-56 rounded-xl bg-white p-2 shadow-lg ring-1 ring-slate-900/5">
                 {navigation.map((item) => (
                   <a
                     key={item.name}
                     href={item.href}
-                    className="block rounded-lg px-3 py-2 text-sm font-semibold leading-6  hover:bg-gray-50"
+                    className="block rounded-lg px-3 py-2 text-sm leading-6 hover:bg-slate-50"
                   >
                     {item.name}
                   </a>
@@ -133,7 +135,7 @@ export default function Header() {
         onClose={setMobileMenuOpen}
       >
         <div className="fixed inset-0 z-10" />
-        <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+        <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-slate-900/10">
           <div className="flex items-center justify-between">
             <a href="#" className="-m-1.5 p-1.5">
               Benesphere
@@ -148,13 +150,13 @@ export default function Header() {
             </button>
           </div>
           <div className="mt-6 flow-root">
-            <div className="-my-6 divide-y divide-gray-500/10">
+            <div className="-my-6 divide-y divide-slate-500/10">
               <div className="space-y-2 py-6">
                 {navigation.map((item) => (
                   <a
                     key={item.name}
                     href={item.href}
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-gray-50"
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-slate-50"
                   >
                     {item.name}
                   </a>
@@ -163,7 +165,7 @@ export default function Header() {
               <div className="py-6">
                 <a
                   href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 hover:bg-gray-50"
+                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 hover:bg-slate-50"
                 >
                   Log in
                 </a>
