@@ -1,5 +1,6 @@
 import { useSession } from "next-auth/react";
 import Head from "next/head";
+import Link from "next/link";
 import Container from "~/components/Container";
 import Header from "~/components/Header";
 import useClientSelector from "~/hooks/useClientSelector";
@@ -7,17 +8,27 @@ import { api } from "~/utils/api";
 
 const tableClass = "text-left pl-2";
 const tableHeadClass = "text-left pl-2 py-2";
+const isLoading = (status: string) => status === "loading";
 
 export default function Dashboard() {
-  const { data: sessionData } = useSession();
-  const { data: clientData } = api.client.getClientDetailsById.useQuery({
-    clientId: sessionData?.user.activeClient ?? 0,
-  });
-  const { data: riskPlans } = api.riskPlan.getRiskPlansByClientId.useQuery({
-    clientId: sessionData?.user.activeClient ?? 0,
-  });
-  console.log(clientData);
+  const { data: sessionData, status: sessionStatus } = useSession();
+  const { data: clientData, status: clientStatus } =
+    api.client.getClientDetailsById.useQuery({
+      clientId: sessionData?.user.activeClient ?? 0,
+    });
+  const { data: riskPlans, status: riskStatus } =
+    api.riskPlan.getRiskPlansByClientId.useQuery({
+      clientId: sessionData?.user.activeClient ?? 0,
+    });
+
   useClientSelector();
+  if (
+    isLoading(sessionStatus) ||
+    isLoading(clientStatus) ||
+    isLoading(riskStatus)
+  ) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <>
@@ -52,9 +63,12 @@ export default function Dashboard() {
                     <td className={tableClass}>{riskPlan.field3}</td>
                     <td className={tableClass}>{riskPlan.field4}</td>
                     <td className={tableClass}>
-                      <button className="bg-primary hover:bg-primary-lt my-1 rounded px-2 py-0.5 text-white">
+                      <Link
+                        href={`risk/${riskPlan.field1}`}
+                        className="bg-primary hover:bg-primary-lt my-1 rounded px-2 py-0.5 text-white"
+                      >
                         Details
-                      </button>
+                      </Link>
                     </td>
                   </tr>
                 ))}
