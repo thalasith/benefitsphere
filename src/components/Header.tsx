@@ -43,9 +43,12 @@ export default function Header() {
           leaveFrom="opacity-100 translate-y-0"
           leaveTo="opacity-0 translate-y-1"
         >
-          <Popover.Panel className="hover:text-danger absolute top-full z-10 mt-3 w-56 rounded-xl bg-white p-2 shadow-lg ring-1 ring-slate-900/5 hover:bg-slate-50">
+          <Popover.Panel className=" absolute top-full z-10 mt-3 w-56 rounded-xl bg-white p-2 shadow-lg  ">
+            <div className="bg-accent hover:text-danger rounded-lg px-2 py-1 font-semibold hover:bg-slate-50">
+              <Link href="select_client">Change Clients</Link>
+            </div>
             <button
-              className="bg-accent rounded-lg  px-2 py-1 font-semibold"
+              className="bg-accent hover:text-danger  rounded-lg px-2 py-1 font-semibold hover:bg-slate-50"
               onClick={() => signOut()}
             >
               Log out
@@ -109,7 +112,7 @@ export default function Header() {
               leaveFrom="opacity-100 translate-y-0"
               leaveTo="opacity-0 translate-y-1"
             >
-              <Popover.Panel className="absolute top-full z-10 mt-3 w-56 rounded-xl bg-white p-2 shadow-lg ring-1 ring-slate-900/5">
+              <Popover.Panel className="absolute top-full z-10 mt-3 w-56 rounded-xl bg-white p-2 shadow-lg">
                 {navigation.map((item) => (
                   <a
                     key={item.name}
@@ -138,7 +141,7 @@ export default function Header() {
         <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-slate-900/10">
           <div className="flex items-center justify-between">
             <a href="#" className="-m-1.5 p-1.5">
-              Benesphere
+              Benefitsphere
             </a>
             <button
               type="button"

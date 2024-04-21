@@ -63,4 +63,18 @@ export const clientRouter = createTRPCRouter({
         .where(eq(usersToClients.userId, input.userId));
       return listOfClients;
     }),
+
+  getClientDetailsById: protectedProcedure
+    .input(
+      z.object({
+        clientId: z.number(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const clientDetails = await ctx.db
+        .select()
+        .from(clients)
+        .where(eq(clients.id, input.clientId));
+      return clientDetails;
+    }),
 });

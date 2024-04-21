@@ -6,15 +6,17 @@ import useClientSelector from "~/hooks/useClientSelector";
 import { api } from "~/utils/api";
 
 const tableClass = "text-left pl-2";
+const tableHeadClass = "text-left pl-2 py-2";
 
 export default function Dashboard() {
   const { data: sessionData } = useSession();
+  const { data: clientData } = api.client.getClientDetailsById.useQuery({
+    clientId: sessionData?.user.activeClient ?? 0,
+  });
   const { data: riskPlans } = api.riskPlan.getRiskPlansByClientId.useQuery({
     clientId: sessionData?.user.activeClient ?? 0,
   });
-
-  console.log(riskPlans);
-
+  console.log(clientData);
   useClientSelector();
 
   return (
@@ -27,16 +29,17 @@ export default function Dashboard() {
       <main className="text-primary">
         <Header />
         <Container>
-          <h1 className="text-3xl font-bold">Benefits Homepage</h1>
+          <h1 className="text-3xl font-bold">Benefit Homepage</h1>
 
           <h2 className="my-4 block text-xl font-semibold ">Risk Plans</h2>
           <div>
             <table className="min-w-full divide-x divide-y divide-white ">
               <thead>
                 <tr className="bg-primary divide-x divide-white text-white">
-                  <th className={tableClass}>Country</th>
-                  <th className={tableClass}>Benefit Type</th>
-                  <th className={tableClass}>Benefit Name</th>
+                  <th className={tableHeadClass}>Country</th>
+                  <th className={tableHeadClass}>Benefit Type</th>
+                  <th className={tableHeadClass}>Benefit Name</th>
+                  <th className={tableHeadClass}>More Details</th>
                 </tr>
               </thead>
               <tbody>
@@ -48,12 +51,22 @@ export default function Dashboard() {
                     <td className={tableClass}>{riskPlan.field2}</td>
                     <td className={tableClass}>{riskPlan.field3}</td>
                     <td className={tableClass}>{riskPlan.field4}</td>
+                    <td className={tableClass}>
+                      <button className="bg-primary hover:bg-primary-lt my-1 rounded px-2 py-0.5 text-white">
+                        Details
+                      </button>
+                    </td>
                   </tr>
                 ))}
                 <tr key={2} className="bg-tertiary-lt divide-x divide-white">
                   <td className={tableClass}>United Kingdom</td>
                   <td className={tableClass}>AD&D</td>
                   <td className={tableClass}>UK - AD&D Plan</td>
+                  <td className={tableClass}>
+                    <button className="bg-primary hover:bg-primary-lt my-1 rounded px-2 py-0.5 text-white">
+                      Details
+                    </button>
+                  </td>
                 </tr>
               </tbody>
             </table>
