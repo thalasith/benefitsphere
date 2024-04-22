@@ -50,7 +50,6 @@ export const riskPlanRouter = createTRPCRouter({
       const riskPlanDetails = await ctx.db.query.riskPlans.findFirst({
         where: eq(riskPlans.id, input.riskPlanId),
       });
-      console.log(riskPlanDetails);
 
       return riskPlanDetails;
     }),

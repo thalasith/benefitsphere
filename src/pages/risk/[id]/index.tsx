@@ -6,7 +6,7 @@ import Container from "~/components/Container";
 import { api } from "~/utils/api";
 
 const tableClass = "text-left pl-2 py-2";
-const tableHeadClass = "text-left pl-2 py-2";
+const tableClassBold = "text-left pl-2 py-2 font-bold";
 
 export default function Dashboard() {
   const { data: sessionData, status } = useSession();
@@ -18,7 +18,6 @@ export default function Dashboard() {
       riskPlanId: Number(idString),
     });
 
-  console.log(riskPlanDetails);
   return (
     <>
       <Head>
@@ -32,34 +31,137 @@ export default function Dashboard() {
           <h1 className="text-3xl font-bold">
             {riskPlanDetails?.planName} Details
           </h1>
+          <div className="ml-4">
+            <div>
+              <h2 className="my-4 block text-xl font-semibold ">
+                Design Details
+              </h2>
+              <table className="min-w-full divide-x divide-y divide-white ">
+                <thead>
+                  <tr className="bg-primary divide-x divide-white text-white">
+                    <th className="w-1/4 py-2 pl-2 text-left">Category</th>
+                    <th className="w-3/4 py-2 pl-2 text-left">Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="divide-x divide-white bg-slate-100">
+                    <td className={tableClassBold}>Coverage Type</td>
+                    <td className={tableClass}>
+                      {riskPlanDetails?.benefitType}
+                    </td>
+                  </tr>
+                  <tr className="bg-tertiary-lt divide-x divide-white">
+                    <td className={tableClassBold}>Eligibility</td>
+                    <td className={tableClass}>All Employees</td>
+                  </tr>
+                  <tr className="divide-x divide-white bg-slate-100">
+                    <td className={tableClassBold}>Benefit Description</td>
+                    <td className={tableClass}>3 x annual salary</td>
+                  </tr>
+                  <tr className="bg-tertiary-lt divide-x divide-white">
+                    <td className={tableClassBold}>Non-evidence Limit</td>
+                    <td className={tableClass}>CAD 200,000</td>
+                  </tr>
+                  <tr className="divide-x divide-white bg-slate-100">
+                    <td className={tableClassBold}>Benefit Maximum</td>
+                    <td className={tableClass}>CAD 500,000</td>
+                  </tr>
+                  <tr className="bg-tertiary-lt divide-x divide-white">
+                    <td className={tableClassBold}>Employee Contribution</td>
+                    <td className={tableClass}>No contribution required.</td>
+                  </tr>
+                  <tr className="divide-x divide-white bg-slate-100">
+                    <td className={tableClassBold}>Employer Contribution</td>
+                    <td className={tableClass}>100% Employee paid.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
 
-          <h2 className="my-4 block text-xl font-semibold ">Risk Plans</h2>
-          <table className="min-w-full divide-x divide-y divide-white ">
-            <thead>
-              <tr className="bg-primary divide-x divide-white text-white">
-                <th className="w-1/4 py-2 pl-2 text-left">Country</th>
-                <th className="w-3/4 py-2 pl-2 text-left">Benefit Type</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr className="divide-x divide-white bg-slate-100">
-                <td className={tableClass}>Coverage Type</td>
-                <td className={tableClass}>{riskPlanDetails?.benefitType}</td>
-              </tr>
-              <tr className="bg-tertiary-lt divide-x divide-white">
-                <td className={tableClass}>Benefit Description</td>
-                <td className={tableClass}>3 x annual salary</td>
-              </tr>
-              <tr className="divide-x divide-white bg-slate-100">
-                <td className={tableClass}>Non-evidence Limit</td>
-                <td className={tableClass}>CAD 200,000</td>
-              </tr>
-              <tr className="bg-tertiary-lt divide-x divide-white">
-                <td className={tableClass}>Benefit Maximum</td>
-                <td className={tableClass}>CAD 500,000</td>
-              </tr>
-            </tbody>
-          </table>
+            <div>
+              <h2 className="text-danger my-4 block text-xl font-semibold ">
+                Financial Details
+              </h2>
+              <table className="min-w-full divide-x divide-y divide-white ">
+                <thead>
+                  <tr className="bg-danger divide-x divide-white text-white">
+                    <th className="w-1/4 py-2 pl-2 text-left">Category</th>
+                    <th className="w-3/4 py-2 pl-2 text-left">Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="divide-x divide-white bg-slate-100">
+                    <td className={tableClassBold}>Insurer</td>
+                    <td className={tableClass}>Canada Life</td>
+                  </tr>
+                  <tr className="bg-danger-lt divide-x divide-white">
+                    <td className={tableClassBold}>Policy Number</td>
+                    <td className={tableClass}>123456</td>
+                  </tr>
+                  <tr className="divide-x divide-white bg-slate-100">
+                    <td className={tableClassBold}>Renewal Frequency</td>
+                    <td className={tableClass}>Annual</td>
+                  </tr>
+                  <tr className="bg-danger-lt divide-x divide-white">
+                    <td className={tableClassBold}>Next Renewal Date</td>
+                    <td className={tableClass}>Jan 1, 2025</td>
+                  </tr>
+                  <tr className="divide-x divide-white bg-slate-100">
+                    <td className={tableClassBold}>Intermediaries</td>
+                    <td className={tableClass}>Broker</td>
+                  </tr>
+                  <tr className="bg-danger-lt divide-x divide-white">
+                    <td className={tableClassBold}>Intermediary</td>
+                    <td className={tableClass}>Mercer Marsh Benefits</td>
+                  </tr>
+                  <tr className="divide-x divide-white bg-slate-100">
+                    <td className={tableClassBold}>Remuneration Method</td>
+                    <td className={tableClass}>Commissions</td>
+                  </tr>
+                  <tr className="bg-danger-lt divide-x divide-white">
+                    <td className={tableClassBold}>Remuneration Amount</td>
+                    <td className={tableClass}>10% of premiums</td>
+                  </tr>
+                  <tr className="divide-x divide-white bg-slate-100">
+                    <td className={tableClassBold}>Total Sum Insured</td>
+                    <td className={tableClass}>5,000,000</td>
+                  </tr>
+                  <tr className="bg-danger-lt divide-x divide-white">
+                    <td className={tableClassBold}>Total Premiums</td>
+                    <td className={tableClass}>CAD 20,0000</td>
+                  </tr>
+                  <tr className="divide-x divide-white bg-slate-100">
+                    <td className={tableClassBold}>Headcount</td>
+                    <td className={tableClass}>400</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div>
+              <h2 className="text-info my-4 block text-xl font-semibold ">
+                Administration Details
+              </h2>
+              <table className="min-w-full divide-x divide-y divide-white ">
+                <thead>
+                  <tr className="bg-info divide-x divide-white text-white">
+                    <th className="w-1/4 py-2 pl-2 text-left">Category</th>
+                    <th className="w-3/4 py-2 pl-2 text-left">Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="divide-x divide-white bg-slate-100">
+                    <td className={tableClassBold}>Invoicing</td>
+                    <td className={tableClass}>Quarterly</td>
+                  </tr>
+                  <tr className="bg-info-lt divide-x divide-white">
+                    <td className={tableClassBold}>Cancellation Period</td>
+                    <td className={tableClass}>3 months</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </Container>
       </main>
     </>

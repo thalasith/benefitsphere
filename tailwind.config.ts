@@ -18,6 +18,8 @@ export default {
         danger: "#EE3C8C",
         "danger-lt": "#FDDFE5",
         "danger-dk": "#B2025A",
+        info: "#463281",
+        "info-lt": "#EADFF2",
       },
       spacing: {
         "8xl": "88rem",
