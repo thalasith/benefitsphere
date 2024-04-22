@@ -39,4 +39,19 @@ export const riskPlanRouter = createTRPCRouter({
         .where(eq(riskPlans.clientId, input.clientId));
       return listOfRiskPlans;
     }),
+
+  getRiskPlanDetailsById: protectedProcedure
+    .input(
+      z.object({
+        riskPlanId: z.number().min(1),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const riskPlanDetails = await ctx.db.query.riskPlans.findFirst({
+        where: eq(riskPlans.id, input.riskPlanId),
+      });
+      console.log(riskPlanDetails);
+
+      return riskPlanDetails;
+    }),
 });

@@ -1,16 +1,24 @@
-import { type NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
-import Router from "next/router";
 import Header from "~/components/Header";
 import Container from "~/components/Container";
+import { api } from "~/utils/api";
+
+const tableClass = "text-left pl-2 py-2";
+const tableHeadClass = "text-left pl-2 py-2";
 
 export default function Dashboard() {
   const { data: sessionData, status } = useSession();
   const { id } = useRouter().query;
   const idString = typeof id === "string" ? id : "";
 
+  const { data: riskPlanDetails } =
+    api.riskPlan.getRiskPlanDetailsById.useQuery({
+      riskPlanId: Number(idString),
+    });
+
+  console.log(riskPlanDetails);
   return (
     <>
       <Head>
@@ -21,9 +29,37 @@ export default function Dashboard() {
       <main className="text-primary">
         <Header />
         <Container>
-          <h1 className="text-3xl font-bold">Risk Benefit Details</h1>
+          <h1 className="text-3xl font-bold">
+            {riskPlanDetails?.planName} Details
+          </h1>
 
           <h2 className="my-4 block text-xl font-semibold ">Risk Plans</h2>
+          <table className="min-w-full divide-x divide-y divide-white ">
+            <thead>
+              <tr className="bg-primary divide-x divide-white text-white">
+                <th className="w-1/4 py-2 pl-2 text-left">Country</th>
+                <th className="w-3/4 py-2 pl-2 text-left">Benefit Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="divide-x divide-white bg-slate-100">
+                <td className={tableClass}>Coverage Type</td>
+                <td className={tableClass}>{riskPlanDetails?.benefitType}</td>
+              </tr>
+              <tr className="bg-tertiary-lt divide-x divide-white">
+                <td className={tableClass}>Benefit Description</td>
+                <td className={tableClass}>3 x annual salary</td>
+              </tr>
+              <tr className="divide-x divide-white bg-slate-100">
+                <td className={tableClass}>Non-evidence Limit</td>
+                <td className={tableClass}>CAD 200,000</td>
+              </tr>
+              <tr className="bg-tertiary-lt divide-x divide-white">
+                <td className={tableClass}>Benefit Maximum</td>
+                <td className={tableClass}>CAD 500,000</td>
+              </tr>
+            </tbody>
+          </table>
         </Container>
       </main>
     </>
