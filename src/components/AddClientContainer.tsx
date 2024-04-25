@@ -41,38 +41,40 @@ export const AddClientContainer: React.FC = () => {
   };
   return (
     <Container>
-      <label
-        htmlFor="client-name"
-        className="block text-sm font-medium leading-6"
-      >
-        Client Name
-      </label>
-      <div className="mt-2">
-        <input
-          type="text"
-          name="clientName"
-          id="clientName"
-          className="block w-full rounded-md border-0 py-1.5 pl-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-          placeholder="Enter a client name"
-          value={clientName}
-          onChange={(e) => setClientName(e.target.value)}
+      <div className="rounded-md border border-slate-400 px-6 py-4 shadow-lg">
+        <label
+          htmlFor="client-name"
+          className="block text-sm font-medium leading-6"
+        >
+          Client Name
+        </label>
+        <div className="mt-2">
+          <input
+            type="text"
+            name="clientName"
+            id="clientName"
+            className="block w-full rounded-md border-0 py-1.5 pl-2 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            placeholder="Enter a client name"
+            value={clientName}
+            onChange={(e) => setClientName(e.target.value)}
+          />
+        </div>
+        <DropDown
+          labelName="Base Currency"
+          selected={selectedCurrency}
+          setSelected={setSelectedCurrency}
+          listOfItems={currencies}
         />
+        <DropDown
+          labelName="Industry"
+          selected={selectedIndustry}
+          setSelected={setSelectedIndustry}
+          listOfItems={industries}
+        />
+        <button className="mt-2" onClick={() => handleAddClient()}>
+          Submit
+        </button>
       </div>
-      <DropDown
-        labelName="Base Currency"
-        selected={selectedCurrency}
-        setSelected={setSelectedCurrency}
-        listOfItems={currencies}
-      />
-      <DropDown
-        labelName="Industry"
-        selected={selectedIndustry}
-        setSelected={setSelectedIndustry}
-        listOfItems={industries}
-      />
-      <button className="mt-2" onClick={() => handleAddClient()}>
-        Submit
-      </button>
     </Container>
   );
 };

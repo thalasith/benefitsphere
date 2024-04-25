@@ -9,8 +9,8 @@ import BenefitsphereLogo from "./BenefitsphereLogo";
 import Link from "next/link";
 
 const navigation = [
-  { name: "Add Client", href: "add_client" },
-  { name: "Client Management", href: "client_management" },
+  { name: "Add Client", href: "/add_client" },
+  { name: "Client Management", href: "/client_management" },
 ];
 
 export default function Header() {
