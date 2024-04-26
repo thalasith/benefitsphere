@@ -4,6 +4,7 @@ import Header from "~/components/Header";
 import React, { useState } from "react";
 import Router from "next/router";
 import { api } from "~/utils/api";
+import { Footer } from "~/components/Footer";
 
 export default function ClientManagement() {
   const [selectedClientId, setSelectedClientId] = useState(0);
@@ -124,6 +125,7 @@ export default function ClientManagement() {
             </tbody>
           </table>
         </Container>
+        <Footer />
       </main>
     </>
   );

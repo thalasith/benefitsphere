@@ -7,6 +7,7 @@ import { api } from "~/utils/api";
 import Router from "next/router";
 import Container from "~/components/Container";
 import Header from "~/components/Header";
+import { Footer } from "~/components/Footer";
 
 const SelectClient: NextPage = () => {
   const { data: sessionData, update: updateSession, status } = useSession();
@@ -90,6 +91,7 @@ const SelectClient: NextPage = () => {
             </button>
           </div>
         </Container>
+        <Footer />
       </main>
     </>
   );

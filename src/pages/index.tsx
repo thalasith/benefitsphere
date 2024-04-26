@@ -1,5 +1,6 @@
 import { useSession } from "next-auth/react";
 import Head from "next/head";
+import { Footer } from "~/components/Footer";
 import Header from "~/components/Header";
 import { api } from "~/utils/api";
 
@@ -25,6 +26,7 @@ export default function Home() {
             Welcome to Benefitsphere
           </h1>
         </div>
+        <Footer />
       </main>
     </>
   );

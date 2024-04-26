@@ -2,6 +2,7 @@ import { useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
 import Container from "~/components/Container";
+import { Footer } from "~/components/Footer";
 import Header from "~/components/Header";
 import useClientSelector from "~/hooks/useClientSelector";
 import { api } from "~/utils/api";
@@ -86,6 +87,7 @@ export default function Dashboard() {
             </table>
           </div>
         </Container>
+        <Footer />
       </main>
     </>
   );

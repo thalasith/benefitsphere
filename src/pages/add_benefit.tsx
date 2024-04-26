@@ -6,6 +6,7 @@ import { Switch } from "@headlessui/react";
 import { api } from "~/utils/api";
 import Router from "next/router";
 import Container from "~/components/Container";
+import { Footer } from "~/components/Footer";
 
 export default function AddBenefit() {
   const { data: sessionData } = useSession();
@@ -102,6 +103,7 @@ export default function AddBenefit() {
             </button>
           </div>
         </Container>
+        <Footer />
       </main>
     </>
   );

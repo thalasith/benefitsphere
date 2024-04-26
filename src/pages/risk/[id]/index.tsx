@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import Header from "~/components/Header";
 import Container from "~/components/Container";
 import { api } from "~/utils/api";
+import { Footer } from "~/components/Footer";
 
 const tableClass = "text-left pl-2 py-2";
 const tableClassBold = "text-left pl-2 py-2 font-bold";
@@ -42,6 +43,7 @@ export default function Dashboard() {
         ) : (
           <ViewMode setEditMode={setEditMode} />
         )}
+        <Footer />
       </main>
     </>
   );
@@ -238,6 +240,10 @@ const EditMode: React.FC<EditModeProps> = ({ setEditMode }) => {
                         <option key={idx}>{item}</option>
                       ))}
                     </select>
+                    <input
+                      type="text"
+                      className="mx-4 w-3/5 rounded border border-slate-500 pl-2"
+                    />
                   </td>
                 </tr>
               </tbody>
@@ -258,47 +264,109 @@ const EditMode: React.FC<EditModeProps> = ({ setEditMode }) => {
               <tbody>
                 <tr className={financialDetailsClass}>
                   <td className={tableClassBold}>Insurer</td>
-                  <td className={tableClass}>Canada Life</td>
+                  <td className={tableClass}>
+                    <select className="w-1/5 rounded border border-slate-500">
+                      {insurers.map((item, idx) => (
+                        <option key={idx}>{item}</option>
+                      ))}
+                    </select>
+                  </td>
                 </tr>
                 <tr className={financialDetailsClass}>
                   <td className={tableClassBold}>Policy Number</td>
-                  <td className={tableClass}>123456</td>
+                  <td className={tableClass}>
+                    <input
+                      type="text"
+                      className="w-2/5 rounded border border-slate-500 pl-2"
+                    />
+                  </td>
                 </tr>
                 <tr className={financialDetailsClass}>
-                  <td className={tableClassBold}>Renewal Frequency</td>
-                  <td className={tableClass}>Annual</td>
-                </tr>
-                <tr className={financialDetailsClass}>
-                  <td className={tableClassBold}>Next Renewal Date</td>
-                  <td className={tableClass}>Jan 1, 2025</td>
+                  <td className={tableClassBold}>Policy Period</td>
+                  <td className={tableClass}>
+                    <div className="flex">
+                      <input
+                        type="date"
+                        className="rounded border border-slate-500 pl-2"
+                      />
+                      <p className="mx-2">to</p>
+                      <input
+                        type="date"
+                        className="rounded border border-slate-500 pl-2"
+                      />
+                    </div>
+                  </td>
                 </tr>
                 <tr className={financialDetailsClass}>
                   <td className={tableClassBold}>Intermediaries</td>
-                  <td className={tableClass}>Broker</td>
+                  <td className={tableClass}>
+                    <select className="w-1/5 rounded border border-slate-500">
+                      <option>Broker</option>
+                      <option>Agent</option>
+                      <option>Consultant</option>
+                      <option>Other</option>
+                    </select>
+                  </td>
                 </tr>
                 <tr className={financialDetailsClass}>
                   <td className={tableClassBold}>Intermediary</td>
-                  <td className={tableClass}>Mercer Marsh Benefits</td>
+                  <td className={tableClass}>
+                    <input
+                      type="text"
+                      className="w-2/5 rounded border border-slate-500 pl-2"
+                    />
+                  </td>
                 </tr>
                 <tr className={financialDetailsClass}>
                   <td className={tableClassBold}>Remuneration Method</td>
-                  <td className={tableClass}>Commissions</td>
+                  <td className={tableClass}>
+                    <select className="w-1/5 rounded border border-slate-500">
+                      <option>Flat Commission</option>
+                      <option>Flat Fee</option>
+                      <option>Other</option>
+                    </select>
+                  </td>
                 </tr>
                 <tr className={financialDetailsClass}>
                   <td className={tableClassBold}>Remuneration Amount</td>
-                  <td className={tableClass}>10% of premiums</td>
+                  <td className={tableClass}>
+                    <div className="flex">
+                      <input
+                        type="number"
+                        className="w-12 rounded border border-slate-500 pl-2 "
+                      />{" "}
+                      <p className="pl-2">% of premiums</p>
+                    </div>
+                  </td>
                 </tr>
                 <tr className={financialDetailsClass}>
                   <td className={tableClassBold}>Total Sum Insured</td>
-                  <td className={tableClass}>5,000,000</td>
+                  <td className={tableClass}>
+                    CAD{" "}
+                    <input
+                      type="number"
+                      className="rounded border border-slate-500 pl-2 "
+                    />
+                  </td>
                 </tr>
                 <tr className={financialDetailsClass}>
                   <td className={tableClassBold}>Total Premiums</td>
-                  <td className={tableClass}>CAD 20,0000</td>
+                  <td className={tableClass}>
+                    CAD{" "}
+                    <input
+                      type="number"
+                      className="rounded border border-slate-500 pl-2 "
+                    />
+                  </td>
                 </tr>
                 <tr className={financialDetailsClass}>
                   <td className={tableClassBold}>Headcount</td>
-                  <td className={tableClass}>400</td>
+                  <td className={tableClass}>
+                    <input
+                      type="number"
+                      className="rounded border border-slate-500 pl-2 "
+                    />
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -317,12 +385,35 @@ const EditMode: React.FC<EditModeProps> = ({ setEditMode }) => {
               </thead>
               <tbody>
                 <tr className={adminDetailsClass}>
-                  <td className={tableClassBold}>Invoicing</td>
-                  <td className={tableClass}>Quarterly</td>
+                  <td className={tableClassBold}>Policy Cancellation Period</td>
+                  <td className={tableClass}>3 months</td>
                 </tr>
                 <tr className={adminDetailsClass}>
-                  <td className={tableClassBold}>Cancellation Period</td>
-                  <td className={tableClass}>3 months</td>
+                  <td className={tableClassBold}>Invoicing</td>
+                  <td className={tableClass}>
+                    <textarea
+                      className="w-3/5 rounded border border-slate-500 pl-2"
+                      rows={3}
+                    />
+                  </td>
+                </tr>
+                <tr className={adminDetailsClass}>
+                  <td className={tableClassBold}>Employee Enrollment</td>
+                  <td className={tableClass}>
+                    <textarea
+                      className="w-3/5 rounded border border-slate-500 pl-2"
+                      rows={3}
+                    />
+                  </td>
+                </tr>
+                <tr className={adminDetailsClass}>
+                  <td className={tableClassBold}>Employee Termination</td>
+                  <td className={tableClass}>
+                    <textarea
+                      className="w-3/5 rounded border border-slate-500 pl-2"
+                      rows={3}
+                    />
+                  </td>
                 </tr>
               </tbody>
             </table>

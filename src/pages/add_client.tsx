@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { AddClientContainer } from "~/components/AddClientContainer";
+import { Footer } from "~/components/Footer";
 import Header from "~/components/Header";
 
 export default function AddClient() {
@@ -13,6 +14,7 @@ export default function AddClient() {
       <main>
         <Header />
         <AddClientContainer />
+        <Footer />
       </main>
     </>
   );
