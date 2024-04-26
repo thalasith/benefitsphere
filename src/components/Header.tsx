@@ -60,20 +60,22 @@ export default function Header() {
   );
 
   return (
-    <header className="text-primary text-sm">
+    <header className="text-primary fixed w-full bg-white text-sm">
       <nav
         className="max-w-9xl mx-auto flex items-center justify-between p-6 lg:px-8"
         aria-label="Global"
       >
         <div className="flex items-end lg:flex-1">
-          <MercerLogo />
-          <div className="mr-2 flex">
-            <p className="mx-2 text-xl font-semibold"> | </p>
-            <BenefitsphereLogo />
-            <p className="mx-2 align-text-bottom text-xl font-semibold">
-              Benefitsphere{" "}
-            </p>
-          </div>{" "}
+          <Link href="/homepage" className="flex lg:flex-1">
+            <MercerLogo />
+            <div className="mr-2 flex">
+              <p className="mx-2 text-xl font-semibold"> | </p>
+              <BenefitsphereLogo />
+              <p className="mx-2 align-text-bottom text-xl font-semibold">
+                Benefitsphere{" "}
+              </p>
+            </div>{" "}
+          </Link>
         </div>
         <div className="flex lg:hidden">
           <button

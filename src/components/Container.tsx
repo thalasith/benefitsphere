@@ -7,7 +7,7 @@ interface ContainerProps {
 
 const Container: React.FC<ContainerProps> = ({ children }) => {
   const containerClasses = clsx(
-    "mx-auto max-w-7xl items-center justify-between p-6 lg:px-8",
+    "mx-auto max-w-7xl items-center justify-between p-6 lg:px-8 pt-24",
   );
   return <div className={containerClasses}>{children}</div>;
 };
