@@ -8,8 +8,10 @@ import { api } from "~/utils/api";
 
 const tableClass = "text-left pl-2 py-2";
 const tableClassBold = "text-left pl-2 py-2 font-bold";
-const designDetailsClass =
+const planDetailsClass =
   "divide-x divide-white odd:bg-slate-100 even:bg-tertiary-lt";
+const designDetailsClass =
+  "divide-x divide-white odd:bg-slate-100 even:bg-secondary-lt";
 const financialDetailsClass =
   "divide-x divide-white odd:bg-slate-100 even:bg-danger-lt";
 const adminDetailsClass =
@@ -20,8 +22,6 @@ export default function Dashboard() {
   const { data: sessionData, status } = useSession();
   const { id } = useRouter().query;
   const idString = typeof id === "string" ? id : "";
-
-  console.log(editMode);
 
   const { data: riskPlanDetails } =
     api.riskPlan.getRiskPlanDetailsById.useQuery({
@@ -68,6 +68,10 @@ const eligibility = [
   "Executives",
 ];
 
+const countries = ["Canada", "USA", "UK", "Australia"];
+
+const currencies = ["CAD", "USD", "GBP", "AUD"];
+
 const employeeContributionOptions = ["None", "Fully employee paid", "Other"];
 
 const employerContributionOptions = ["None", "Fully Employer paid", "Other"];
@@ -90,11 +94,58 @@ const EditMode: React.FC<EditModeProps> = ({ setEditMode }) => {
         <div className="ml-4">
           <div>
             <h2 className="my-4 block text-xl font-semibold ">
-              Design Details
+              Plan Information
             </h2>
             <table className="min-w-full divide-x divide-y divide-white ">
               <thead>
                 <tr className="bg-primary divide-x divide-white text-white">
+                  <th className="w-1/4 py-2 pl-2 text-left">Category</th>
+                  <th className="w-3/4 py-2 pl-2 text-left">Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className={planDetailsClass}>
+                  <td className={tableClassBold}>Country</td>
+                  <td className={tableClass}>
+                    <select className="w-1/5 rounded border border-slate-500">
+                      {countries.map((item, idx) => (
+                        <option key={idx}>{item}</option>
+                      ))}
+                    </select>
+                  </td>
+                </tr>
+                <tr className={planDetailsClass}>
+                  <td className={tableClassBold}>Currency</td>
+                  <td className={tableClass}>
+                    <select className="w-1/5 rounded border border-slate-500">
+                      {currencies.map((item, idx) => (
+                        <option key={idx}>{item}</option>
+                      ))}
+                    </select>
+                  </td>
+                </tr>
+                <tr className={planDetailsClass}>
+                  <td className={tableClassBold}>
+                    Is this a supplemental group benefit?
+                  </td>
+                  <td className={tableClass}>
+                    <select className="w-1/5 rounded border border-slate-500">
+                      <option>Yes</option>
+                      <option>No</option>
+                    </select>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div>
+            <h2 className="text-secondary my-4 block text-xl font-semibold">
+              Design Details
+            </h2>
+            <table className="min-w-full divide-x divide-y divide-white ">
+              <thead>
+                <tr className="bg-secondary divide-x divide-white text-white">
                   <th className="w-1/4 py-2 pl-2 text-left">Category</th>
                   <th className="w-3/4 py-2 pl-2 text-left">Description</th>
                 </tr>
@@ -132,14 +183,17 @@ const EditMode: React.FC<EditModeProps> = ({ setEditMode }) => {
                 <tr className={designDetailsClass}>
                   <td className={tableClassBold}>Benefit Description</td>
                   <td className={tableClass}>
-                    <input
-                      type="number"
-                      className="w-12 rounded border border-slate-500 px-1 py-0.5"
-                    />
-                    <select className="ml-4 w-1/5 rounded border border-slate-500 py-0.5">
-                      <option>Annual Base Salary</option>
-                      <option>Monthly Base Salary</option>
-                    </select>{" "}
+                    <div className="flex">
+                      <input
+                        type="number"
+                        className="w-12 rounded border border-slate-500 px-1 py-0.5"
+                      />
+                      <p className="ml-2">x</p>
+                      <select className="ml-2 w-1/5 rounded border border-slate-500 py-0.5">
+                        <option>Annual Base Salary</option>
+                        <option>Monthly Base Salary</option>
+                      </select>{" "}
+                    </div>
                   </td>
                 </tr>
                 <tr className={designDetailsClass}>

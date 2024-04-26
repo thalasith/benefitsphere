@@ -12,6 +12,7 @@ export default {
         primary: "#1B386D",
         "primary-lt": "#41587A",
         secondary: "#00AB4E",
+        "secondary-lt": "#D6F3ED",
         tertiary: "#0198D8",
         "tertiary-lt": "#C6EDFF",
         "tertiary-dk": "#0164AC",
