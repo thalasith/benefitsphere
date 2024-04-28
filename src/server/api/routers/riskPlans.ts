@@ -4,6 +4,40 @@ import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { riskPlans } from "~/server/db/schema";
 
+const riskPlanModel = {
+  id: z.number(),
+  clientId: z.number(),
+  planName: z.string(),
+  country: z.string(),
+  currency: z.string(),
+  groupPlanOffered: z.boolean(),
+  eligibility: z.string(),
+  coverageType: z.string(),
+  coverageForm: z.string(),
+  coverageMultipleDuration: z.string(),
+  coverageMultiple: z.number(),
+  coverageFixedAmount: z.number(),
+  nonEvidenceLimit: z.number(),
+  coverageMaximum: z.number(),
+  employeeContribution: z.string(),
+  employeeContributionOther: z.string(),
+  employerContribution: z.string(),
+  employerContributionOther: z.string(),
+  funding: z.boolean(),
+  provider: z.string(),
+  policyNumber: z.string(),
+  policyStartDate: z.date(),
+  policyEndDate: z.date(),
+  cancellationDuration: z.string(),
+  cancellationAmount: z.number(),
+  headcount: z.number(),
+  totalSumInsured: z.number(),
+  totalPremium: z.number(),
+  invoicingDescription: z.string(),
+  employeeEnrollmentDescription: z.string(),
+  employeeTerminationDescription: z.string(),
+};
+
 export const riskPlanRouter = createTRPCRouter({
   create: protectedProcedure
     .input(
@@ -51,5 +85,15 @@ export const riskPlanRouter = createTRPCRouter({
       });
 
       return riskPlanDetails;
+    }),
+
+  updateRiskPlanDetailsById: protectedProcedure
+    .input(z.object(riskPlanModel))
+    .mutation(async ({ ctx, input }) => {
+      console.log("triggered on server!");
+      await ctx.db
+        .update(riskPlans)
+        .set(input)
+        .where(eq(riskPlans.id, input.id));
     }),
 });

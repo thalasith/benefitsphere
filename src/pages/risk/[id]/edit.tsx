@@ -5,6 +5,7 @@ import Container from "~/components/Container";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { api } from "~/utils/api";
+import Router from "next/router";
 
 const tableClass = "text-left pl-2 py-2";
 const tableClassBold = "text-left pl-2 py-2 font-bold";
@@ -45,7 +46,39 @@ const employerContributionOptions = ["None", "Fully Employer paid", "Other"];
 const insurers = ["Canada Life", "Sun Life", "Manulife", "Great West Life"];
 
 export default function EditRiskPlan() {
-  const [editableRiskPlanDetails, setEditableRiskPlanDetails] = useState({});
+  const [editableRiskPlanDetails, setEditableRiskPlanDetails] = useState({
+    id: 0,
+    clientId: 0,
+    planName: "Test",
+    country: "Test",
+    currency: "",
+    groupPlanOffered: false,
+    eligibility: "",
+    coverageType: "",
+    coverageForm: "",
+    coverageMultipleDuration: "",
+    coverageMultiple: 0,
+    coverageFixedAmount: 0,
+    nonEvidenceLimit: 0,
+    coverageMaximum: 0,
+    employeeContribution: "",
+    employeeContributionOther: "",
+    employerContribution: "",
+    employerContributionOther: "",
+    funding: false,
+    provider: "",
+    policyNumber: "",
+    policyStartDate: new Date(1632184260000),
+    policyEndDate: new Date(1632184260000),
+    cancellationDuration: "",
+    cancellationAmount: 0,
+    headcount: 0,
+    totalSumInsured: 0,
+    totalPremium: 0,
+    invoicingDescription: "",
+    employeeEnrollmentDescription: "",
+    employeeTerminationDescription: "",
+  });
   const { id } = useRouter().query;
   const idString = typeof id === "string" ? id : "";
 
@@ -53,11 +86,22 @@ export default function EditRiskPlan() {
     api.riskPlan.getRiskPlanDetailsById.useQuery({
       riskPlanId: Number(idString),
     });
+
   useEffect(() => {
     if (riskPlanDetails) {
       setEditableRiskPlanDetails(riskPlanDetails);
     }
   }, [riskPlanDetails]);
+  const { mutate: riskPlanDetailsUpdate } =
+    api.riskPlan.updateRiskPlanDetailsById.useMutation();
+
+  console.log(editableRiskPlanDetails);
+  const saveData = () => {
+    if (editableRiskPlanDetails.id === 0) return;
+
+    riskPlanDetailsUpdate(editableRiskPlanDetails);
+    Router.push(`/risk/${idString}`).catch((err) => console.log(err));
+  };
 
   return (
     <>
@@ -69,344 +113,376 @@ export default function EditRiskPlan() {
       <main className="text-primary">
         <Header />
         <Container>
-          <div>
-            <div className="flex justify-between">
-              <h1 className="text-3xl font-bold">Life Plan Details Editing</h1>
-              <Link href={`/risk/${idString}`}>
-                <button className="bg-primary hover:bg-tertiary rounded-lg px-4 py-1 text-lg font-bold text-white">
-                  Save
-                </button>
-              </Link>
-            </div>
-            <div className="ml-4">
-              <div>
-                <h2 className="my-4 block text-xl font-semibold ">
-                  Plan Information
-                </h2>
-                <table className="min-w-full divide-x divide-y divide-white ">
-                  <thead>
-                    <tr className="bg-primary divide-x divide-white text-white">
-                      <th className="w-1/4 py-2 pl-2 text-left">Category</th>
-                      <th className="w-3/4 py-2 pl-2 text-left">Description</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className={planDetailsClass}>
-                      <td className={tableClassBold}>Country</td>
-                      <td className={tableClass}>
-                        <select className="w-1/5 rounded border border-slate-500">
-                          {countries.map((item, idx) => (
-                            <option key={idx}>{item}</option>
-                          ))}
-                        </select>
-                      </td>
-                    </tr>
-                    <tr className={planDetailsClass}>
-                      <td className={tableClassBold}>Currency</td>
-                      <td className={tableClass}>
-                        <select className="w-1/5 rounded border border-slate-500">
-                          {currencies.map((item, idx) => (
-                            <option key={idx}>{item}</option>
-                          ))}
-                        </select>
-                      </td>
-                    </tr>
-                    <tr className={planDetailsClass}>
-                      <td className={tableClassBold}>
-                        Is this a supplemental group benefit?
-                      </td>
-                      <td className={tableClass}>
-                        <select className="w-1/5 rounded border border-slate-500">
-                          <option>Yes</option>
-                          <option>No</option>
-                        </select>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+          {editableRiskPlanDetails && (
+            <div>
+              <div className="flex justify-between">
+                <h1 className="text-3xl font-bold">
+                  Life Plan Details Editing
+                </h1>
+                <div>
+                  <button
+                    className="bg-primary hover:bg-tertiary rounded-lg px-4 py-1 text-lg font-bold text-white"
+                    onClick={() => saveData()}
+                  >
+                    Save
+                  </button>
+                  <Link href={`/risk/${idString}`} className="pl-2">
+                    <button className="hover:bg-tertiary rounded-lg bg-slate-500 px-4 py-1 text-lg font-bold text-white">
+                      Cancel
+                    </button>
+                  </Link>
+                </div>
               </div>
+              <div className="ml-4">
+                <div>
+                  <h2 className="my-4 block text-xl font-semibold ">
+                    Plan Information
+                  </h2>
+                  <table className="min-w-full divide-x divide-y divide-white ">
+                    <thead>
+                      <tr className="bg-primary divide-x divide-white text-white">
+                        <th className="w-1/4 py-2 pl-2 text-left">Category</th>
+                        <th className="w-3/4 py-2 pl-2 text-left">
+                          Description
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className={planDetailsClass}>
+                        <td className={tableClassBold}>Country</td>
+                        <td className={tableClass}>
+                          <select
+                            className="w-1/5 rounded border border-slate-500"
+                            onChange={(e) => {
+                              setEditableRiskPlanDetails({
+                                ...editableRiskPlanDetails,
+                                country: e.target.value,
+                              });
+                            }}
+                          >
+                            {countries.map((item, idx) => (
+                              <option key={idx}>{item}</option>
+                            ))}
+                          </select>
+                        </td>
+                      </tr>
+                      <tr className={planDetailsClass}>
+                        <td className={tableClassBold}>Currency</td>
+                        <td className={tableClass}>
+                          <select className="w-1/5 rounded border border-slate-500">
+                            {currencies.map((item, idx) => (
+                              <option key={idx}>{item}</option>
+                            ))}
+                          </select>
+                        </td>
+                      </tr>
+                      <tr className={planDetailsClass}>
+                        <td className={tableClassBold}>
+                          Is this a supplemental group benefit?
+                        </td>
+                        <td className={tableClass}>
+                          <select className="w-1/5 rounded border border-slate-500">
+                            <option>Yes</option>
+                            <option>No</option>
+                          </select>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
 
-              <div>
-                <h2 className="text-secondary my-4 block text-xl font-semibold">
-                  Design Details
-                </h2>
-                <table className="min-w-full divide-x divide-y divide-white ">
-                  <thead>
-                    <tr className="bg-secondary divide-x divide-white text-white">
-                      <th className="w-1/4 py-2 pl-2 text-left">Category</th>
-                      <th className="w-3/4 py-2 pl-2 text-left">Description</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className="divide-x divide-white bg-slate-100">
-                      <td className={tableClassBold}>Coverage Type</td>
-                      <td className={tableClass}>
-                        <select className="w-1/5 rounded border border-slate-500">
-                          {coverageTypes.map((item, idx) => (
-                            <option key={idx}>{item}</option>
-                          ))}
-                        </select>
-                      </td>
-                    </tr>
-                    <tr className={designDetailsClass}>
-                      <td className={tableClassBold}>Eligibility</td>
-                      <td className={tableClass}>
-                        <select className="w-1/5 rounded border border-slate-500">
-                          {eligibility.map((item, idx) => (
-                            <option key={idx}>{item}</option>
-                          ))}
-                        </select>
-                      </td>
-                    </tr>
-                    <tr className={designDetailsClass}>
-                      <td className={tableClassBold}>Benefit Form</td>
-                      <td className={tableClass}>
-                        <select className="w-1/5 rounded border border-slate-500">
-                          <option>Fixed Amount</option>
-                          <option>Salary Multiple</option>
-                        </select>
-                      </td>
-                    </tr>
-                    <tr className={designDetailsClass}>
-                      <td className={tableClassBold}>Benefit Description</td>
-                      <td className={tableClass}>
-                        <div className="flex">
+                <div>
+                  <h2 className="text-secondary my-4 block text-xl font-semibold">
+                    Design Details
+                  </h2>
+                  <table className="min-w-full divide-x divide-y divide-white ">
+                    <thead>
+                      <tr className="bg-secondary divide-x divide-white text-white">
+                        <th className="w-1/4 py-2 pl-2 text-left">Category</th>
+                        <th className="w-3/4 py-2 pl-2 text-left">
+                          Description
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="divide-x divide-white bg-slate-100">
+                        <td className={tableClassBold}>Coverage Type</td>
+                        <td className={tableClass}>
+                          <select className="w-1/5 rounded border border-slate-500">
+                            {coverageTypes.map((item, idx) => (
+                              <option key={idx}>{item}</option>
+                            ))}
+                          </select>
+                        </td>
+                      </tr>
+                      <tr className={designDetailsClass}>
+                        <td className={tableClassBold}>Eligibility</td>
+                        <td className={tableClass}>
+                          <select className="w-1/5 rounded border border-slate-500">
+                            {eligibility.map((item, idx) => (
+                              <option key={idx}>{item}</option>
+                            ))}
+                          </select>
+                        </td>
+                      </tr>
+                      <tr className={designDetailsClass}>
+                        <td className={tableClassBold}>Benefit Form</td>
+                        <td className={tableClass}>
+                          <select className="w-1/5 rounded border border-slate-500">
+                            <option>Fixed Amount</option>
+                            <option>Salary Multiple</option>
+                          </select>
+                        </td>
+                      </tr>
+                      <tr className={designDetailsClass}>
+                        <td className={tableClassBold}>Benefit Description</td>
+                        <td className={tableClass}>
+                          <div className="flex">
+                            <input
+                              type="number"
+                              className="w-12 rounded border border-slate-500 px-1 py-0.5"
+                            />
+                            <p className="ml-2">x</p>
+                            <select className="ml-2 w-1/5 rounded border border-slate-500 py-0.5">
+                              <option>Annual Base Salary</option>
+                              <option>Monthly Base Salary</option>
+                            </select>{" "}
+                          </div>
+                        </td>
+                      </tr>
+                      <tr className={designDetailsClass}>
+                        <td className={tableClassBold}>Non-evidence Limit</td>
+                        <td className={tableClass}>
+                          CAD{" "}
                           <input
                             type="number"
-                            className="w-12 rounded border border-slate-500 px-1 py-0.5"
+                            className="rounded border border-slate-500 px-1 py-0.5"
                           />
-                          <p className="ml-2">x</p>
-                          <select className="ml-2 w-1/5 rounded border border-slate-500 py-0.5">
-                            <option>Annual Base Salary</option>
-                            <option>Monthly Base Salary</option>
-                          </select>{" "}
-                        </div>
-                      </td>
-                    </tr>
-                    <tr className={designDetailsClass}>
-                      <td className={tableClassBold}>Non-evidence Limit</td>
-                      <td className={tableClass}>
-                        CAD{" "}
-                        <input
-                          type="number"
-                          className="rounded border border-slate-500 px-1 py-0.5"
-                        />
-                      </td>
-                    </tr>
-                    <tr className={designDetailsClass}>
-                      <td className={tableClassBold}>Benefit Maximum</td>
-                      <td className={tableClass}>
-                        CAD{" "}
-                        <input
-                          type="number"
-                          className="rounded border border-slate-500 px-1 py-0.5"
-                        />
-                      </td>
-                    </tr>
-                    <tr className={designDetailsClass}>
-                      <td className={tableClassBold}>Employee Contribution</td>
-                      <td className={tableClass}>
-                        <select className="w-1/5 rounded border border-slate-500">
-                          {employeeContributionOptions.map((item, idx) => (
-                            <option key={idx}>{item}</option>
-                          ))}
-                        </select>
-                        <input
-                          type="text"
-                          className="mx-4 w-3/5 rounded border border-slate-500 pl-2"
-                        />
-                      </td>
-                    </tr>
-                    <tr className={designDetailsClass}>
-                      <td className={tableClassBold}>Employer Contribution</td>
-                      <td className={tableClass}>
-                        <select className="w-1/5 rounded border border-slate-500">
-                          {employerContributionOptions.map((item, idx) => (
-                            <option key={idx}>{item}</option>
-                          ))}
-                        </select>
-                        <input
-                          type="text"
-                          className="mx-4 w-3/5 rounded border border-slate-500 pl-2"
-                        />
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
-              <div>
-                <h2 className="text-danger my-4 block text-xl font-semibold ">
-                  Financial Details
-                </h2>
-                <table className="min-w-full divide-x divide-y divide-white ">
-                  <thead>
-                    <tr className="bg-danger divide-x divide-white text-white">
-                      <th className="w-1/4 py-2 pl-2 text-left">Category</th>
-                      <th className="w-3/4 py-2 pl-2 text-left">Description</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className={financialDetailsClass}>
-                      <td className={tableClassBold}>Insurer</td>
-                      <td className={tableClass}>
-                        <select className="w-1/5 rounded border border-slate-500">
-                          {insurers.map((item, idx) => (
-                            <option key={idx}>{item}</option>
-                          ))}
-                        </select>
-                      </td>
-                    </tr>
-                    <tr className={financialDetailsClass}>
-                      <td className={tableClassBold}>Policy Number</td>
-                      <td className={tableClass}>
-                        <input
-                          type="text"
-                          className="w-2/5 rounded border border-slate-500 pl-2"
-                        />
-                      </td>
-                    </tr>
-                    <tr className={financialDetailsClass}>
-                      <td className={tableClassBold}>Policy Period</td>
-                      <td className={tableClass}>
-                        <div className="flex">
-                          <input
-                            type="date"
-                            className="rounded border border-slate-500 pl-2"
-                          />
-                          <p className="mx-2">to</p>
-                          <input
-                            type="date"
-                            className="rounded border border-slate-500 pl-2"
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                    <tr className={financialDetailsClass}>
-                      <td className={tableClassBold}>Intermediaries</td>
-                      <td className={tableClass}>
-                        <select className="w-1/5 rounded border border-slate-500">
-                          <option>Broker</option>
-                          <option>Agent</option>
-                          <option>Consultant</option>
-                          <option>Other</option>
-                        </select>
-                      </td>
-                    </tr>
-                    <tr className={financialDetailsClass}>
-                      <td className={tableClassBold}>Intermediary</td>
-                      <td className={tableClass}>
-                        <input
-                          type="text"
-                          className="w-2/5 rounded border border-slate-500 pl-2"
-                        />
-                      </td>
-                    </tr>
-                    <tr className={financialDetailsClass}>
-                      <td className={tableClassBold}>Remuneration Method</td>
-                      <td className={tableClass}>
-                        <select className="w-1/5 rounded border border-slate-500">
-                          <option>Flat Commission</option>
-                          <option>Flat Fee</option>
-                          <option>Other</option>
-                        </select>
-                      </td>
-                    </tr>
-                    <tr className={financialDetailsClass}>
-                      <td className={tableClassBold}>Remuneration Amount</td>
-                      <td className={tableClass}>
-                        <div className="flex">
+                        </td>
+                      </tr>
+                      <tr className={designDetailsClass}>
+                        <td className={tableClassBold}>Benefit Maximum</td>
+                        <td className={tableClass}>
+                          CAD{" "}
                           <input
                             type="number"
-                            className="w-12 rounded border border-slate-500 pl-2 "
-                          />{" "}
-                          <p className="pl-2">% of premiums</p>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr className={financialDetailsClass}>
-                      <td className={tableClassBold}>Total Sum Insured</td>
-                      <td className={tableClass}>
-                        CAD{" "}
-                        <input
-                          type="number"
-                          className="rounded border border-slate-500 pl-2 "
-                        />
-                      </td>
-                    </tr>
-                    <tr className={financialDetailsClass}>
-                      <td className={tableClassBold}>Total Premiums</td>
-                      <td className={tableClass}>
-                        CAD{" "}
-                        <input
-                          type="number"
-                          className="rounded border border-slate-500 pl-2 "
-                        />
-                      </td>
-                    </tr>
-                    <tr className={financialDetailsClass}>
-                      <td className={tableClassBold}>Headcount</td>
-                      <td className={tableClass}>
-                        <input
-                          type="number"
-                          className="rounded border border-slate-500 pl-2 "
-                        />
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+                            className="rounded border border-slate-500 px-1 py-0.5"
+                          />
+                        </td>
+                      </tr>
+                      <tr className={designDetailsClass}>
+                        <td className={tableClassBold}>
+                          Employee Contribution
+                        </td>
+                        <td className={tableClass}>
+                          <select className="w-1/5 rounded border border-slate-500">
+                            {employeeContributionOptions.map((item, idx) => (
+                              <option key={idx}>{item}</option>
+                            ))}
+                          </select>
+                          <input
+                            type="text"
+                            className="mx-4 w-3/5 rounded border border-slate-500 pl-2"
+                          />
+                        </td>
+                      </tr>
+                      <tr className={designDetailsClass}>
+                        <td className={tableClassBold}>
+                          Employer Contribution
+                        </td>
+                        <td className={tableClass}>
+                          <select className="w-1/5 rounded border border-slate-500">
+                            {employerContributionOptions.map((item, idx) => (
+                              <option key={idx}>{item}</option>
+                            ))}
+                          </select>
+                          <input
+                            type="text"
+                            className="mx-4 w-3/5 rounded border border-slate-500 pl-2"
+                          />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
 
-              <div>
-                <h2 className="text-info my-4 block text-xl font-semibold ">
-                  Administration Details
-                </h2>
-                <table className="min-w-full divide-x divide-y divide-white ">
-                  <thead>
-                    <tr className="bg-info divide-x divide-white text-white">
-                      <th className="w-1/4 py-2 pl-2 text-left">Category</th>
-                      <th className="w-3/4 py-2 pl-2 text-left">Description</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className={adminDetailsClass}>
-                      <td className={tableClassBold}>
-                        Policy Cancellation Period
-                      </td>
-                      <td className={tableClass}>3 months</td>
-                    </tr>
-                    <tr className={adminDetailsClass}>
-                      <td className={tableClassBold}>Invoicing</td>
-                      <td className={tableClass}>
-                        <textarea
-                          className="w-3/5 rounded border border-slate-500 pl-2"
-                          rows={3}
-                        />
-                      </td>
-                    </tr>
-                    <tr className={adminDetailsClass}>
-                      <td className={tableClassBold}>Employee Enrollment</td>
-                      <td className={tableClass}>
-                        <textarea
-                          className="w-3/5 rounded border border-slate-500 pl-2"
-                          rows={3}
-                        />
-                      </td>
-                    </tr>
-                    <tr className={adminDetailsClass}>
-                      <td className={tableClassBold}>Employee Termination</td>
-                      <td className={tableClass}>
-                        <textarea
-                          className="w-3/5 rounded border border-slate-500 pl-2"
-                          rows={3}
-                        />
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                <div>
+                  <h2 className="text-danger my-4 block text-xl font-semibold ">
+                    Financial Details
+                  </h2>
+                  <table className="min-w-full divide-x divide-y divide-white ">
+                    <thead>
+                      <tr className="bg-danger divide-x divide-white text-white">
+                        <th className="w-1/4 py-2 pl-2 text-left">Category</th>
+                        <th className="w-3/4 py-2 pl-2 text-left">
+                          Description
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className={financialDetailsClass}>
+                        <td className={tableClassBold}>Insurer</td>
+                        <td className={tableClass}>
+                          <select className="w-1/5 rounded border border-slate-500">
+                            {insurers.map((item, idx) => (
+                              <option key={idx}>{item}</option>
+                            ))}
+                          </select>
+                        </td>
+                      </tr>
+                      <tr className={financialDetailsClass}>
+                        <td className={tableClassBold}>Policy Number</td>
+                        <td className={tableClass}>
+                          <input
+                            type="text"
+                            className="w-2/5 rounded border border-slate-500 pl-2"
+                          />
+                        </td>
+                      </tr>
+                      <tr className={financialDetailsClass}>
+                        <td className={tableClassBold}>Policy Period</td>
+                        <td className={tableClass}>
+                          <div className="flex">
+                            <input
+                              type="date"
+                              className="rounded border border-slate-500 pl-2"
+                            />
+                            <p className="mx-2">to</p>
+                            <input
+                              type="date"
+                              className="rounded border border-slate-500 pl-2"
+                            />
+                          </div>
+                        </td>
+                      </tr>
+                      <tr className={financialDetailsClass}>
+                        <td className={tableClassBold}>Intermediaries</td>
+                        <td className={tableClass}>
+                          <select className="w-1/5 rounded border border-slate-500">
+                            <option>Broker</option>
+                            <option>Agent</option>
+                            <option>Consultant</option>
+                            <option>Other</option>
+                          </select>
+                        </td>
+                      </tr>
+                      <tr className={financialDetailsClass}>
+                        <td className={tableClassBold}>Intermediary</td>
+                        <td className={tableClass}>
+                          <input
+                            type="text"
+                            className="w-2/5 rounded border border-slate-500 pl-2"
+                          />
+                        </td>
+                      </tr>
+                      <tr className={financialDetailsClass}>
+                        <td className={tableClassBold}>Remuneration Method</td>
+                        <td className={tableClass}>
+                          <select className="w-1/5 rounded border border-slate-500">
+                            <option>Flat Commission</option>
+                            <option>Flat Fee</option>
+                            <option>Other</option>
+                          </select>
+                        </td>
+                      </tr>
+                      <tr className={financialDetailsClass}>
+                        <td className={tableClassBold}>Remuneration Amount</td>
+                        <td className={tableClass}>
+                          <div className="flex">
+                            <input
+                              type="number"
+                              className="w-12 rounded border border-slate-500 pl-2 "
+                            />{" "}
+                            <p className="pl-2">% of premiums</p>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr className={financialDetailsClass}>
+                        <td className={tableClassBold}>Total Sum Insured</td>
+                        <td className={tableClass}>
+                          CAD{" "}
+                          <input
+                            type="number"
+                            className="rounded border border-slate-500 pl-2 "
+                          />
+                        </td>
+                      </tr>
+                      <tr className={financialDetailsClass}>
+                        <td className={tableClassBold}>Total Premiums</td>
+                        <td className={tableClass}>
+                          CAD{" "}
+                          <input
+                            type="number"
+                            className="rounded border border-slate-500 pl-2 "
+                          />
+                        </td>
+                      </tr>
+                      <tr className={financialDetailsClass}>
+                        <td className={tableClassBold}>Headcount</td>
+                        <td className={tableClass}>
+                          <input
+                            type="number"
+                            className="rounded border border-slate-500 pl-2 "
+                          />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div>
+                  <h2 className="text-info my-4 block text-xl font-semibold ">
+                    Administration Details
+                  </h2>
+                  <table className="min-w-full divide-x divide-y divide-white ">
+                    <thead>
+                      <tr className="bg-info divide-x divide-white text-white">
+                        <th className="w-1/4 py-2 pl-2 text-left">Category</th>
+                        <th className="w-3/4 py-2 pl-2 text-left">
+                          Description
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className={adminDetailsClass}>
+                        <td className={tableClassBold}>
+                          Policy Cancellation Period
+                        </td>
+                        <td className={tableClass}>3 months</td>
+                      </tr>
+                      <tr className={adminDetailsClass}>
+                        <td className={tableClassBold}>Invoicing</td>
+                        <td className={tableClass}>
+                          <textarea
+                            className="w-3/5 rounded border border-slate-500 pl-2"
+                            rows={3}
+                          />
+                        </td>
+                      </tr>
+                      <tr className={adminDetailsClass}>
+                        <td className={tableClassBold}>Employee Enrollment</td>
+                        <td className={tableClass}>
+                          <textarea
+                            className="w-3/5 rounded border border-slate-500 pl-2"
+                            rows={3}
+                          />
+                        </td>
+                      </tr>
+                      <tr className={adminDetailsClass}>
+                        <td className={tableClassBold}>Employee Termination</td>
+                        <td className={tableClass}>
+                          <textarea
+                            className="w-3/5 rounded border border-slate-500 pl-2"
+                            rows={3}
+                          />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </Container>
       </main>
     </>

@@ -153,45 +153,67 @@ export const riskPlans = createTable("riskPlans", {
   clientId: integer("client_id")
     .notNull()
     .references(() => clients.id),
-  planName: varchar("planName", { length: 255 }),
-  country: varchar("country", { length: 255 }),
-  currency: varchar("currency", { length: 3 }),
-  groupPlanOffered: boolean("groupPlanOffered").default(false),
-  eligibility: varchar("eligibility", { length: 255 }),
-  coverageType: varchar("coverageType", { length: 255 }),
-  coverageForm: varchar("coverageForm", { length: 255 }),
+  planName: varchar("planName", { length: 255 }).notNull().default(""),
+  country: varchar("country", { length: 255 }).notNull().default(""),
+  currency: varchar("currency", { length: 3 }).notNull().default(""),
+  groupPlanOffered: boolean("groupPlanOffered").notNull().default(false),
+  eligibility: varchar("eligibility", { length: 255 }).notNull().default(""),
+  coverageType: varchar("coverageType", { length: 255 }).notNull().default(""),
+  coverageForm: varchar("coverageForm", { length: 255 }).notNull().default(""),
   coverageMultipleDuration: varchar("coverageMultipleDuration", {
     length: 255,
-  }),
-  coverageMultiple: integer("coverageMultiple"),
-  coverageFixedAmount: integer("coverageFixedAmount"),
-  nonEvidenceLimit: integer("nonEvidenceLimit"),
-  coverageMaximum: integer("coverageMaximum"),
-  employeeContribution: varchar("employeeContribution", { length: 255 }),
+  })
+    .notNull()
+    .default(""),
+  coverageMultiple: integer("coverageMultiple").notNull().default(0),
+  coverageFixedAmount: integer("coverageFixedAmount").notNull().default(0),
+  nonEvidenceLimit: integer("nonEvidenceLimit").notNull().default(0),
+  coverageMaximum: integer("coverageMaximum").notNull().default(0),
+  employeeContribution: varchar("employeeContribution", { length: 255 })
+    .notNull()
+    .default(""),
   employeeContributionOther: varchar("employeeContributionOther", {
     length: 255,
-  }),
-  employerContribution: varchar("employerContribution", { length: 255 }),
+  })
+    .notNull()
+    .default(""),
+  employerContribution: varchar("employerContribution", { length: 255 })
+    .notNull()
+    .default(""),
   employerContributionOther: varchar("employerContributionOther", {
     length: 255,
-  }),
-  funding: boolean("funding").default(false),
-  provider: varchar("provider", { length: 255 }),
-  policyNumber: varchar("policyNumber", { length: 255 }),
-  policyStartDate: timestamp("policyStartDate", { mode: "date" }),
-  policyEndDate: timestamp("policyEndDate", { mode: "date" }),
-  cancellationDuration: varchar("cancellationDuration", { length: 255 }),
-  cancellationAmount: integer("cancellationAmount"),
-  headcount: integer("headcount"),
-  totalSumInsured: integer("totalSumInsured"),
-  totalPremium: integer("totalPremium"),
-  invoicingDescription: varchar("invoicing", { length: 2000 }),
+  })
+    .notNull()
+    .default(""),
+  funding: boolean("funding").notNull().default(false),
+  provider: varchar("provider", { length: 255 }).notNull().default(""),
+  policyNumber: varchar("policyNumber", { length: 255 }).notNull().default(""),
+  policyStartDate: timestamp("policyStartDate", { mode: "date" })
+    .notNull()
+    .default(sql`CURRENT_DATE`),
+  policyEndDate: timestamp("policyEndDate", { mode: "date" })
+    .notNull()
+    .default(sql`CURRENT_DATE`),
+  cancellationDuration: varchar("cancellationDuration", { length: 255 })
+    .notNull()
+    .default(""),
+  cancellationAmount: integer("cancellationAmount").notNull().default(0),
+  headcount: integer("headcount").notNull().default(0),
+  totalSumInsured: integer("totalSumInsured").notNull().default(0),
+  totalPremium: integer("totalPremium").notNull().default(0),
+  invoicingDescription: varchar("invoicing", { length: 2000 })
+    .notNull()
+    .default(""),
   employeeEnrollmentDescription: varchar("employeeEnrollment", {
     length: 2000,
-  }),
+  })
+    .notNull()
+    .default(""),
   employeeTerminationDescription: varchar("employeeTermination", {
     length: 2000,
-  }),
+  })
+    .notNull()
+    .default(""),
 });
 
 export const riskPlansRelations = relations(riskPlans, ({ one }) => ({
