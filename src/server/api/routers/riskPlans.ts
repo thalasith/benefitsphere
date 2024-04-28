@@ -17,7 +17,6 @@ export const riskPlanRouter = createTRPCRouter({
       await ctx.db.insert(riskPlans).values({
         clientId: input.clientId,
         planName: input.planName,
-        mandated: input.mandated,
       });
     }),
 
@@ -32,7 +31,7 @@ export const riskPlanRouter = createTRPCRouter({
         .select({
           field1: riskPlans.id,
           field2: riskPlans.country,
-          field3: riskPlans.benefitType,
+          field3: riskPlans.coverageType,
           field4: riskPlans.planName,
         })
         .from(riskPlans)

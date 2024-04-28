@@ -18,8 +18,11 @@ export default function Header() {
   const { data: sessionData } = useSession();
 
   const Login = (
-    <button className="font-semibold leading-6" onClick={() => signIn()}>
-      Log in <span aria-hidden="true">&rarr;</span>
+    <button
+      className="hover:text-secondary rounded px-2 py-1 font-semibold leading-6 hover:bg-slate-50"
+      onClick={() => signIn()}
+    >
+      Log in
     </button>
   ) as JSX.Element;
 
