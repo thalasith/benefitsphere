@@ -5,19 +5,10 @@ import Header from "~/components/Header";
 import Container from "~/components/Container";
 import { api } from "~/utils/api";
 import { Footer } from "~/components/Footer";
-import { RiskBenefit } from "~/utils/types";
 import Link from "next/link";
 
 const tableClass = "text-left pl-2 py-2";
 const tableClassBold = "text-left pl-2 py-2 font-bold";
-const planDetailsClass =
-  "divide-x divide-white odd:bg-slate-100 even:bg-tertiary-lt";
-const designDetailsClass =
-  "divide-x divide-white odd:bg-slate-100 even:bg-secondary-lt";
-const financialDetailsClass =
-  "divide-x divide-white odd:bg-slate-100 even:bg-danger-lt";
-const adminDetailsClass =
-  "divide-x divide-white odd:bg-slate-100 even:bg-info-lt";
 
 export default function RiskPlan() {
   const { data: sessionData, status } = useSession();
@@ -43,7 +34,7 @@ export default function RiskPlan() {
             <div className="flex justify-between">
               <h1 className="text-3xl font-bold">Life Plan Details</h1>
               <Link
-                href={`/risk/${id}/edit`}
+                href={`/risk/${idString}/edit`}
                 className="bg-primary hover:bg-tertiary rounded-lg px-4 py-1 text-lg font-bold text-white"
               >
                 Edit

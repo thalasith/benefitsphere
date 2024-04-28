@@ -45,6 +45,7 @@ const employerContributionOptions = ["None", "Fully Employer paid", "Other"];
 const insurers = ["Canada Life", "Sun Life", "Manulife", "Great West Life"];
 
 export default function EditRiskPlan() {
+  const [editableRiskPlanDetails, setEditableRiskPlanDetails] = useState({});
   const { id } = useRouter().query;
   const idString = typeof id === "string" ? id : "";
 
@@ -52,7 +53,12 @@ export default function EditRiskPlan() {
     api.riskPlan.getRiskPlanDetailsById.useQuery({
       riskPlanId: Number(idString),
     });
-  console.log(riskPlanDetails);
+  //   useEffect(() => {
+  //     if (riskPlanDetails) {
+  //       setEditableRiskPlanDetails(riskPlanDetails);
+  //     }
+  //   }, [riskPlanDetails]);
+
   return (
     <>
       <Head>
@@ -66,7 +72,7 @@ export default function EditRiskPlan() {
           <div>
             <div className="flex justify-between">
               <h1 className="text-3xl font-bold">Life Plan Details Editing</h1>
-              <Link href={`/risk/${id}`}>
+              <Link href={`/risk/${idString}`}>
                 <button className="bg-primary hover:bg-tertiary rounded-lg px-4 py-1 text-lg font-bold text-white">
                   Save
                 </button>
