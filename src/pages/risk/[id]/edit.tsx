@@ -53,11 +53,11 @@ export default function EditRiskPlan() {
     api.riskPlan.getRiskPlanDetailsById.useQuery({
       riskPlanId: Number(idString),
     });
-  //   useEffect(() => {
-  //     if (riskPlanDetails) {
-  //       setEditableRiskPlanDetails(riskPlanDetails);
-  //     }
-  //   }, [riskPlanDetails]);
+  useEffect(() => {
+    if (riskPlanDetails) {
+      setEditableRiskPlanDetails(riskPlanDetails);
+    }
+  }, [riskPlanDetails]);
 
   return (
     <>
