@@ -95,13 +95,14 @@ export default function EditRiskPlan() {
   const { mutate: riskPlanDetailsUpdate } =
     api.riskPlan.updateRiskPlanDetailsById.useMutation();
 
-  console.log(editableRiskPlanDetails);
   const saveData = () => {
     if (editableRiskPlanDetails.id === 0) return;
 
     riskPlanDetailsUpdate(editableRiskPlanDetails);
     Router.push(`/risk/${idString}`).catch((err) => console.log(err));
   };
+
+  console.log(editableRiskPlanDetails);
 
   return (
     <>
@@ -121,13 +122,13 @@ export default function EditRiskPlan() {
                 </h1>
                 <div>
                   <button
-                    className="bg-primary hover:bg-tertiary rounded-lg px-4 py-1 text-lg font-bold text-white"
+                    className="rounded-lg bg-primary px-4 py-1 text-lg font-bold text-white hover:bg-tertiary"
                     onClick={() => saveData()}
                   >
                     Save
                   </button>
                   <Link href={`/risk/${idString}`} className="pl-2">
-                    <button className="hover:bg-tertiary rounded-lg bg-slate-500 px-4 py-1 text-lg font-bold text-white">
+                    <button className="rounded-lg bg-slate-500 px-4 py-1 text-lg font-bold text-white hover:bg-tertiary">
                       Cancel
                     </button>
                   </Link>
@@ -140,7 +141,7 @@ export default function EditRiskPlan() {
                   </h2>
                   <table className="min-w-full divide-x divide-y divide-white ">
                     <thead>
-                      <tr className="bg-primary divide-x divide-white text-white">
+                      <tr className="divide-x divide-white bg-primary text-white">
                         <th className="w-1/4 py-2 pl-2 text-left">Category</th>
                         <th className="w-3/4 py-2 pl-2 text-left">
                           Description
@@ -161,7 +162,14 @@ export default function EditRiskPlan() {
                             }}
                           >
                             {countries.map((item, idx) => (
-                              <option key={idx}>{item}</option>
+                              <option
+                                key={idx}
+                                selected={
+                                  item === editableRiskPlanDetails.country
+                                }
+                              >
+                                {item}
+                              </option>
                             ))}
                           </select>
                         </td>
@@ -169,9 +177,24 @@ export default function EditRiskPlan() {
                       <tr className={planDetailsClass}>
                         <td className={tableClassBold}>Currency</td>
                         <td className={tableClass}>
-                          <select className="w-1/5 rounded border border-slate-500">
+                          <select
+                            className="w-1/5 rounded border border-slate-500"
+                            onChange={(e) => {
+                              setEditableRiskPlanDetails({
+                                ...editableRiskPlanDetails,
+                                currency: e.target.value,
+                              });
+                            }}
+                          >
                             {currencies.map((item, idx) => (
-                              <option key={idx}>{item}</option>
+                              <option
+                                key={idx}
+                                selected={
+                                  item === editableRiskPlanDetails.currency
+                                }
+                              >
+                                {item}
+                              </option>
                             ))}
                           </select>
                         </td>
@@ -192,12 +215,12 @@ export default function EditRiskPlan() {
                 </div>
 
                 <div>
-                  <h2 className="text-secondary my-4 block text-xl font-semibold">
+                  <h2 className="my-4 block text-xl font-semibold text-secondary">
                     Design Details
                   </h2>
                   <table className="min-w-full divide-x divide-y divide-white ">
                     <thead>
-                      <tr className="bg-secondary divide-x divide-white text-white">
+                      <tr className="divide-x divide-white bg-secondary text-white">
                         <th className="w-1/4 py-2 pl-2 text-left">Category</th>
                         <th className="w-3/4 py-2 pl-2 text-left">
                           Description
@@ -208,9 +231,33 @@ export default function EditRiskPlan() {
                       <tr className="divide-x divide-white bg-slate-100">
                         <td className={tableClassBold}>Coverage Type</td>
                         <td className={tableClass}>
-                          <select className="w-1/5 rounded border border-slate-500">
+                          <select
+                            className="w-1/5 rounded border border-slate-500"
+                            onChange={(e) => {
+                              setEditableRiskPlanDetails({
+                                ...editableRiskPlanDetails,
+                                coverageType: e.target.value,
+                              });
+                            }}
+                          >
+                            <option
+                              value=""
+                              disabled
+                              selected={
+                                editableRiskPlanDetails.coverageType === ""
+                              }
+                            >
+                              Select your option
+                            </option>
                             {coverageTypes.map((item, idx) => (
-                              <option key={idx}>{item}</option>
+                              <option
+                                key={idx}
+                                selected={
+                                  item === editableRiskPlanDetails.coverageType
+                                }
+                              >
+                                {item}
+                              </option>
                             ))}
                           </select>
                         </td>
@@ -218,7 +265,24 @@ export default function EditRiskPlan() {
                       <tr className={designDetailsClass}>
                         <td className={tableClassBold}>Eligibility</td>
                         <td className={tableClass}>
-                          <select className="w-1/5 rounded border border-slate-500">
+                          <select
+                            className="w-1/5 rounded border border-slate-500"
+                            onChange={(e) => {
+                              setEditableRiskPlanDetails({
+                                ...editableRiskPlanDetails,
+                                eligibility: e.target.value,
+                              });
+                            }}
+                          >
+                            <option
+                              value=""
+                              disabled
+                              selected={
+                                editableRiskPlanDetails.eligibility === ""
+                              }
+                            >
+                              Select your option
+                            </option>
                             {eligibility.map((item, idx) => (
                               <option key={idx}>{item}</option>
                             ))}
@@ -307,12 +371,12 @@ export default function EditRiskPlan() {
                 </div>
 
                 <div>
-                  <h2 className="text-danger my-4 block text-xl font-semibold ">
+                  <h2 className="my-4 block text-xl font-semibold text-danger ">
                     Financial Details
                   </h2>
                   <table className="min-w-full divide-x divide-y divide-white ">
                     <thead>
-                      <tr className="bg-danger divide-x divide-white text-white">
+                      <tr className="divide-x divide-white bg-danger text-white">
                         <th className="w-1/4 py-2 pl-2 text-left">Category</th>
                         <th className="w-3/4 py-2 pl-2 text-left">
                           Description
@@ -431,12 +495,12 @@ export default function EditRiskPlan() {
                 </div>
 
                 <div>
-                  <h2 className="text-info my-4 block text-xl font-semibold ">
+                  <h2 className="my-4 block text-xl font-semibold text-info ">
                     Administration Details
                   </h2>
                   <table className="min-w-full divide-x divide-y divide-white ">
                     <thead>
-                      <tr className="bg-info divide-x divide-white text-white">
+                      <tr className="divide-x divide-white bg-info text-white">
                         <th className="w-1/4 py-2 pl-2 text-left">Category</th>
                         <th className="w-3/4 py-2 pl-2 text-left">
                           Description

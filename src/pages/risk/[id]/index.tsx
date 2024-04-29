@@ -44,7 +44,7 @@ export default function RiskPlan() {
                 <h1 className="text-3xl font-bold">Life Plan Details</h1>
                 <Link
                   href={`/risk/${idString}/edit`}
-                  className="bg-primary hover:bg-tertiary rounded-lg px-4 py-1 text-lg font-bold text-white"
+                  className="rounded-lg bg-primary px-4 py-1 text-lg font-bold text-white hover:bg-tertiary"
                 >
                   Edit
                 </Link>
@@ -56,7 +56,7 @@ export default function RiskPlan() {
                   </h2>
                   <table className="min-w-full divide-x divide-y divide-white ">
                     <thead>
-                      <tr className="bg-primary divide-x divide-white text-white">
+                      <tr className="divide-x divide-white bg-primary text-white">
                         <th className="w-1/4 py-2 pl-2 text-left">Category</th>
                         <th className="w-3/4 py-2 pl-2 text-left">
                           Description
@@ -72,7 +72,9 @@ export default function RiskPlan() {
                       </tr>
                       <tr className={planDetailsClass}>
                         <td className={tableClassBold}>Currency</td>
-                        <td className={tableClass}>CAD</td>
+                        <td className={tableClass}>
+                          {riskPlanDetails.currency}
+                        </td>
                       </tr>
                       <tr className={planDetailsClass}>
                         <td className={tableClassBold}>
@@ -89,7 +91,7 @@ export default function RiskPlan() {
                   </h2>
                   <table className="min-w-full divide-x divide-y divide-white ">
                     <thead>
-                      <tr className="bg-primary divide-x divide-white text-white">
+                      <tr className="divide-x divide-white bg-primary text-white">
                         <th className="w-1/4 py-2 pl-2 text-left">Category</th>
                         <th className="w-3/4 py-2 pl-2 text-left">
                           Description
@@ -99,9 +101,11 @@ export default function RiskPlan() {
                     <tbody>
                       <tr className="divide-x divide-white bg-slate-100">
                         <td className={tableClassBold}>Coverage Type</td>
-                        <td className={tableClass}>Life</td>
+                        <td className={tableClass}>
+                          {riskPlanDetails.coverageType}
+                        </td>
                       </tr>
-                      <tr className="bg-tertiary-lt divide-x divide-white">
+                      <tr className="divide-x divide-white bg-tertiary-lt">
                         <td className={tableClassBold}>Eligibility</td>
                         <td className={tableClass}>All Employees</td>
                       </tr>
@@ -109,7 +113,7 @@ export default function RiskPlan() {
                         <td className={tableClassBold}>Benefit Description</td>
                         <td className={tableClass}>3 x annual salary</td>
                       </tr>
-                      <tr className="bg-tertiary-lt divide-x divide-white">
+                      <tr className="divide-x divide-white bg-tertiary-lt">
                         <td className={tableClassBold}>Non-evidence Limit</td>
                         <td className={tableClass}>CAD 200,000</td>
                       </tr>
@@ -117,7 +121,7 @@ export default function RiskPlan() {
                         <td className={tableClassBold}>Benefit Maximum</td>
                         <td className={tableClass}>CAD 500,000</td>
                       </tr>
-                      <tr className="bg-tertiary-lt divide-x divide-white">
+                      <tr className="divide-x divide-white bg-tertiary-lt">
                         <td className={tableClassBold}>
                           Employee Contribution
                         </td>
@@ -136,12 +140,12 @@ export default function RiskPlan() {
                 </div>
 
                 <div>
-                  <h2 className="text-danger my-4 block text-xl font-semibold ">
+                  <h2 className="my-4 block text-xl font-semibold text-danger ">
                     Financial Details
                   </h2>
                   <table className="min-w-full divide-x divide-y divide-white ">
                     <thead>
-                      <tr className="bg-danger divide-x divide-white text-white">
+                      <tr className="divide-x divide-white bg-danger text-white">
                         <th className="w-1/4 py-2 pl-2 text-left">Category</th>
                         <th className="w-3/4 py-2 pl-2 text-left">
                           Description
@@ -153,7 +157,7 @@ export default function RiskPlan() {
                         <td className={tableClassBold}>Insurer</td>
                         <td className={tableClass}>Canada Life</td>
                       </tr>
-                      <tr className="bg-danger-lt divide-x divide-white">
+                      <tr className="divide-x divide-white bg-danger-lt">
                         <td className={tableClassBold}>Policy Number</td>
                         <td className={tableClass}>123456</td>
                       </tr>
@@ -161,7 +165,7 @@ export default function RiskPlan() {
                         <td className={tableClassBold}>Renewal Frequency</td>
                         <td className={tableClass}>Annual</td>
                       </tr>
-                      <tr className="bg-danger-lt divide-x divide-white">
+                      <tr className="divide-x divide-white bg-danger-lt">
                         <td className={tableClassBold}>Next Renewal Date</td>
                         <td className={tableClass}>Jan 1, 2025</td>
                       </tr>
@@ -169,7 +173,7 @@ export default function RiskPlan() {
                         <td className={tableClassBold}>Intermediaries</td>
                         <td className={tableClass}>Broker</td>
                       </tr>
-                      <tr className="bg-danger-lt divide-x divide-white">
+                      <tr className="divide-x divide-white bg-danger-lt">
                         <td className={tableClassBold}>Intermediary</td>
                         <td className={tableClass}>Mercer Marsh Benefits</td>
                       </tr>
@@ -177,7 +181,7 @@ export default function RiskPlan() {
                         <td className={tableClassBold}>Remuneration Method</td>
                         <td className={tableClass}>Commissions</td>
                       </tr>
-                      <tr className="bg-danger-lt divide-x divide-white">
+                      <tr className="divide-x divide-white bg-danger-lt">
                         <td className={tableClassBold}>Remuneration Amount</td>
                         <td className={tableClass}>10% of premiums</td>
                       </tr>
@@ -185,7 +189,7 @@ export default function RiskPlan() {
                         <td className={tableClassBold}>Total Sum Insured</td>
                         <td className={tableClass}>5,000,000</td>
                       </tr>
-                      <tr className="bg-danger-lt divide-x divide-white">
+                      <tr className="divide-x divide-white bg-danger-lt">
                         <td className={tableClassBold}>Total Premiums</td>
                         <td className={tableClass}>CAD 20,0000</td>
                       </tr>
@@ -198,12 +202,12 @@ export default function RiskPlan() {
                 </div>
 
                 <div>
-                  <h2 className="text-info my-4 block text-xl font-semibold ">
+                  <h2 className="my-4 block text-xl font-semibold text-info ">
                     Administration Details
                   </h2>
                   <table className="min-w-full divide-x divide-y divide-white ">
                     <thead>
-                      <tr className="bg-info divide-x divide-white text-white">
+                      <tr className="divide-x divide-white bg-info text-white">
                         <th className="w-1/4 py-2 pl-2 text-left">Category</th>
                         <th className="w-3/4 py-2 pl-2 text-left">
                           Description
@@ -215,7 +219,7 @@ export default function RiskPlan() {
                         <td className={tableClassBold}>Invoicing</td>
                         <td className={tableClass}>Quarterly</td>
                       </tr>
-                      <tr className="bg-info-lt divide-x divide-white">
+                      <tr className="divide-x divide-white bg-info-lt">
                         <td className={tableClassBold}>Cancellation Period</td>
                         <td className={tableClass}>3 months</td>
                       </tr>
