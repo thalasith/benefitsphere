@@ -197,6 +197,30 @@ export const riskPlans = createTable("riskPlans", {
   cancellationDuration: varchar("cancellationDuration", { length: 255 })
     .notNull()
     .default(""),
+  intermediaryType: varchar("intermediaryType", { length: 255 })
+    .notNull()
+    .default(""),
+  intermediaryName: varchar("intermediaryName", { length: 255 })
+    .notNull()
+    .default(""),
+  intermediaryRemunerationMethod: varchar("intermediaryRemunerationMethod", {
+    length: 255,
+  })
+    .notNull()
+    .default(""),
+  intermediaryRemunerationCommission: integer(
+    "intermediaryRemunerationCommission",
+  )
+    .notNull()
+    .default(0),
+  intermediaryRemunerationFee: integer("intermediaryRemunerationFee")
+    .notNull()
+    .default(0),
+  intermediaryRemunerationOther: varchar("intermediaryRemunerationOther", {
+    length: 255,
+  })
+    .notNull()
+    .default(""),
   cancellationAmount: integer("cancellationAmount").notNull().default(0),
   headcount: integer("headcount").notNull().default(0),
   totalSumInsured: integer("totalSumInsured").notNull().default(0),

@@ -36,6 +36,12 @@ const riskPlanModel = {
   invoicingDescription: z.string(),
   employeeEnrollmentDescription: z.string(),
   employeeTerminationDescription: z.string(),
+  intermediaryType: z.string(),
+  intermediaryName: z.string(),
+  intermediaryRemunerationMethod: z.string(),
+  intermediaryRemunerationCommission: z.number(),
+  intermediaryRemunerationFee: z.number(),
+  intermediaryRemunerationOther: z.string(),
 };
 
 export const riskPlanRouter = createTRPCRouter({
