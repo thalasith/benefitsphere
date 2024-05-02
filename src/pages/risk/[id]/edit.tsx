@@ -690,7 +690,18 @@ export default function EditRiskPlan() {
                           <div className="flex">
                             <input
                               type="number"
-                              className="w-12 rounded border border-slate-500 pl-2 "
+                              className="w-12 rounded border border-slate-500 pl-2"
+                              value={
+                                editableRiskPlanDetails.intermediaryRemunerationCommission
+                              }
+                              onChange={(e) => {
+                                setEditableRiskPlanDetails({
+                                  ...editableRiskPlanDetails,
+                                  intermediaryRemunerationCommission: Number(
+                                    e.target.value,
+                                  ),
+                                });
+                              }}
                             />{" "}
                             <p className="pl-2">% of premiums</p>
                           </div>
@@ -702,7 +713,14 @@ export default function EditRiskPlan() {
                           CAD{" "}
                           <input
                             type="number"
-                            className="rounded border border-slate-500 pl-2 "
+                            className="rounded border border-slate-500 pl-2"
+                            value={editableRiskPlanDetails.totalSumInsured}
+                            onChange={(e) => {
+                              setEditableRiskPlanDetails({
+                                ...editableRiskPlanDetails,
+                                totalSumInsured: Number(e.target.value),
+                              });
+                            }}
                           />
                         </td>
                       </tr>
@@ -712,7 +730,14 @@ export default function EditRiskPlan() {
                           CAD{" "}
                           <input
                             type="number"
-                            className="rounded border border-slate-500 pl-2 "
+                            className="rounded border border-slate-500 pl-2"
+                            value={editableRiskPlanDetails.totalPremium}
+                            onChange={(e) => {
+                              setEditableRiskPlanDetails({
+                                ...editableRiskPlanDetails,
+                                totalPremium: Number(e.target.value),
+                              });
+                            }}
                           />
                         </td>
                       </tr>
@@ -721,7 +746,14 @@ export default function EditRiskPlan() {
                         <td className={tableClass}>
                           <input
                             type="number"
-                            className="rounded border border-slate-500 pl-2 "
+                            className="rounded border border-slate-500 pl-2"
+                            value={editableRiskPlanDetails.headcount}
+                            onChange={(e) => {
+                              setEditableRiskPlanDetails({
+                                ...editableRiskPlanDetails,
+                                headcount: Number(e.target.value),
+                              });
+                            }}
                           />
                         </td>
                       </tr>
@@ -755,6 +787,13 @@ export default function EditRiskPlan() {
                           <textarea
                             className="w-3/5 rounded border border-slate-500 pl-2"
                             rows={3}
+                            value={editableRiskPlanDetails.invoicingDescription}
+                            onChange={(e) => {
+                              setEditableRiskPlanDetails({
+                                ...editableRiskPlanDetails,
+                                invoicingDescription: e.target.value,
+                              });
+                            }}
                           />
                         </td>
                       </tr>
@@ -764,6 +803,15 @@ export default function EditRiskPlan() {
                           <textarea
                             className="w-3/5 rounded border border-slate-500 pl-2"
                             rows={3}
+                            value={
+                              editableRiskPlanDetails.employeeEnrollmentDescription
+                            }
+                            onChange={(e) => {
+                              setEditableRiskPlanDetails({
+                                ...editableRiskPlanDetails,
+                                employeeEnrollmentDescription: e.target.value,
+                              });
+                            }}
                           />
                         </td>
                       </tr>
@@ -773,6 +821,15 @@ export default function EditRiskPlan() {
                           <textarea
                             className="w-3/5 rounded border border-slate-500 pl-2"
                             rows={3}
+                            value={
+                              editableRiskPlanDetails.employeeTerminationDescription
+                            }
+                            onChange={(e) => {
+                              setEditableRiskPlanDetails({
+                                ...editableRiskPlanDetails,
+                                employeeTerminationDescription: e.target.value,
+                              });
+                            }}
                           />
                         </td>
                       </tr>

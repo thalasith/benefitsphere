@@ -215,13 +215,27 @@ export default function RiskPlan() {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr className="divide-x divide-white bg-slate-100">
+                      <tr className={adminDetailsClass}>
                         <td className={tableClassBold}>Invoicing</td>
-                        <td className={tableClass}>Quarterly</td>
+                        <td className={tableClass}>
+                          {riskPlanDetails.invoicingDescription}
+                        </td>
                       </tr>
-                      <tr className="divide-x divide-white bg-info-lt">
+                      <tr className={adminDetailsClass}>
                         <td className={tableClassBold}>Cancellation Period</td>
-                        <td className={tableClass}>3 months</td>
+                        <td className={tableClass}>
+                          <p className="whitespace-pre">
+                            {riskPlanDetails.employeeEnrollmentDescription}
+                          </p>
+                        </td>
+                      </tr>
+                      <tr className={adminDetailsClass}>
+                        <td className={tableClassBold}>Cancellation Period</td>
+                        <td className={tableClass}>
+                          <p className="whitespace-pre">
+                            {riskPlanDetails.employeeTerminationDescription}
+                          </p>
+                        </td>
                       </tr>
                     </tbody>
                   </table>
