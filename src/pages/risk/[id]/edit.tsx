@@ -618,11 +618,29 @@ export default function EditRiskPlan() {
                             <input
                               type="date"
                               className="rounded border border-slate-500 pl-2"
+                              value={editableRiskPlanDetails.policyStartDate
+                                .toISOString()
+                                .substr(0, 10)}
+                              onChange={(e) => {
+                                setEditableRiskPlanDetails({
+                                  ...editableRiskPlanDetails,
+                                  policyStartDate: new Date(e.target.value),
+                                });
+                              }}
                             />
                             <p className="mx-2">to</p>
                             <input
                               type="date"
                               className="rounded border border-slate-500 pl-2"
+                              value={editableRiskPlanDetails.policyEndDate
+                                .toISOString()
+                                .substr(0, 10)}
+                              onChange={(e) => {
+                                setEditableRiskPlanDetails({
+                                  ...editableRiskPlanDetails,
+                                  policyEndDate: new Date(e.target.value),
+                                });
+                              }}
                             />
                           </div>
                         </td>
