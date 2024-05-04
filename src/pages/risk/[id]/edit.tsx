@@ -45,6 +45,23 @@ const employerContributionOptions = ["None", "Fully Employer paid", "Other"];
 
 const insurers = ["Canada Life", "Sun Life", "Manulife", "Great West Life"];
 
+const intermediaryTypes = ["Broker", "Agent", "Consultant", "Other"];
+
+const intermediaryRemunerationMethods = [
+  "Flat Commission",
+  "Flat Fee",
+  "Other",
+];
+
+const intermediaryNames = [
+  "Mercer Marsh Benefits",
+  "Aon Hewitt",
+  "Willis Towers Watson",
+  "Gallagher",
+  "Lockton",
+  "Local Broker",
+];
+
 export default function EditRiskPlan() {
   const [editableRiskPlanDetails, setEditableRiskPlanDetails] = useState({
     id: 0,
@@ -108,7 +125,7 @@ export default function EditRiskPlan() {
     Router.push(`/risk/${idString}`).catch((err) => console.log(err));
   };
 
-  console.log(editableRiskPlanDetails);
+  console.log(editableRiskPlanDetails.intermediaryType);
 
   return (
     <>
@@ -658,10 +675,18 @@ export default function EditRiskPlan() {
                               });
                             }}
                           >
-                            <option>Broker</option>
-                            <option>Agent</option>
-                            <option>Consultant</option>
-                            <option>Other</option>
+                            <option
+                              value=""
+                              disabled
+                              selected={
+                                editableRiskPlanDetails.intermediaryType === ""
+                              }
+                            >
+                              Select a provider
+                            </option>
+                            {intermediaryTypes.map((item, idx) => (
+                              <option key={idx}>{item}</option>
+                            ))}
                           </select>
                         </td>
                       </tr>
@@ -696,9 +721,22 @@ export default function EditRiskPlan() {
                               });
                             }}
                           >
-                            <option>Flat Commission</option>
-                            <option>Flat Fee</option>
-                            <option>Other</option>
+                            <option
+                              value=""
+                              disabled
+                              selected={
+                                editableRiskPlanDetails.intermediaryRemunerationMethod ===
+                                ""
+                              }
+                            >
+                              {" "}
+                              Select a remuneration method
+                            </option>
+                            {intermediaryRemunerationMethods.map(
+                              (item, idx) => (
+                                <option key={idx}>{item}</option>
+                              ),
+                            )}
                           </select>
                         </td>
                       </tr>

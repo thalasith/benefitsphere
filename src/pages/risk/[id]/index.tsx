@@ -86,12 +86,12 @@ export default function RiskPlan() {
                   </table>
                 </div>
                 <div>
-                  <h2 className="my-4 block text-xl font-semibold ">
+                  <h2 className="my-4 block text-xl font-semibold text-secondary">
                     Design Details
                   </h2>
                   <table className="min-w-full divide-x divide-y divide-white ">
                     <thead>
-                      <tr className="divide-x divide-white bg-primary text-white">
+                      <tr className="divide-x divide-white bg-secondary text-white">
                         <th className="w-1/4 py-2 pl-2 text-left">Category</th>
                         <th className="w-3/4 py-2 pl-2 text-left">
                           Description
@@ -99,41 +99,81 @@ export default function RiskPlan() {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr className="divide-x divide-white bg-slate-100">
+                      <tr className={designDetailsClass}>
                         <td className={tableClassBold}>Coverage Type</td>
                         <td className={tableClass}>
                           {riskPlanDetails.coverageType}
                         </td>
                       </tr>
-                      <tr className="divide-x divide-white bg-tertiary-lt">
+                      <tr className={designDetailsClass}>
                         <td className={tableClassBold}>Eligibility</td>
-                        <td className={tableClass}>All Employees</td>
+                        <td className={tableClass}>
+                          {riskPlanDetails.eligibility}
+                        </td>
                       </tr>
-                      <tr className="divide-x divide-white bg-slate-100">
+                      <tr className={designDetailsClass}>
+                        <td className={tableClassBold}>Benefit Form</td>
+                        <td className={tableClass}>
+                          {riskPlanDetails.coverageForm}
+                        </td>
+                      </tr>
+                      <tr className={designDetailsClass}>
                         <td className={tableClassBold}>Benefit Description</td>
-                        <td className={tableClass}>3 x annual salary</td>
+                        <td className={tableClass}>
+                          {riskPlanDetails.coverageForm === "" && (
+                            <div className="flex">No details provided yet!</div>
+                          )}
+                          {riskPlanDetails.coverageForm === "Fixed Amount" && (
+                            <div className="flex">
+                              {riskPlanDetails.coverageFixedAmount}
+                            </div>
+                          )}
+                          {riskPlanDetails.coverageForm ===
+                            "Salary Multiple" && (
+                            <div className="flex">
+                              {riskPlanDetails.coverageMultiple} X{" "}
+                              {riskPlanDetails.coverageMultipleDuration}
+                            </div>
+                          )}
+                        </td>
                       </tr>
-                      <tr className="divide-x divide-white bg-tertiary-lt">
+                      <tr className={designDetailsClass}>
                         <td className={tableClassBold}>Non-evidence Limit</td>
-                        <td className={tableClass}>CAD 200,000</td>
+                        <td className={tableClass}>
+                          CAD {riskPlanDetails.nonEvidenceLimit}
+                        </td>
                       </tr>
-                      <tr className="divide-x divide-white bg-slate-100">
+                      <tr className={designDetailsClass}>
                         <td className={tableClassBold}>Benefit Maximum</td>
-                        <td className={tableClass}>CAD 500,000</td>
+                        <td className={tableClass}>
+                          CAD {riskPlanDetails.coverageMaximum}
+                        </td>
                       </tr>
-                      <tr className="divide-x divide-white bg-tertiary-lt">
+                      <tr className={designDetailsClass}>
                         <td className={tableClassBold}>
                           Employee Contribution
                         </td>
                         <td className={tableClass}>
-                          No contribution required.
+                          {riskPlanDetails.employeeContribution}
+                          {riskPlanDetails.employeeContribution === "Other" && (
+                            <span>
+                              {riskPlanDetails.employeeContributionOther}
+                            </span>
+                          )}
                         </td>
                       </tr>
-                      <tr className="divide-x divide-white bg-slate-100">
+                      <tr className={designDetailsClass}>
                         <td className={tableClassBold}>
                           Employer Contribution
                         </td>
-                        <td className={tableClass}>100% Employee paid.</td>
+                        <td className={tableClass}>
+                          {riskPlanDetails.employerContribution}
+                          {riskPlanDetails.employerContribution === "Other" && (
+                            <span>
+                              {riskPlanDetails.employerContributionOther}
+                            </span>
+                          )}
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -153,49 +193,85 @@ export default function RiskPlan() {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr className="divide-x divide-white bg-slate-100">
+                      <tr className={financialDetailsClass}>
                         <td className={tableClassBold}>Insurer</td>
-                        <td className={tableClass}>Canada Life</td>
+                        <td className={tableClass}>
+                          {riskPlanDetails.provider}
+                        </td>
                       </tr>
-                      <tr className="divide-x divide-white bg-danger-lt">
+                      <tr className={financialDetailsClass}>
                         <td className={tableClassBold}>Policy Number</td>
-                        <td className={tableClass}>123456</td>
+                        <td className={tableClass}>
+                          {riskPlanDetails.policyNumber}
+                        </td>
                       </tr>
-                      <tr className="divide-x divide-white bg-slate-100">
-                        <td className={tableClassBold}>Renewal Frequency</td>
-                        <td className={tableClass}>Annual</td>
+                      <tr className={financialDetailsClass}>
+                        <td className={tableClassBold}>Policy Period</td>
+                        <td className={tableClass}>
+                          {riskPlanDetails.policyStartDate
+                            .toISOString()
+                            .substr(0, 10)}{" "}
+                          to{" "}
+                          {riskPlanDetails.policyEndDate
+                            .toISOString()
+                            .substr(0, 10)}
+                        </td>
                       </tr>
-                      <tr className="divide-x divide-white bg-danger-lt">
-                        <td className={tableClassBold}>Next Renewal Date</td>
-                        <td className={tableClass}>Jan 1, 2025</td>
-                      </tr>
-                      <tr className="divide-x divide-white bg-slate-100">
+                      <tr className={financialDetailsClass}>
                         <td className={tableClassBold}>Intermediaries</td>
-                        <td className={tableClass}>Broker</td>
+                        <td className={tableClass}>
+                          {riskPlanDetails.intermediaryType}
+                        </td>
                       </tr>
-                      <tr className="divide-x divide-white bg-danger-lt">
+                      <tr className={financialDetailsClass}>
                         <td className={tableClassBold}>Intermediary</td>
-                        <td className={tableClass}>Mercer Marsh Benefits</td>
+                        <td className={tableClass}>
+                          {riskPlanDetails.intermediaryName}
+                        </td>
                       </tr>
-                      <tr className="divide-x divide-white bg-slate-100">
+                      <tr className={financialDetailsClass}>
                         <td className={tableClassBold}>Remuneration Method</td>
-                        <td className={tableClass}>Commissions</td>
+                        <td className={tableClass}>
+                          {riskPlanDetails.intermediaryRemunerationMethod}
+                        </td>
                       </tr>
-                      <tr className="divide-x divide-white bg-danger-lt">
+                      <tr className={financialDetailsClass}>
                         <td className={tableClassBold}>Remuneration Amount</td>
-                        <td className={tableClass}>10% of premiums</td>
+                        <td className={tableClass}>
+                          {riskPlanDetails.intermediaryRemunerationMethod ===
+                            "Flat Fee" && (
+                            <span>
+                              CAD {riskPlanDetails.coverageFixedAmount}
+                            </span>
+                          )}
+                          {riskPlanDetails.intermediaryRemunerationMethod ===
+                            "Flat Commission" && (
+                            <span>
+                              {
+                                riskPlanDetails.intermediaryRemunerationCommission
+                              }
+                              % of premiums
+                            </span>
+                          )}
+                        </td>
                       </tr>
-                      <tr className="divide-x divide-white bg-slate-100">
+                      <tr className={financialDetailsClass}>
                         <td className={tableClassBold}>Total Sum Insured</td>
-                        <td className={tableClass}>5,000,000</td>
+                        <td className={tableClass}>
+                          CAD {riskPlanDetails.totalSumInsured}
+                        </td>
                       </tr>
-                      <tr className="divide-x divide-white bg-danger-lt">
+                      <tr className={financialDetailsClass}>
                         <td className={tableClassBold}>Total Premiums</td>
-                        <td className={tableClass}>CAD 20,0000</td>
+                        <td className={tableClass}>
+                          {riskPlanDetails.totalPremium}
+                        </td>
                       </tr>
-                      <tr className="divide-x divide-white bg-slate-100">
+                      <tr className={financialDetailsClass}>
                         <td className={tableClassBold}>Headcount</td>
-                        <td className={tableClass}>400</td>
+                        <td className={tableClass}>
+                          {riskPlanDetails.headcount}
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -222,7 +298,7 @@ export default function RiskPlan() {
                         </td>
                       </tr>
                       <tr className={adminDetailsClass}>
-                        <td className={tableClassBold}>Cancellation Period</td>
+                        <td className={tableClassBold}>Employee Enrollment</td>
                         <td className={tableClass}>
                           <p className="whitespace-pre">
                             {riskPlanDetails.employeeEnrollmentDescription}
@@ -230,7 +306,7 @@ export default function RiskPlan() {
                         </td>
                       </tr>
                       <tr className={adminDetailsClass}>
-                        <td className={tableClassBold}>Cancellation Period</td>
+                        <td className={tableClassBold}>Employee Termination</td>
                         <td className={tableClass}>
                           <p className="whitespace-pre">
                             {riskPlanDetails.employeeTerminationDescription}

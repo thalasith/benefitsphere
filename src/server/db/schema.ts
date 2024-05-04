@@ -238,6 +238,14 @@ export const riskPlans = createTable("riskPlans", {
   })
     .notNull()
     .default(""),
+  createdBy: varchar("createdBy", { length: 255 }),
+  createdAt: timestamp("created_at")
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  updatedBy: varchar("updatedBy", { length: 255 }),
+  updatedAt: timestamp("updatedAt"),
+  reviewedBy: varchar("reviewedBy", { length: 255 }),
+  reviewedAt: timestamp("reviewedAt"),
 });
 
 export const riskPlansRelations = relations(riskPlans, ({ one }) => ({
