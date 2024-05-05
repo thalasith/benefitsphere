@@ -13,9 +13,7 @@ interface Provider {
   callbackUrl: string;
 }
 
-interface Providers {
-  [key: string]: Provider;
-}
+type Providers = Record<string, Provider>;
 
 export default function SignIn({ providers }: { providers: Providers }) {
   console.log(providers);
