@@ -33,12 +33,9 @@ export default function SignIn({ providers }: { providers: Providers }) {
           <h1 className="m-auto text-center text-6xl font-bold">Login</h1>
           {Object.values(providers).map((provider) => {
             return (
-              <button
-                key={String(provider.id)}
-                onClick={() => signIn(String(provider.id))}
-              >
+              <button key={provider.id} onClick={() => signIn(provider.id)}>
                 {" "}
-                Sign in with {String(provider.name)}
+                Sign in with {provider.name}
               </button>
             );
           })}
