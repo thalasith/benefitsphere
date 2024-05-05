@@ -5,7 +5,20 @@ import Head from "next/head";
 import { Footer } from "~/components/Footer";
 import Header from "~/components/Header";
 
-export default function SignIn({ providers }: { providers: AppProps }) {
+interface Provider {
+  id: string;
+  name: string;
+  type: string;
+  signinUrl: string;
+  callbackUrl: string;
+}
+
+interface Providers {
+  [key: string]: Provider;
+}
+
+export default function SignIn({ providers }: { providers: Providers }) {
+  console.log(providers);
   return (
     <>
       <Head>
