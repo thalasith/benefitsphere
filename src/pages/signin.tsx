@@ -26,19 +26,34 @@ export default function SignIn({ providers }: { providers: Providers }) {
       </Head>
 
       <main className="text-primary ">
-        <Header />
-        <div className="flex h-dvh items-center justify-between bg-gradient-to-b from-tertiary to-danger p-6 text-white">
-          <h1 className="m-auto text-center text-6xl font-bold">Login</h1>
-          {Object.values(providers).map((provider) => {
-            return (
-              <button key={provider.id} onClick={() => signIn(provider.id)}>
-                {" "}
-                Sign in with {provider.name}
-              </button>
-            );
-          })}
+        <div className="flex h-dvh items-center justify-center bg-gradient-to-b from-tertiary to-danger p-6 text-white">
+          <div className="flex h-full w-1/2 justify-between">
+            <div className="m-auto flex flex-col">
+              <h1 className="text-left text-6xl font-bold">
+                Welcome to Benefitsphere
+              </h1>
+              <p className="text-left text-2xl">Please sign in to continue</p>
+            </div>
+            <div className="m-auto flex h-1/4  w-4/5 flex-col items-center  rounded bg-white p-2">
+              <h2 className="pb-4 text-center text-2xl text-primary">
+                Welcome to Benefitsphere
+              </h2>
+              {Object.values(providers).map((provider) => {
+                return (
+                  <button
+                    className="h-12 w-4/5 rounded-md bg-primary font-extrabold text-white hover:bg-tertiary"
+                    key={provider.id}
+                    onClick={() => signIn(provider.id)}
+                  >
+                    {" "}
+                    Sign in with {provider.name}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         </div>
-        <Footer />
+        {/* <Footer /> */}
       </main>
     </>
   );
