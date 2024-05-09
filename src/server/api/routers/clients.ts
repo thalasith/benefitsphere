@@ -14,10 +14,18 @@ export const clientRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
+      const normalized = input.clientName
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+      const sanitized = normalized
+        .replace(/\s+/g, "_")
+        .replace(/[^a-zA-Z0-9_]/g, "");
+      const urlReady = sanitized.toLowerCase();
       await ctx.db.insert(clients).values({
         clientName: input.clientName,
         industry: input.industry,
         baseCurrency: input.baseCurrency,
+        url: urlReady,
       });
     }),
 

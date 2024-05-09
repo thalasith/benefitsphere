@@ -124,6 +124,7 @@ export const clients = createTable("client", {
   clientName: varchar("clientName", { length: 255 }),
   industry: varchar("industry", { length: 255 }),
   baseCurrency: varchar("baseCurrency", { length: 3 }),
+  url: varchar("url", { length: 255 }),
 });
 
 export const clientsRelations = relations(clients, ({ many }) => ({
