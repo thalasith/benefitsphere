@@ -8,13 +8,12 @@ import {
 } from "next-auth";
 import { type Adapter } from "next-auth/adapters";
 import OktaProvider from "next-auth/providers/okta";
-
-import { users } from "~/server/db/schema";
-
+import GoogleProvider from "next-auth/providers/google";
 import { env } from "~/env";
 import { db } from "~/server/db";
 import { createTable } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
+import { users } from "~/server/db/schema";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -136,6 +135,10 @@ export const authOptions: NextAuthOptions = {
       clientId: env.OKTA_CLIENT_ID,
       clientSecret: env.OKTA_CLIENT_SECRET,
       issuer: env.OKTA_ISSUER,
+    }),
+    GoogleProvider({
+      clientId: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
     }),
     /**
      * ...add more providers here.

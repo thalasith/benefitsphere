@@ -96,7 +96,6 @@ export const riskPlanRouter = createTRPCRouter({
   updateRiskPlanDetailsById: protectedProcedure
     .input(z.object(riskPlanModel))
     .mutation(async ({ ctx, input }) => {
-      console.log("triggered on server!");
       await ctx.db
         .update(riskPlans)
         .set(input)

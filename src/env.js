@@ -31,6 +31,8 @@ export const env = createEnv({
     OKTA_CLIENT_ID: z.string(),
     OKTA_CLIENT_SECRET: z.string(),
     OKTA_ISSUER: z.string(),
+    GOOGLE_CLIENT_ID: z.string(),
+    GOOGLE_CLIENT_SECRET: z.string(),
   },
 
   /**
@@ -54,6 +56,8 @@ export const env = createEnv({
     OKTA_CLIENT_ID: process.env.OKTA_CLIENT_ID,
     OKTA_CLIENT_SECRET: process.env.OKTA_CLIENT_SECRET,
     OKTA_ISSUER: process.env.OKTA_ISSUER,
+    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

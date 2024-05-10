@@ -41,13 +41,21 @@ export default function Dashboard() {
       <main className="text-primary">
         <Header />
         <Container>
-          <h1 className="text-3xl font-bold">Benefit Homepage</h1>
+          <div className="flex items-center justify-between">
+            <h1 className="text-3xl font-bold">Benefit Homepage</h1>
+            <Link
+              href="/add_benefit"
+              className="rounded bg-primary px-3 py-2 text-white hover:bg-primary-lt"
+            >
+              Add Benefit
+            </Link>
+          </div>
 
           <h2 className="my-4 block text-xl font-semibold ">Risk Plans</h2>
           <div>
             <table className="min-w-full divide-x divide-y divide-white ">
               <thead>
-                <tr className="bg-primary divide-x divide-white text-white">
+                <tr className="divide-x divide-white bg-primary text-white">
                   <th className={tableHeadClass}>Country</th>
                   <th className={tableHeadClass}>Benefit Type</th>
                   <th className={tableHeadClass}>Benefit Name</th>
@@ -66,19 +74,19 @@ export default function Dashboard() {
                     <td className={tableClass}>
                       <Link
                         href={`risk/${riskPlan.field1}`}
-                        className="bg-primary hover:bg-primary-lt my-1 rounded px-2 py-0.5 text-white"
+                        className="my-1 rounded bg-primary px-2 py-0.5 text-white hover:bg-primary-lt"
                       >
                         Details
                       </Link>
                     </td>
                   </tr>
                 ))}
-                <tr key={2} className="bg-tertiary-lt divide-x divide-white">
+                <tr key={2} className="divide-x divide-white bg-tertiary-lt">
                   <td className={tableClass}>United Kingdom</td>
                   <td className={tableClass}>AD&D</td>
                   <td className={tableClass}>UK - AD&D Plan</td>
                   <td className={tableClass}>
-                    <button className="bg-primary hover:bg-primary-lt my-1 rounded px-2 py-0.5 text-white">
+                    <button className="my-1 rounded bg-primary px-2 py-0.5 text-white hover:bg-primary-lt">
                       Details
                     </button>
                   </td>
