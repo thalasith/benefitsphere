@@ -83,6 +83,6 @@ export const clientRouter = createTRPCRouter({
         .select()
         .from(clients)
         .where(eq(clients.id, input.clientId));
-      return clientDetails;
+      return clientDetails[0];
     }),
 });

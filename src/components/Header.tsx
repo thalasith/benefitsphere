@@ -3,6 +3,7 @@ import { Dialog, Popover, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import { signIn, signOut, useSession } from "next-auth/react";
+import { api } from "~/utils/api";
 
 import MercerLogo from "./MercerLogo";
 import BenefitsphereLogo from "./BenefitsphereLogo";
@@ -16,10 +17,13 @@ const navigation = [
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { data: sessionData } = useSession();
+  const { data: clientData } = api.client.getClientDetailsById.useQuery({
+    clientId: sessionData?.user.activeClient ?? 0,
+  });
 
   const Login = (
     <button
-      className="hover:text-secondary rounded px-2 py-1 font-semibold leading-6 hover:bg-slate-50"
+      className="rounded px-2 py-1 font-semibold leading-6 hover:bg-slate-50 hover:text-secondary"
       onClick={() => signIn()}
     >
       Log in
@@ -36,7 +40,6 @@ export default function Header() {
             aria-hidden="true"
           />
         </Popover.Button>
-
         <Transition
           as={Fragment}
           enter="transition ease-out duration-200"
@@ -47,11 +50,11 @@ export default function Header() {
           leaveTo="opacity-0 translate-y-1"
         >
           <Popover.Panel className=" absolute top-full z-10 mt-3 w-56 rounded-xl bg-white p-2 shadow-lg  ">
-            <div className="bg-accent hover:text-danger rounded-lg px-2 py-1 font-semibold hover:bg-slate-50">
+            <div className="bg-accent rounded-lg px-2 py-1 font-semibold hover:bg-slate-50 hover:text-danger">
               <Link href="select_client">Change Clients</Link>
             </div>
             <button
-              className="bg-accent hover:text-danger  rounded-lg px-2 py-1 font-semibold hover:bg-slate-50"
+              className="bg-accent rounded-lg  px-2 py-1 font-semibold hover:bg-slate-50 hover:text-danger"
               onClick={() => signOut()}
             >
               Log out
@@ -63,9 +66,9 @@ export default function Header() {
   );
 
   return (
-    <header className="text-primary fixed w-full bg-white text-sm">
+    <header className="fixed w-full bg-white text-sm text-primary">
       <nav
-        className="max-w-9xl mx-auto flex items-center justify-between p-6 lg:px-8"
+        className="mx-auto flex max-w-9xl items-center justify-between p-6 lg:px-8"
         aria-label="Global"
       >
         <div className="flex items-end lg:flex-1">
@@ -133,6 +136,11 @@ export default function Header() {
         </Popover.Group>
 
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+          {clientData && (
+            <p className="flex items-center gap-x-1 px-3 py-2 text-sm font-semibold leading-6 ">
+              Currently viewing: {clientData?.clientName}
+            </p>
+          )}
           {sessionData ? Logout : Login}
         </div>
       </nav>
