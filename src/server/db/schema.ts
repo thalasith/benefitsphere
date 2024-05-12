@@ -39,6 +39,26 @@ export const posts = createTable(
   }),
 );
 
+export const countries = createTable("country", {
+  id: serial("id").primaryKey(),
+  country: varchar("name", { length: 255 }),
+  code: varchar("code", { length: 2 }),
+});
+
+// countries relation many to many with clients
+export const countriesRelations = relations(countries, ({ many }) => ({
+  countriesToClients: many(countriesToClients),
+}));
+
+export const countriesToClients = createTable("countriesToClients", {
+  countryId: integer("country_id")
+    .notNull()
+    .references(() => countries.id),
+  clientId: integer("client_id")
+    .notNull()
+    .references(() => clients.id),
+});
+
 export const users = createTable("user", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
   name: varchar("name", { length: 255 }),
@@ -129,6 +149,7 @@ export const clients = createTable("client", {
 
 export const clientsRelations = relations(clients, ({ many }) => ({
   usersToClients: many(usersToClients),
+  countriesToClients: many(countriesToClients),
   riskPlans: many(riskPlans),
 }));
 

@@ -151,7 +151,7 @@ export const authOptions: NextAuthOptions = {
      */
   ],
   pages: {
-    signIn: "/signin",
+    signIn: "/sign_in",
   },
 };
 
