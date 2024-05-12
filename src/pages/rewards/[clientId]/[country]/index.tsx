@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import Header from "~/components/Header";
 import Container from "~/components/Container";
-import GreenAcorn from "~/assets/GreenAcorn";
+import GreenBabyBottle from "~/assets/GreenBabyBottle";
 
 export default function CountryProfile() {
   const { data: sessionData, status } = useSession();
@@ -19,7 +19,7 @@ export default function CountryProfile() {
       <main>
         <Header />
         <Container>
-          Country Profile <GreenAcorn width={50} height={50} />
+          Country Profile <GreenBabyBottle width={50} height={50} />
         </Container>
       </main>
     </>
