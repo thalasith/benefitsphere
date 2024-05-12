@@ -11,7 +11,7 @@ import { posts } from "~/server/db/schema";
 export const uploadRouter = createTRPCRouter({
   hello: publicProcedure.query(async ({ ctx }) => {
     const files = await utapi.listFiles();
-    console.log("hi there");
+
     console.log(files);
     return files;
   }),
