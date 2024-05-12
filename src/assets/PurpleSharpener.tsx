@@ -1,0 +1,7 @@
+import React from 'react';
+
+const PurpleSharpener: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+  <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path fill="#8246af" d="M6 12v2h1.74a8.12 8.12 0 0 0-.8-2z"/><path fill="#009de0" d="M24.26 14A8.12 8.12 0 0 1 28 9V4H4v5a8.06 8.06 0 0 1 2.94 3 8.12 8.12 0 0 1 .8 2 8.4 8.4 0 0 1 .19 1A8.26 8.26 0 0 1 8 16a8.26 8.26 0 0 1-.07 1 8.4 8.4 0 0 1-.19 1 8.12 8.12 0 0 1-.8 2A8 8 0 0 1 4 23v5h24v-5a8 8 0 0 1-2.94-3 8.12 8.12 0 0 1-.8-2 8.4 8.4 0 0 1-.19-1 7.18 7.18 0 0 1 0-2 8.4 8.4 0 0 1 .19-1z"/><path fill="#002b9a" d="M10 12H6.94a8.12 8.12 0 0 1 .8 2H10z"/><path fill="#8246af" d="M7.93 15H6v2h1.93A8.26 8.26 0 0 0 8 16a8.26 8.26 0 0 0-.07-1z"/><path fill="#002b9a" d="M10 15H7.93A8.26 8.26 0 0 1 8 16a8.26 8.26 0 0 1-.07 1H10z"/><path fill="#8246af" d="M6 18v2h.94a8.12 8.12 0 0 0 .8-2z"/><path fill="#002b9a" d="M10 18H7.74a8.12 8.12 0 0 1-.8 2H10z"/><path fill="#8246af" d="M26 14v-2h-.94a8.12 8.12 0 0 0-.8 2z"/><path fill="#002b9a" d="M22 14h2.26a8.12 8.12 0 0 1 .8-2H22z"/><path fill="#8246af" d="M24.07 17H26v-2h-1.93a7.18 7.18 0 0 0 0 2z"/><path fill="#002b9a" d="M22 17h2.07a7.18 7.18 0 0 1 0-2H22z"/><path fill="#8246af" d="M26 20v-2h-1.74a8.12 8.12 0 0 0 .8 2z"/><path fill="#002b9a" d="M22 20h3.06a8.12 8.12 0 0 1-.8-2H22z"/><path fill="#bed3e4" d="M16 8a4 4 0 0 1 4 4v16h-8V12a4 4 0 0 1 4-4z"/><circle cx="15.5" cy="16.5" r="1.5" fill="#8246af"/></svg>
+);
+
+export default PurpleSharpener;
