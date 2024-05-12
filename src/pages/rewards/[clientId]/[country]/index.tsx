@@ -3,11 +3,15 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import Header from "~/components/Header";
 import Container from "~/components/Container";
-// import GreenProcessor from "~/assets/GreenProcessor";
+import { UploadButton } from "~/utils/uploadthing";
+import { api } from "~/utils/api";
 
 export default function CountryProfile() {
   const { data: sessionData, status } = useSession();
   const { clientId } = useRouter().query;
+  const { data: uploadData } = api.upload.hello.useQuery();
+
+  console.log("uploadData", uploadData);
 
   return (
     <>
@@ -18,7 +22,21 @@ export default function CountryProfile() {
       </Head>
       <main>
         <Header />
-        <Container>Country Profile</Container>
+        <Container>
+          Country Profile
+          <UploadButton
+            endpoint="imageUploader"
+            onClientUploadComplete={(res) => {
+              // Do something with the response
+              console.log("Files: ", res);
+              alert("Upload Completed");
+            }}
+            onUploadError={(error: Error) => {
+              // Do something with the error.
+              alert(`ERROR! ${error.message}`);
+            }}
+          />
+        </Container>
       </main>
     </>
   );
