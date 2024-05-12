@@ -18,9 +18,7 @@ export default function CountryProfile() {
       </Head>
       <main>
         <Header />
-        <Container>
-          {/* Country Profile <GreenProcessor width={50} height={50} /> */}
-        </Container>
+        <Container>Country Profile</Container>
       </main>
     </>
   );
