@@ -11,7 +11,7 @@ import Link from "next/link";
 
 const navigation = [
   { name: "Add Client", href: "/add_client" },
-  { name: "Client Management", href: "/client_management" },
+  { name: "User Management", href: "/user_management" },
 ];
 
 export default function Header() {

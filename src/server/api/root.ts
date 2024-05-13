@@ -4,6 +4,7 @@ import { clientRouter } from "./routers/clients";
 import { userRouter } from "./routers/users";
 import { riskPlanRouter } from "./routers/riskPlans";
 import { uploadRouter } from "./routers/upload";
+import { countryRouter } from "./routers/countries";
 
 /**
  * This is the primary router for your server.
@@ -13,6 +14,7 @@ import { uploadRouter } from "./routers/upload";
 export const appRouter = createTRPCRouter({
   post: postRouter,
   client: clientRouter,
+  country: countryRouter,
   user: userRouter,
   riskPlan: riskPlanRouter,
   upload: uploadRouter,

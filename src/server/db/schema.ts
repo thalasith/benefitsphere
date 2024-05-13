@@ -45,7 +45,6 @@ export const countries = createTable("country", {
   code: varchar("code", { length: 2 }),
 });
 
-// countries relation many to many with clients
 export const countriesRelations = relations(countries, ({ many }) => ({
   countriesToClients: many(countriesToClients),
 }));
@@ -58,6 +57,20 @@ export const countriesToClients = createTable("countriesToClients", {
     .notNull()
     .references(() => clients.id),
 });
+
+export const countriesToClientsRelations = relations(
+  countriesToClients,
+  ({ one }) => ({
+    countries: one(countries, {
+      fields: [countriesToClients.countryId],
+      references: [countries.id],
+    }),
+    client: one(clients, {
+      fields: [countriesToClients.clientId],
+      references: [clients.id],
+    }),
+  }),
+);
 
 export const users = createTable("user", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),

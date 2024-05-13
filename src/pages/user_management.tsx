@@ -6,7 +6,7 @@ import Router from "next/router";
 import { api } from "~/utils/api";
 import { Footer } from "~/components/Footer";
 
-export default function ClientManagement() {
+export default function UserManagement() {
   const [selectedClientId, setSelectedClientId] = useState(0);
   const [selectedUserId, setSelectedUserId] = useState("");
 
@@ -17,7 +17,7 @@ export default function ClientManagement() {
   const { mutate: addUserToClientRelation } =
     api.client.addUsersToClientsRelation.useMutation({
       onSuccess: () => {
-        void Router.push("/client_management");
+        void Router.push("/user_management");
       },
     });
 
