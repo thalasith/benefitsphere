@@ -6,12 +6,12 @@ import { api } from "~/utils/api";
 import { Footer } from "~/components/Footer";
 import { useSession } from "next-auth/react";
 
-export default function UserManagement() {
+export default function ClientManagement() {
   const { data: sessionData } = useSession();
   console.log(sessionData);
 
   const { data: clientData } = api.client.getClientDetailsById.useQuery({
-    clientId: sessionData?.user?.activeClient || 0,
+    clientId: sessionData?.user?.activeClient ?? 0,
   });
 
   const { data: countries } = api.country.getCountries.useQuery();
