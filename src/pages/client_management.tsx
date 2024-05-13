@@ -8,13 +8,18 @@ import { useSession } from "next-auth/react";
 
 export default function ClientManagement() {
   const { data: sessionData } = useSession();
-  console.log(sessionData);
 
   const { data: clientData } = api.client.getClientDetailsById.useQuery({
     clientId: sessionData?.user?.activeClient ?? 0,
   });
 
   const { data: countries } = api.country.getCountries.useQuery();
+
+  const { data: clientCountries } =
+    api.country.getCountryRelationsByClientId.useQuery({
+      clientId: sessionData?.user?.activeClient ?? 0,
+    });
+  console.log(clientCountries);
 
   return (
     <>

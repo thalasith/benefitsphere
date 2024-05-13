@@ -10,6 +10,24 @@ export const countryRouter = createTRPCRouter({
     return listOfCountries;
   }),
 
+  getCountryRelationsByClientId: protectedProcedure
+    .input(
+      z.object({
+        clientId: z.number().min(1),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const listOfCountries = await ctx.db
+        .select()
+        .from(clients)
+        .innerJoin(
+          countriesToClients,
+          eq(countriesToClients.clientId, clients.id),
+        )
+        .where(eq(countriesToClients.clientId, input.clientId));
+      return listOfCountries;
+    }),
+
   //   addCountriesToClientRelation: protectedProcedure
   //     .input(
   //       z.object({
