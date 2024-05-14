@@ -16,6 +16,9 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+  images: {
+    domains: ["flagsapi.com"],
+  },
 };
 
 export default config;

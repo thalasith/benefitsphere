@@ -5,6 +5,7 @@ import Header from "~/components/Header";
 import { api } from "~/utils/api";
 import { Footer } from "~/components/Footer";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 
 export default function ClientManagement() {
   const { data: sessionData } = useSession();
@@ -19,7 +20,6 @@ export default function ClientManagement() {
     api.country.getCountryRelationsByClientId.useQuery({
       clientId: sessionData?.user?.activeClient ?? 0,
     });
-  console.log(clientCountries);
 
   return (
     <>
@@ -78,10 +78,27 @@ export default function ClientManagement() {
               </div>
             </div>
             <div className="mx-12 mt-4 grid grid-cols-3 gap-4">
-              <div className="">United States</div>
-              <div className="">Canada</div>
-              <div className="">Canada</div>
-              <div className="">Canada</div>
+              {clientCountries?.map((country) => (
+                <div
+                  key={country.code}
+                  className="flex rounded-md border border-slate-400 px-6 py-4 shadow-lg"
+                >
+                  <Image
+                    src={`https://flagsapi.com/${country.code}/flat/64.png`}
+                    className="mr-4"
+                    alt={country.country ?? "Country Flag"}
+                    width={50}
+                    height={50}
+                  />
+                  <div>
+                    <label className="block text-xs font-medium">Country</label>
+                    <h2 className="text-2xl font-semibold text-danger">
+                      {" "}
+                      {country.country}
+                    </h2>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </Container>
