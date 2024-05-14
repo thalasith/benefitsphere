@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import Container from "~/components/Container";
 import Header from "~/components/Header";
@@ -6,8 +6,18 @@ import { api } from "~/utils/api";
 import { Footer } from "~/components/Footer";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import { set } from "zod";
+
+type country = {
+  id: number;
+  country: string;
+  code: string;
+};
 
 export default function ClientManagement() {
+  const [clientCountries, setClientCountries] = useState<country[]>([]);
+  const [selectedCountry, setSelectedCountry] = useState<number>(0);
+  const [error, setError] = useState<string>("");
   const { data: sessionData } = useSession();
 
   const { data: clientData } = api.client.getClientDetailsById.useQuery({
@@ -16,11 +26,42 @@ export default function ClientManagement() {
 
   const { data: countries } = api.country.getCountries.useQuery();
 
-  const { data: clientCountries } =
+  const { data: clientServerCountries } =
     api.country.getCountryRelationsByClientId.useQuery({
       clientId: sessionData?.user?.activeClient ?? 0,
     });
 
+  useEffect(() => {
+    if (clientData && clientServerCountries) {
+      setClientCountries(clientServerCountries as country[]);
+    }
+  }, [clientData, clientServerCountries]);
+
+  const { mutate: addCountriesToClientRelation } =
+    api.country.addCountriesToClientRelation.useMutation();
+
+  console.log(clientCountries);
+
+  const handleAddCountriesToClient = () => {
+    if (!selectedCountry) {
+      setError("Please select a country");
+      return;
+    }
+
+    if (clientCountries.find((country) => country.id === selectedCountry)) {
+      setError("Country already added to client");
+      return;
+    }
+    setError("");
+    addCountriesToClientRelation({
+      countryId: selectedCountry,
+      clientId: sessionData?.user?.activeClient ?? 0,
+    });
+    setClientCountries([
+      ...clientCountries,
+      countries?.find((country) => country.id === selectedCountry) as country,
+    ]);
+  };
   return (
     <>
       <Head>
@@ -65,22 +106,31 @@ export default function ClientManagement() {
             <div className="mx-12 mt-4">
               <label className="block text-xs font-medium">Countries</label>
               <div className="px-2 py-2 font-semibold">
-                <select>
+                <select
+                  onChange={(e) => {
+                    setSelectedCountry(parseInt(e.target.value));
+                  }}
+                >
+                  <option value={0}>Select Country</option>
                   {countries?.map((country) => (
                     <option key={country.id} value={country.id}>
                       {country.country}
                     </option>
                   ))}
                 </select>
-                <button className="ml-4 rounded bg-primary px-2 py-1 text-white hover:bg-primary-lt">
+                <button
+                  className="ml-4 rounded bg-primary px-2 py-1 text-white hover:bg-primary-lt"
+                  onClick={() => handleAddCountriesToClient()}
+                >
                   Add Countries
                 </button>
               </div>
+              {error}
             </div>
             <div className="mx-12 mt-4 grid grid-cols-3 gap-4">
               {clientCountries?.map((country) => (
                 <div
-                  key={country.code}
+                  key={country.id}
                   className="flex rounded-md border border-slate-400 px-6 py-4 shadow-lg"
                 >
                   <Image

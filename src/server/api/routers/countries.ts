@@ -19,6 +19,7 @@ export const countryRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const listOfCountries = await ctx.db
         .select({
+          id: countries.id,
           country: countries.country,
           code: countries.code,
         })
@@ -28,17 +29,17 @@ export const countryRouter = createTRPCRouter({
       return listOfCountries;
     }),
 
-  //   addCountriesToClientRelation: protectedProcedure
-  //     .input(
-  //       z.object({
-  //         countryId: z.string().min(1),
-  //         clientId: z.number().min(1),
-  //       }),
-  //     )
-  //     .mutation(async ({ ctx, input }) => {
-  //       await ctx.db.insert(countriesToClients).values({
-  //         countryId: input.countryId,
-  //         clientId: input.clientId,
-  //       });
-  //     }),
+  addCountriesToClientRelation: protectedProcedure
+    .input(
+      z.object({
+        countryId: z.number().min(1),
+        clientId: z.number().min(1),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db.insert(countriesToClients).values({
+        countryId: input.countryId,
+        clientId: input.clientId,
+      });
+    }),
 });
