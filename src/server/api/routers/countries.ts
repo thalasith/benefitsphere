@@ -18,13 +18,13 @@ export const countryRouter = createTRPCRouter({
     )
     .query(async ({ ctx, input }) => {
       const listOfCountries = await ctx.db
-        .select()
-        .from(clients)
-        .innerJoin(
-          countriesToClients,
-          eq(countriesToClients.clientId, clients.id),
-        )
-        .where(eq(countriesToClients.clientId, input.clientId));
+        .select({
+          country: countries.country,
+          code: countries.code,
+        })
+        .from(countriesToClients)
+        .where(eq(countriesToClients.clientId, input.clientId))
+        .innerJoin(countries, eq(countries.id, countriesToClients.countryId));
       return listOfCountries;
     }),
 

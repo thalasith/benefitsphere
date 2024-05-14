@@ -9,9 +9,9 @@ import { api } from "~/utils/api";
 export default function CountryProfile() {
   const { data: sessionData, status } = useSession();
   const { clientId } = useRouter().query;
-  const { data: uploadData } = api.upload.hello.useQuery();
+  // const { data: uploadData } = api.upload.hello.useQuery();
 
-  console.log("uploadData", uploadData);
+  // console.log("uploadData", uploadData);
 
   return (
     <>
@@ -24,7 +24,7 @@ export default function CountryProfile() {
         <Header />
         <Container>
           Country Profile
-          <UploadButton
+          {/* <UploadButton
             endpoint="imageUploader"
             onClientUploadComplete={(res) => {
               // Do something with the response
@@ -35,7 +35,7 @@ export default function CountryProfile() {
               // Do something with the error.
               alert(`ERROR! ${error.message}`);
             }}
-          />
+          /> */}
         </Container>
       </main>
     </>
