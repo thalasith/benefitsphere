@@ -178,27 +178,29 @@ export default function EditRiskPlan() {
                       <tr className={planDetailsClass}>
                         <td className={tableClassBold}>Country</td>
                         <td className={tableClass}>
-                          <select
-                            className="w-1/5 rounded border border-slate-500"
-                            onChange={(e) => {
-                              setEditableRiskPlanDetails({
-                                ...editableRiskPlanDetails,
-                                country: e.target.value,
-                              });
-                            }}
-                          >
-                            {countries!.map((item, idx) => (
-                              <option
-                                key={idx}
-                                selected={
-                                  item.country ===
-                                  editableRiskPlanDetails.country
-                                }
-                              >
-                                {item.country}
-                              </option>
-                            ))}
-                          </select>
+                          {countries && (
+                            <select
+                              className="w-1/5 rounded border border-slate-500"
+                              onChange={(e) => {
+                                setEditableRiskPlanDetails({
+                                  ...editableRiskPlanDetails,
+                                  country: e.target.value,
+                                });
+                              }}
+                            >
+                              {countries!.map((item, idx) => (
+                                <option
+                                  key={idx}
+                                  selected={
+                                    item.country ===
+                                    editableRiskPlanDetails.country
+                                  }
+                                >
+                                  {item.country}
+                                </option>
+                              ))}
+                            </select>
+                          )}
                         </td>
                       </tr>
                       <tr className={planDetailsClass}>
