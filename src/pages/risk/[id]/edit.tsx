@@ -188,7 +188,7 @@ export default function EditRiskPlan() {
                                 });
                               }}
                             >
-                              {countries!.map((item, idx) => (
+                              {countries.map((item, idx) => (
                                 <option
                                   key={idx}
                                   selected={
