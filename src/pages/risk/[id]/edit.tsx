@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { api } from "~/utils/api";
 import Router from "next/router";
+import { useSession } from "next-auth/react";
 
 const tableClass = "text-left pl-2 py-2";
 const tableClassBold = "text-left pl-2 py-2 font-bold";
@@ -34,8 +35,6 @@ const eligibility = [
   "Management",
   "Executives",
 ];
-
-const countries = ["Canada", "USA", "UK", "Australia"];
 
 const currencies = ["CAD", "USD", "GBP", "AUD"];
 
@@ -104,6 +103,12 @@ export default function EditRiskPlan() {
   });
   const { id } = useRouter().query;
   const idString = typeof id === "string" ? id : "";
+  const { data: sessionData } = useSession();
+
+  const { data: countries } =
+    api.country.getCountryRelationsByClientId.useQuery({
+      clientId: sessionData?.user.activeClient ?? 0,
+    });
 
   const { data: riskPlanDetails } =
     api.riskPlan.getRiskPlanDetailsById.useQuery({
@@ -124,8 +129,6 @@ export default function EditRiskPlan() {
     riskPlanDetailsUpdate(editableRiskPlanDetails);
     Router.push(`/risk/${idString}`).catch((err) => console.log(err));
   };
-
-  console.log(editableRiskPlanDetails.intermediaryType);
 
   return (
     <>
@@ -184,14 +187,15 @@ export default function EditRiskPlan() {
                               });
                             }}
                           >
-                            {countries.map((item, idx) => (
+                            {countries!.map((item, idx) => (
                               <option
                                 key={idx}
                                 selected={
-                                  item === editableRiskPlanDetails.country
+                                  item.country ===
+                                  editableRiskPlanDetails.country
                                 }
                               >
-                                {item}
+                                {item.country}
                               </option>
                             ))}
                           </select>
