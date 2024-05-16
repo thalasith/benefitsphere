@@ -1,12 +1,23 @@
 import Head from "next/head";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import Header from "~/components/Header";
-import Container from "~/components/Container";
+import Image from "next/image";
+import PublicHeader from "~/components/PublicHeader";
+
+import WideContainer from "~/components/WideContainer";
+import { api } from "~/utils/api";
+import NarrowContainer from "~/components/NarrowContainer";
+import Link from "next/link";
 
 export default function Rewards() {
-  const { data: sessionData, status } = useSession();
   const { clientId } = useRouter().query;
+  const { data: clientData } = api.client.getClientNameByUrl.useQuery({
+    url: clientId as string,
+  });
+  const client_id = clientData?.id ?? 0;
+  const { data: clientCountries } =
+    api.country.getCountryRelationsByClientId.useQuery({
+      clientId: client_id,
+    });
 
   return (
     <>
@@ -16,11 +27,50 @@ export default function Rewards() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="text-primary">
-        <Header />
-        <Container>
-          <h1 className="text-4xl font-bold">Welcome!</h1>
-          <p>Test</p>
-        </Container>
+        <PublicHeader />
+        <WideContainer>
+          <div className="flex w-full">
+            <Image
+              src="/worktogether.jpg"
+              alt="Rewards"
+              width={500}
+              height={250}
+            />
+            <div className="px-4 ">
+              <h1 className="text-3xl font-bold">Welcome!</h1>
+              <p className="text-lg">
+                {clientData?.clientName} recognizes the importance of total
+                rewards and benefits in attracting, retaining, and engaging
+                employees. We are committed to providing a comprehensive and
+                competitive benefits package that offers flexibility and choice
+                to meet the diverse needs of our employees and their families.
+                <br />
+                <br />
+                Please select a country below to view the benefits available.
+              </p>
+            </div>
+          </div>
+        </WideContainer>
+        <NarrowContainer>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            {clientCountries?.map((country) => (
+              <Link
+                key={country.id}
+                className="flex justify-between rounded-md bg-white text-left shadow-md transition duration-300 ease-in-out hover:shadow-lg"
+                href={`/rewards/${clientId}/${country.country}`}
+              >
+                <h2 className="p-4 text-xl font-bold">{country.country}</h2>
+                <Image
+                  src={`https://flagsapi.com/${country.code}/flat/64.png`}
+                  className="mr-4 mt-1"
+                  alt={country.country ?? "Country Flag"}
+                  width={50}
+                  height={50}
+                />
+              </Link>
+            ))}
+          </div>
+        </NarrowContainer>
       </main>
     </>
   );

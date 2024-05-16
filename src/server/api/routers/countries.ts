@@ -1,7 +1,11 @@
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 
-import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "~/server/api/trpc";
 import { countries, clients, countriesToClients } from "~/server/db/schema";
 
 export const countryRouter = createTRPCRouter({
@@ -10,7 +14,7 @@ export const countryRouter = createTRPCRouter({
     return listOfCountries;
   }),
 
-  getCountryRelationsByClientId: protectedProcedure
+  getCountryRelationsByClientId: publicProcedure
     .input(
       z.object({
         clientId: z.number().min(1),

@@ -1,7 +1,11 @@
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 
-import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "~/server/api/trpc";
 import { clients, usersToClients, users } from "~/server/db/schema";
 
 export const clientRouter = createTRPCRouter({
@@ -83,6 +87,15 @@ export const clientRouter = createTRPCRouter({
         .select()
         .from(clients)
         .where(eq(clients.id, input.clientId));
+      return clientDetails[0];
+    }),
+  getClientNameByUrl: publicProcedure
+    .input(z.object({ url: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const clientDetails = await ctx.db
+        .select()
+        .from(clients)
+        .where(eq(clients.url, input.url));
       return clientDetails[0];
     }),
 });
