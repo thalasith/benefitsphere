@@ -95,39 +95,8 @@ export const authOptions: NextAuthOptions = {
         };
       }
 
-      // if (trigger === "update") {
-      //   const activeClient = (newSession as Session).activeClient;
-      //   console.log("activeClient", activeClient);
-
-      //   return newSession;
-      // }
-
-      // const id = user.id;
-
-      // const first = await db.query.users.findFirst({
-      //   where: (users, { eq }) => eq(users.id, id),
-      // });
-      // if (!first) {
-      //   return session;
-      // }
-      // return {
-      //   ...session,
-      //   user: {
-      //     ...session.user,
-      //     id: user.id,
-      //     userRoleType: first.userRoleType,
-      //     activeClient: first.activeClient,
-      //   },
-      // };
       return session;
     },
-    // session: ({ session, user }) => ({
-    //   ...session,
-    //   user: {
-    //     ...session.user,
-    //     id: user.id,
-    //   },
-    // }),
   },
   adapter: DrizzleAdapter(db, createTable) as Adapter,
   providers: [
@@ -150,9 +119,6 @@ export const authOptions: NextAuthOptions = {
      * @see https://next-auth.js.org/providers/github
      */
   ],
-  pages: {
-    signIn: "/sign_in",
-  },
 };
 
 /**
