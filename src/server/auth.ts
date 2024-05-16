@@ -98,6 +98,10 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
+  pages: {
+    signIn: "/sign_in",
+  },
+
   adapter: DrizzleAdapter(db, createTable) as Adapter,
   providers: [
     OktaProvider({
