@@ -6,7 +6,6 @@ import { api } from "~/utils/api";
 import { Footer } from "~/components/Footer";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { set } from "zod";
 
 type country = {
   id: number;
