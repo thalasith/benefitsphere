@@ -53,22 +53,31 @@ export default function Rewards() {
         </WideContainer>
         <NarrowContainer>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {clientCountries?.map((country) => (
-              <Link
-                key={country.id}
-                className="flex justify-between rounded-md bg-white text-left shadow-md transition duration-300 ease-in-out hover:shadow-lg"
-                href={`/rewards/${clientId ?? "test"}/${country.country ?? "test"}`}
-              >
-                <h2 className="p-4 text-xl font-bold">{country.country}</h2>
-                <Image
-                  src={`https://flagsapi.com/${country.code}/flat/64.png`}
-                  className="mr-4 mt-1"
-                  alt={country.country ?? "Country Flag"}
-                  width={50}
-                  height={50}
-                />
-              </Link>
-            ))}
+            {clientCountries?.map((country) => {
+              const clientIdString = Array.isArray(clientId)
+                ? clientId.join("")
+                : clientId ?? "";
+              const countryString = Array.isArray(country.country)
+                ? country.country.join("")
+                : country.country ?? "";
+
+              return (
+                <Link
+                  key={country.id}
+                  className="flex justify-between rounded-md bg-white text-left shadow-md transition duration-300 ease-in-out hover:shadow-lg"
+                  href={`/rewards/${clientIdString}/${countryString}`}
+                >
+                  <h2 className="p-4 text-xl font-bold">{country.country}</h2>
+                  <Image
+                    src={`https://flagsapi.com/${country.code}/flat/64.png`}
+                    className="mr-4 mt-1"
+                    alt={country.country ?? "Country Flag"}
+                    width={50}
+                    height={50}
+                  />
+                </Link>
+              );
+            })}
           </div>
         </NarrowContainer>
       </main>
