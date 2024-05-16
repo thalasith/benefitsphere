@@ -50,13 +50,14 @@ export const riskPlanRouter = createTRPCRouter({
       z.object({
         clientId: z.number(),
         planName: z.string().min(1),
-        mandated: z.boolean(),
+        country: z.string().min(1),
       }),
     )
     .mutation(async ({ ctx, input }) => {
       await ctx.db.insert(riskPlans).values({
         clientId: input.clientId,
         planName: input.planName,
+        country: input.country,
       });
     }),
 

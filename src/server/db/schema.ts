@@ -50,7 +50,7 @@ export const countriesRelations = relations(countries, ({ many }) => ({
 }));
 
 export const countriesToClients = createTable("countriesToClients", {
-  id: serial("id").notNull().primaryKey(),
+  id: serial("id").primaryKey().notNull(),
   countryId: integer("country_id")
     .notNull()
     .references(() => countries.id),

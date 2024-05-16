@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
@@ -6,12 +7,14 @@ import { Footer } from "~/components/Footer";
 import Header from "~/components/Header";
 import useClientSelector from "~/hooks/useClientSelector";
 import { api } from "~/utils/api";
+import { AddBenefitModal } from "~/components/AddBenefitModal";
 
 const tableClass = "text-left pl-2";
 const tableHeadClass = "text-left pl-2 py-2";
 const isLoading = (status: string) => status === "loading";
 
 export default function Dashboard() {
+  const [openModal, setOpenModal] = useState(false);
   const { data: sessionData, status: sessionStatus } = useSession();
   const { data: clientData, status: clientStatus } =
     api.client.getClientDetailsById.useQuery({
@@ -43,13 +46,20 @@ export default function Dashboard() {
         <Container>
           <div className="flex items-center justify-between">
             <h1 className="text-3xl font-bold">Benefit Homepage</h1>
-            <Link
+            <button
+              className="rounded bg-primary px-3 py-2 text-white hover:bg-primary-lt"
+              onClick={() => setOpenModal(true)}
+            >
+              Add Benefit
+            </button>
+            {/* <Link
               href="/add_benefit"
               className="rounded bg-primary px-3 py-2 text-white hover:bg-primary-lt"
             >
               Add Benefit
-            </Link>
+            </Link> */}
           </div>
+          <AddBenefitModal openModal={openModal} setOpenModal={setOpenModal} />
 
           <h2 className="my-4 block text-xl font-semibold ">Risk Plans</h2>
           <div>
@@ -66,7 +76,7 @@ export default function Dashboard() {
                 {riskPlans?.map((riskPlan) => (
                   <tr
                     key={riskPlan.field1}
-                    className="divide-x divide-white bg-slate-100"
+                    className="divide-x divide-white odd:bg-slate-100 even:bg-tertiary-lt"
                   >
                     <td className={tableClass}>{riskPlan.field2}</td>
                     <td className={tableClass}>{riskPlan.field3}</td>
