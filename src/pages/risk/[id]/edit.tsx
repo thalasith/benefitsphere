@@ -191,6 +191,7 @@ export default function EditRiskPlan() {
                         <td className={tableClass}>
                           {countries && editableRiskPlanDetails && (
                             <EditSelect
+                              placeholder={"Select a country"}
                               options={countries}
                               value={editableRiskPlanDetails.country}
                               setValue={(value) => {
@@ -207,6 +208,7 @@ export default function EditRiskPlan() {
                         <td className={tableClassBold}>Currency</td>
                         <td className={tableClass}>
                           <EditSelect
+                            placeholder={"Select a currency"}
                             options={currencies}
                             value={editableRiskPlanDetails.currency}
                             setValue={(value) => {
@@ -216,17 +218,6 @@ export default function EditRiskPlan() {
                               });
                             }}
                           />
-                        </td>
-                      </tr>
-                      <tr className={planDetailsClass}>
-                        <td className={tableClassBold}>
-                          Is this a supplemental group benefit?
-                        </td>
-                        <td className={tableClass}>
-                          <select className="w-1/5 rounded border border-slate-500">
-                            <option>Yes</option>
-                            <option>No</option>
-                          </select>
                         </td>
                       </tr>
                     </tbody>
@@ -250,102 +241,49 @@ export default function EditRiskPlan() {
                       <tr className="divide-x divide-white bg-slate-100">
                         <td className={tableClassBold}>Coverage Type</td>
                         <td className={tableClass}>
-                          <select
-                            className="w-1/5 rounded border border-slate-500"
-                            onChange={(e) => {
+                          <EditSelect
+                            placeholder="Select a coverage type"
+                            options={coverageTypes}
+                            value={editableRiskPlanDetails.coverageType}
+                            setValue={(value) => {
                               setEditableRiskPlanDetails({
                                 ...editableRiskPlanDetails,
-                                coverageType: e.target.value,
+                                coverageType: value,
                               });
                             }}
-                          >
-                            <option
-                              value=""
-                              disabled
-                              selected={
-                                editableRiskPlanDetails.coverageType === ""
-                              }
-                            >
-                              Select your option
-                            </option>
-                            {coverageTypes.map((item, idx) => (
-                              <option
-                                key={idx}
-                                selected={
-                                  item === editableRiskPlanDetails.coverageType
-                                }
-                              >
-                                {item}
-                              </option>
-                            ))}
-                          </select>
+                          />
                         </td>
                       </tr>
                       <tr className={designDetailsClass}>
                         <td className={tableClassBold}>Eligibility</td>
                         <td className={tableClass}>
-                          <select
-                            className="w-1/5 rounded border border-slate-500"
-                            onChange={(e) => {
+                          <EditSelect
+                            placeholder="Select an eligibility"
+                            options={eligibility}
+                            value={editableRiskPlanDetails.eligibility}
+                            setValue={(value) => {
                               setEditableRiskPlanDetails({
                                 ...editableRiskPlanDetails,
-                                eligibility: e.target.value,
+                                eligibility: value,
                               });
                             }}
-                          >
-                            <option
-                              value=""
-                              disabled
-                              selected={
-                                editableRiskPlanDetails.eligibility === ""
-                              }
-                            >
-                              Select an option
-                            </option>
-                            {eligibility.map((item, idx) => (
-                              <option key={idx}>{item}</option>
-                            ))}
-                          </select>
+                          />
                         </td>
                       </tr>
                       <tr className={designDetailsClass}>
                         <td className={tableClassBold}>Benefit Form</td>
                         <td className={tableClass}>
-                          <select
-                            className="w-1/5 rounded border border-slate-500"
-                            onChange={(e) => {
+                          <EditSelect
+                            placeholder="Select a benefit form"
+                            options={["Fixed Amount", "Salary Multiple"]}
+                            value={editableRiskPlanDetails.coverageForm}
+                            setValue={(value) => {
                               setEditableRiskPlanDetails({
                                 ...editableRiskPlanDetails,
-                                coverageForm: e.target.value,
+                                coverageForm: value,
                               });
                             }}
-                          >
-                            <option
-                              value=""
-                              disabled
-                              selected={
-                                editableRiskPlanDetails.coverageForm === ""
-                              }
-                            >
-                              Select an option
-                            </option>
-                            <option
-                              selected={
-                                "Fixed Amount" ===
-                                editableRiskPlanDetails.coverageForm
-                              }
-                            >
-                              Fixed Amount
-                            </option>
-                            <option
-                              selected={
-                                "Salary Multiple" ===
-                                editableRiskPlanDetails.coverageForm
-                              }
-                            >
-                              Salary Multiple
-                            </option>
-                          </select>
+                          />
                         </td>
                       </tr>
                       <tr className={designDetailsClass}>
@@ -891,12 +829,14 @@ export default function EditRiskPlan() {
 }
 
 type EditSelectProps = {
+  placeholder: string;
   options: string[];
   value: string;
   setValue: (value: string) => void;
 };
 
 const EditSelect: React.FC<EditSelectProps> = ({
+  placeholder,
   options,
   value,
   setValue,
@@ -909,7 +849,7 @@ const EditSelect: React.FC<EditSelectProps> = ({
       }}
     >
       <SelectTrigger className="w-48">
-        <SelectValue placeholder="Select a Country" />
+        <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
