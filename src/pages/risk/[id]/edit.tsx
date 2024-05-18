@@ -7,6 +7,15 @@ import { useEffect, useState } from "react";
 import { api } from "~/utils/api";
 import Router from "next/router";
 import { useSession } from "next-auth/react";
+import { DatePicker } from "~/components/DatePicker";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "~/components/ui/select";
 
 const tableClass = "text-left pl-2 py-2";
 const tableClassBold = "text-left pl-2 py-2 font-bold";
@@ -105,10 +114,12 @@ export default function EditRiskPlan() {
   const idString = typeof id === "string" ? id : "";
   const { data: sessionData } = useSession();
 
-  const { data: countries } =
+  const { data: countriesData } =
     api.country.getCountryRelationsByClientId.useQuery({
       clientId: sessionData?.user.activeClient ?? 0,
     });
+
+  const countries = countriesData?.map((item) => item.country ?? "");
 
   const { data: riskPlanDetails } =
     api.riskPlan.getRiskPlanDetailsById.useQuery({
@@ -178,28 +189,17 @@ export default function EditRiskPlan() {
                       <tr className={planDetailsClass}>
                         <td className={tableClassBold}>Country</td>
                         <td className={tableClass}>
-                          {countries && (
-                            <select
-                              className="w-1/5 rounded border border-slate-500"
-                              onChange={(e) => {
+                          {countries && editableRiskPlanDetails && (
+                            <EditSelect
+                              options={countries}
+                              value={editableRiskPlanDetails.country}
+                              setValue={(value) => {
                                 setEditableRiskPlanDetails({
                                   ...editableRiskPlanDetails,
-                                  country: e.target.value,
+                                  country: value,
                                 });
                               }}
-                            >
-                              {countries.map((item, idx) => (
-                                <option
-                                  key={idx}
-                                  selected={
-                                    item.country ===
-                                    editableRiskPlanDetails.country
-                                  }
-                                >
-                                  {item.country}
-                                </option>
-                              ))}
-                            </select>
+                            />
                           )}
                         </td>
                       </tr>
@@ -638,30 +638,23 @@ export default function EditRiskPlan() {
                         <td className={tableClassBold}>Policy Period</td>
                         <td className={tableClass}>
                           <div className="flex">
-                            <input
-                              type="date"
-                              className="rounded border border-slate-500 pl-2"
-                              value={editableRiskPlanDetails.policyStartDate
-                                .toISOString()
-                                .substr(0, 10)}
-                              onChange={(e) => {
+                            <DatePicker
+                              date={editableRiskPlanDetails.policyStartDate}
+                              setDate={(date) => {
                                 setEditableRiskPlanDetails({
                                   ...editableRiskPlanDetails,
-                                  policyStartDate: new Date(e.target.value),
+                                  policyStartDate: date,
                                 });
                               }}
                             />
-                            <p className="mx-2">to</p>
-                            <input
-                              type="date"
-                              className="rounded border border-slate-500 pl-2"
-                              value={editableRiskPlanDetails.policyEndDate
-                                .toISOString()
-                                .substr(0, 10)}
-                              onChange={(e) => {
+                            <p className="mx-2 mt-2"> to </p>
+
+                            <DatePicker
+                              date={editableRiskPlanDetails.policyEndDate}
+                              setDate={(date) => {
                                 setEditableRiskPlanDetails({
                                   ...editableRiskPlanDetails,
-                                  policyEndDate: new Date(e.target.value),
+                                  policyEndDate: date,
                                 });
                               }}
                             />
@@ -906,3 +899,37 @@ export default function EditRiskPlan() {
     </>
   );
 }
+
+type EditSelectProps = {
+  options: string[];
+  value: string;
+  setValue: (value: string) => void;
+};
+
+const EditSelect: React.FC<EditSelectProps> = ({
+  options,
+  value,
+  setValue,
+}) => {
+  return (
+    <Select
+      value={value}
+      onValueChange={(value) => {
+        setValue(value);
+      }}
+    >
+      <SelectTrigger className="w-48">
+        <SelectValue placeholder="Select a Country" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          {options.map((item, idx) => (
+            <SelectItem key={idx} value={item ?? ""}>
+              {item}
+            </SelectItem>
+          ))}
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+  );
+};
