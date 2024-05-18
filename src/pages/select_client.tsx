@@ -5,9 +5,18 @@ import type { ChangeEvent } from "react";
 import { useSession } from "next-auth/react";
 import { api } from "~/utils/api";
 import Router from "next/router";
-import Container from "~/components/Container";
+import Image from "next/image";
 import Header from "~/components/Header";
 import { Footer } from "~/components/Footer";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  SelectLabel,
+} from "~/components/ui/select";
 
 const SelectClient: NextPage = () => {
   const { data: sessionData, update: updateSession, status } = useSession();
@@ -55,8 +64,6 @@ const SelectClient: NextPage = () => {
     }
   };
 
-  console.log(sessionData);
-
   return (
     <>
       <Head>
@@ -64,33 +71,57 @@ const SelectClient: NextPage = () => {
         <meta name="description" content="Quadar - Select Client" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
+      <main className="text-primary">
         <Header />
-        <Container>
-          <div className="flex flex-col justify-center rounded-lg border-2 p-2">
-            <p className="py-2 text-sm">Please select a client</p>
-            <select
-              id="countries"
-              className="mt-2 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-              defaultValue={""}
-              onChange={(e) => handleChange(e)}
-            >
-              <option value="">Choose a client</option>
-              {clients?.map((client) => (
-                <option key={client.client.id} value={client.client.id}>
-                  {client.client.clientName}
-                </option>
-              ))}
-            </select>
-            <button
-              className="my-4 rounded p-1 py-2 "
-              onClick={() => handleSelect()}
-            >
-              {" "}
-              Select client
-            </button>
+        <div className="flex h-dvh items-center justify-center bg-gradient-to-br from-tertiary to-secondary p-6 pb-72 text-white">
+          <div className="flex w-1/2 justify-between rounded border border-gray-100 bg-white px-4 shadow-2xl">
+            <div className="m-auto flex flex-col pr-4">
+              <Image
+                src="/RobotKeyboard.png"
+                alt="Benefitsphere Logo"
+                width={500}
+                height={500}
+              />
+            </div>
+            <div className="bg-alert-lt mx-auto flex h-1/4 w-4/5 flex-col items-center rounded p-2 py-4">
+              <h2 className="pb-2 text-center text-2xl font-bold text-danger">
+                Select a client
+              </h2>
+
+              <Select
+                value={userClient ?? ""}
+                onValueChange={(value) => setUserClient(value)}
+              >
+                <SelectTrigger className="w-72 text-primary">
+                  <SelectValue placeholder="Select a client" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Select a client</SelectLabel>
+                    {clients?.map((client) => (
+                      <SelectItem
+                        key={client.client.id}
+                        value={client.client.id.toString()}
+                        onClick={() =>
+                          setUserClient(client.client.id.toString())
+                        }
+                      >
+                        {client.client.clientName}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+              <button
+                className="my-4 rounded bg-primary px-4 py-2 hover:bg-primary-lt"
+                onClick={() => handleSelect()}
+              >
+                {" "}
+                Select client
+              </button>
+            </div>
           </div>
-        </Container>
+        </div>
         <Footer />
       </main>
     </>
