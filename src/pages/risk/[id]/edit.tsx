@@ -16,6 +16,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
+import { Input } from "~/components/ui/input";
+import { Textarea } from "~/components/ui/textarea";
 
 const tableClass = "text-left pl-2 py-2";
 const tableClassBold = "text-left pl-2 py-2 font-bold";
@@ -60,6 +62,8 @@ const intermediaryRemunerationMethods = [
   "Flat Fee",
   "Other",
 ];
+
+const salaryDefinitions = ["Annual Base Salary", "Monthly Base Salary"];
 
 const intermediaryNames = [
   "Mercer Marsh Benefits",
@@ -297,18 +301,20 @@ export default function EditRiskPlan() {
                           {editableRiskPlanDetails.coverageForm ===
                             "Fixed Amount" && (
                             <div className="flex">
-                              <input
+                              <span className="mr-2 mt-2">
+                                {editableRiskPlanDetails.currency}{" "}
+                              </span>
+                              <EditInput
+                                placeholder="Enter a fixed amount"
                                 type="number"
-                                className="rounded border border-slate-500 px-1 py-0.5"
                                 value={
                                   editableRiskPlanDetails.coverageFixedAmount
                                 }
-                                onChange={(e) => {
+                                onChange={(value) => {
                                   setEditableRiskPlanDetails({
                                     ...editableRiskPlanDetails,
-                                    coverageFixedAmount: Number(e.target.value),
+                                    coverageFixedAmount: Number(value),
                                     coverageMultiple: 0,
-                                    coverageMultipleDuration: "",
                                   });
                                 }}
                               />
@@ -317,45 +323,33 @@ export default function EditRiskPlan() {
                           {editableRiskPlanDetails.coverageForm ===
                             "Salary Multiple" && (
                             <div className="flex">
-                              <input
+                              <EditInput
+                                placeholder="Enter a multiple"
                                 type="number"
-                                className="w-12 rounded border border-slate-500 px-1 py-0.5"
                                 value={editableRiskPlanDetails.coverageMultiple}
-                                onChange={(e) => {
+                                width="w-16"
+                                onChange={(value) => {
                                   setEditableRiskPlanDetails({
                                     ...editableRiskPlanDetails,
-                                    coverageMultiple: Number(e.target.value),
+                                    coverageMultiple: Number(value),
                                     coverageFixedAmount: 0,
                                   });
                                 }}
                               />
-                              <p className="ml-2">x</p>
-                              <select
-                                className="ml-2 w-1/5 rounded border border-slate-500 py-0.5"
-                                onChange={(e) => {
+                              <p className="px-2 pt-2">x</p>
+                              <EditSelect
+                                placeholder="Select a salary definition"
+                                options={salaryDefinitions}
+                                value={
+                                  editableRiskPlanDetails.coverageMultipleDuration
+                                }
+                                setValue={(value) => {
                                   setEditableRiskPlanDetails({
                                     ...editableRiskPlanDetails,
-                                    coverageMultipleDuration: e.target.value,
+                                    coverageMultipleDuration: value,
                                   });
                                 }}
-                              >
-                                <option
-                                  selected={
-                                    editableRiskPlanDetails.coverageMultipleDuration ===
-                                    "Annual Base Salary"
-                                  }
-                                >
-                                  Annual Base Salary
-                                </option>
-                                <option
-                                  selected={
-                                    editableRiskPlanDetails.coverageMultipleDuration ===
-                                    "Monthly Base Salary"
-                                  }
-                                >
-                                  Monthly Base Salary
-                                </option>
-                              </select>{" "}
+                              />
                             </div>
                           )}
                         </td>
@@ -363,35 +357,43 @@ export default function EditRiskPlan() {
                       <tr className={designDetailsClass}>
                         <td className={tableClassBold}>Non-evidence Limit</td>
                         <td className={tableClass}>
-                          CAD{" "}
-                          <input
-                            type="number"
-                            className="rounded border border-slate-500 px-1 py-0.5"
-                            value={editableRiskPlanDetails.nonEvidenceLimit}
-                            onChange={(e) => {
-                              setEditableRiskPlanDetails({
-                                ...editableRiskPlanDetails,
-                                nonEvidenceLimit: Number(e.target.value),
-                              });
-                            }}
-                          />
+                          <div className="flex">
+                            <span className="mr-2 mt-2">
+                              {editableRiskPlanDetails.currency}{" "}
+                            </span>
+                            <EditInput
+                              placeholder="Enter a non-evidence limit"
+                              type="number"
+                              value={editableRiskPlanDetails.nonEvidenceLimit}
+                              onChange={(value) => {
+                                setEditableRiskPlanDetails({
+                                  ...editableRiskPlanDetails,
+                                  nonEvidenceLimit: Number(value),
+                                });
+                              }}
+                            />
+                          </div>
                         </td>
                       </tr>
                       <tr className={designDetailsClass}>
                         <td className={tableClassBold}>Benefit Maximum</td>
                         <td className={tableClass}>
-                          CAD{" "}
-                          <input
-                            type="number"
-                            className="rounded border border-slate-500 px-1 py-0.5"
-                            value={editableRiskPlanDetails.coverageMaximum}
-                            onChange={(e) => {
-                              setEditableRiskPlanDetails({
-                                ...editableRiskPlanDetails,
-                                coverageMaximum: Number(e.target.value),
-                              });
-                            }}
-                          />
+                          <div className="flex">
+                            <span className="mr-2 mt-2">
+                              {editableRiskPlanDetails.currency}{" "}
+                            </span>
+                            <EditInput
+                              placeholder="Enter a benefit maximum"
+                              type="number"
+                              value={editableRiskPlanDetails.coverageMaximum}
+                              onChange={(value) => {
+                                setEditableRiskPlanDetails({
+                                  ...editableRiskPlanDetails,
+                                  coverageMaximum: Number(value),
+                                });
+                              }}
+                            />
+                          </div>
                         </td>
                       </tr>
                       <tr className={designDetailsClass}>
@@ -399,37 +401,17 @@ export default function EditRiskPlan() {
                           Employee Contribution
                         </td>
                         <td className={tableClass}>
-                          <select
-                            className="w-1/5 rounded border border-slate-500"
-                            onChange={(e) => {
+                          <EditSelect
+                            placeholder="Select an option"
+                            options={employeeContributionOptions}
+                            value={editableRiskPlanDetails.employeeContribution}
+                            setValue={(value) => {
                               setEditableRiskPlanDetails({
                                 ...editableRiskPlanDetails,
-                                employeeContribution: e.target.value,
+                                employeeContribution: value,
                               });
                             }}
-                          >
-                            <option
-                              value=""
-                              disabled
-                              selected={
-                                editableRiskPlanDetails.employeeContribution ===
-                                ""
-                              }
-                            >
-                              Select an option
-                            </option>
-                            {employeeContributionOptions.map((item, idx) => (
-                              <option
-                                key={idx}
-                                selected={
-                                  item ===
-                                  editableRiskPlanDetails.employeeContribution
-                                }
-                              >
-                                {item}
-                              </option>
-                            ))}
-                          </select>
+                          />
                           {editableRiskPlanDetails.employeeContribution ===
                             "Other" && (
                             <input
@@ -453,37 +435,17 @@ export default function EditRiskPlan() {
                           Employer Contribution
                         </td>
                         <td className={tableClass}>
-                          <select
-                            className="w-1/5 rounded border border-slate-500"
-                            onChange={(e) => {
+                          <EditSelect
+                            placeholder="Select an option"
+                            options={employerContributionOptions}
+                            value={editableRiskPlanDetails.employerContribution}
+                            setValue={(value) => {
                               setEditableRiskPlanDetails({
                                 ...editableRiskPlanDetails,
-                                employerContribution: e.target.value,
+                                employerContribution: value,
                               });
                             }}
-                          >
-                            <option
-                              value=""
-                              disabled
-                              selected={
-                                editableRiskPlanDetails.employerContribution ===
-                                ""
-                              }
-                            >
-                              Select an option
-                            </option>
-                            {employerContributionOptions.map((item, idx) => (
-                              <option
-                                key={idx}
-                                selected={
-                                  item ===
-                                  editableRiskPlanDetails.employerContribution
-                                }
-                              >
-                                {item}
-                              </option>
-                            ))}
-                          </select>
+                          />
                           {editableRiskPlanDetails.employerContribution ===
                             "Other" && (
                             <input
@@ -523,40 +485,30 @@ export default function EditRiskPlan() {
                       <tr className={financialDetailsClass}>
                         <td className={tableClassBold}>Insurer</td>
                         <td className={tableClass}>
-                          <select
-                            className="w-1/5 rounded border border-slate-500"
+                          <EditSelect
+                            placeholder="Select an insurer"
+                            options={insurers}
                             value={editableRiskPlanDetails.provider}
-                            onChange={(e) => {
+                            setValue={(value) => {
                               setEditableRiskPlanDetails({
                                 ...editableRiskPlanDetails,
-                                provider: e.target.value,
+                                provider: value,
                               });
                             }}
-                          >
-                            <option
-                              value=""
-                              disabled
-                              selected={editableRiskPlanDetails.provider === ""}
-                            >
-                              Select a provider
-                            </option>
-                            {insurers.map((item, idx) => (
-                              <option key={idx}>{item}</option>
-                            ))}
-                          </select>
+                          />
                         </td>
                       </tr>
                       <tr className={financialDetailsClass}>
                         <td className={tableClassBold}>Policy Number</td>
                         <td className={tableClass}>
-                          <input
+                          <EditInput
+                            placeholder="Enter a policy number"
                             type="text"
-                            className="w-2/5 rounded border border-slate-500 pl-2"
                             value={editableRiskPlanDetails.policyNumber}
-                            onChange={(e) => {
+                            onChange={(value) => {
                               setEditableRiskPlanDetails({
                                 ...editableRiskPlanDetails,
-                                policyNumber: e.target.value,
+                                policyNumber: value,
                               });
                             }}
                           />
@@ -592,42 +544,30 @@ export default function EditRiskPlan() {
                       <tr className={financialDetailsClass}>
                         <td className={tableClassBold}>Intermediaries</td>
                         <td className={tableClass}>
-                          <select
-                            className="w-1/5 rounded border border-slate-500"
+                          <EditSelect
+                            placeholder="Select a provider"
+                            options={intermediaryTypes}
                             value={editableRiskPlanDetails.intermediaryType}
-                            onChange={(e) => {
+                            setValue={(value) => {
                               setEditableRiskPlanDetails({
                                 ...editableRiskPlanDetails,
-                                intermediaryType: e.target.value,
+                                intermediaryType: value,
                               });
                             }}
-                          >
-                            <option
-                              value=""
-                              disabled
-                              selected={
-                                editableRiskPlanDetails.intermediaryType === ""
-                              }
-                            >
-                              Select a provider
-                            </option>
-                            {intermediaryTypes.map((item, idx) => (
-                              <option key={idx}>{item}</option>
-                            ))}
-                          </select>
+                          />
                         </td>
                       </tr>
                       <tr className={financialDetailsClass}>
                         <td className={tableClassBold}>Intermediary</td>
                         <td className={tableClass}>
-                          <input
-                            type="text"
-                            className="w-2/5 rounded border border-slate-500 pl-2"
+                          <EditSelect
+                            placeholder="Select an intermediary"
+                            options={intermediaryNames}
                             value={editableRiskPlanDetails.intermediaryName}
-                            onChange={(e) => {
+                            setValue={(value) => {
                               setEditableRiskPlanDetails({
                                 ...editableRiskPlanDetails,
-                                intermediaryName: e.target.value,
+                                intermediaryName: value,
                               });
                             }}
                           />
@@ -636,107 +576,102 @@ export default function EditRiskPlan() {
                       <tr className={financialDetailsClass}>
                         <td className={tableClassBold}>Remuneration Method</td>
                         <td className={tableClass}>
-                          <select
-                            className="w-1/5 rounded border border-slate-500"
+                          <EditSelect
+                            placeholder="Select a method"
+                            options={intermediaryRemunerationMethods}
                             value={
                               editableRiskPlanDetails.intermediaryRemunerationMethod
                             }
-                            onChange={(e) => {
+                            setValue={(value) => {
                               setEditableRiskPlanDetails({
                                 ...editableRiskPlanDetails,
-                                intermediaryRemunerationMethod: e.target.value,
+                                intermediaryRemunerationMethod: value,
                               });
                             }}
-                          >
-                            <option
-                              value=""
-                              disabled
-                              selected={
-                                editableRiskPlanDetails.intermediaryRemunerationMethod ===
-                                ""
-                              }
-                            >
-                              {" "}
-                              Select a remuneration method
-                            </option>
-                            {intermediaryRemunerationMethods.map(
-                              (item, idx) => (
-                                <option key={idx}>{item}</option>
-                              ),
-                            )}
-                          </select>
+                          />
                         </td>
                       </tr>
                       <tr className={financialDetailsClass}>
                         <td className={tableClassBold}>Remuneration Amount</td>
                         <td className={tableClass}>
                           <div className="flex">
-                            <input
+                            <EditInput
+                              placeholder="Enter a commission"
+                              width="w-16"
                               type="number"
-                              className="w-12 rounded border border-slate-500 pl-2"
                               value={
                                 editableRiskPlanDetails.intermediaryRemunerationCommission
                               }
-                              onChange={(e) => {
+                              onChange={(value) => {
                                 setEditableRiskPlanDetails({
                                   ...editableRiskPlanDetails,
-                                  intermediaryRemunerationCommission: Number(
-                                    e.target.value,
-                                  ),
+                                  intermediaryRemunerationCommission:
+                                    Number(value),
                                 });
                               }}
-                            />{" "}
-                            <p className="pl-2">% of premiums</p>
+                            />
+                            <p className="pl-2 pt-2">% of premiums</p>
                           </div>
                         </td>
                       </tr>
                       <tr className={financialDetailsClass}>
                         <td className={tableClassBold}>Total Sum Insured</td>
                         <td className={tableClass}>
-                          CAD{" "}
-                          <input
-                            type="number"
-                            className="rounded border border-slate-500 pl-2"
-                            value={editableRiskPlanDetails.totalSumInsured}
-                            onChange={(e) => {
-                              setEditableRiskPlanDetails({
-                                ...editableRiskPlanDetails,
-                                totalSumInsured: Number(e.target.value),
-                              });
-                            }}
-                          />
+                          <div className="flex">
+                            <span className="mr-2 mt-2">
+                              {editableRiskPlanDetails.currency}{" "}
+                            </span>
+                            <EditInput
+                              placeholder="Enter a total sum insured"
+                              type="number"
+                              value={editableRiskPlanDetails.totalSumInsured}
+                              onChange={(value) => {
+                                setEditableRiskPlanDetails({
+                                  ...editableRiskPlanDetails,
+                                  totalSumInsured: Number(value),
+                                });
+                              }}
+                              width="w-48"
+                            />
+                          </div>
                         </td>
                       </tr>
                       <tr className={financialDetailsClass}>
                         <td className={tableClassBold}>Total Premiums</td>
                         <td className={tableClass}>
-                          CAD{" "}
-                          <input
-                            type="number"
-                            className="rounded border border-slate-500 pl-2"
-                            value={editableRiskPlanDetails.totalPremium}
-                            onChange={(e) => {
-                              setEditableRiskPlanDetails({
-                                ...editableRiskPlanDetails,
-                                totalPremium: Number(e.target.value),
-                              });
-                            }}
-                          />
+                          <div className="flex">
+                            <span className="mr-2 mt-2">
+                              {editableRiskPlanDetails.currency}{" "}
+                            </span>
+                            <EditInput
+                              placeholder="Enter a total premium"
+                              type="number"
+                              value={editableRiskPlanDetails.totalPremium}
+                              onChange={(value) => {
+                                setEditableRiskPlanDetails({
+                                  ...editableRiskPlanDetails,
+                                  totalPremium: Number(value),
+                                });
+                              }}
+                              width="w-48"
+                            />
+                          </div>
                         </td>
                       </tr>
                       <tr className={financialDetailsClass}>
                         <td className={tableClassBold}>Headcount</td>
                         <td className={tableClass}>
-                          <input
+                          <EditInput
+                            placeholder="Enter a headcount"
                             type="number"
-                            className="rounded border border-slate-500 pl-2"
                             value={editableRiskPlanDetails.headcount}
-                            onChange={(e) => {
+                            onChange={(value) => {
                               setEditableRiskPlanDetails({
                                 ...editableRiskPlanDetails,
-                                headcount: Number(e.target.value),
+                                headcount: Number(value),
                               });
                             }}
+                            width="w-60"
                           />
                         </td>
                       </tr>
@@ -767,9 +702,8 @@ export default function EditRiskPlan() {
                       <tr className={adminDetailsClass}>
                         <td className={tableClassBold}>Invoicing</td>
                         <td className={tableClass}>
-                          <textarea
-                            className="w-3/5 rounded border border-slate-500 pl-2"
-                            rows={3}
+                          <Textarea
+                            className="w-96"
                             value={editableRiskPlanDetails.invoicingDescription}
                             onChange={(e) => {
                               setEditableRiskPlanDetails({
@@ -783,9 +717,8 @@ export default function EditRiskPlan() {
                       <tr className={adminDetailsClass}>
                         <td className={tableClassBold}>Employee Enrollment</td>
                         <td className={tableClass}>
-                          <textarea
-                            className="w-3/5 rounded border border-slate-500 pl-2"
-                            rows={3}
+                          <Textarea
+                            className="w-96"
                             value={
                               editableRiskPlanDetails.employeeEnrollmentDescription
                             }
@@ -801,9 +734,8 @@ export default function EditRiskPlan() {
                       <tr className={adminDetailsClass}>
                         <td className={tableClassBold}>Employee Termination</td>
                         <td className={tableClass}>
-                          <textarea
-                            className="w-3/5 rounded border border-slate-500 pl-2"
-                            rows={3}
+                          <Textarea
+                            className="w-96"
                             value={
                               editableRiskPlanDetails.employeeTerminationDescription
                             }
@@ -861,5 +793,31 @@ const EditSelect: React.FC<EditSelectProps> = ({
         </SelectGroup>
       </SelectContent>
     </Select>
+  );
+};
+
+type EditInputProps = {
+  placeholder: string;
+  type: string;
+  value: string | number;
+  onChange: (value: string) => void;
+  width?: string;
+};
+
+const EditInput: React.FC<EditInputProps> = ({
+  placeholder,
+  type,
+  value,
+  onChange,
+  width,
+}) => {
+  return (
+    <Input
+      type={type}
+      placeholder={placeholder}
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      className={width ?? "w-96"}
+    />
   );
 };
