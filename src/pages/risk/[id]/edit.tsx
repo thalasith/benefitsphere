@@ -206,26 +206,16 @@ export default function EditRiskPlan() {
                       <tr className={planDetailsClass}>
                         <td className={tableClassBold}>Currency</td>
                         <td className={tableClass}>
-                          <select
-                            className="w-1/5 rounded border border-slate-500"
-                            onChange={(e) => {
+                          <EditSelect
+                            options={currencies}
+                            value={editableRiskPlanDetails.currency}
+                            setValue={(value) => {
                               setEditableRiskPlanDetails({
                                 ...editableRiskPlanDetails,
-                                currency: e.target.value,
+                                currency: value,
                               });
                             }}
-                          >
-                            {currencies.map((item, idx) => (
-                              <option
-                                key={idx}
-                                selected={
-                                  item === editableRiskPlanDetails.currency
-                                }
-                              >
-                                {item}
-                              </option>
-                            ))}
-                          </select>
+                          />
                         </td>
                       </tr>
                       <tr className={planDetailsClass}>

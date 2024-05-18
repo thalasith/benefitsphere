@@ -10,7 +10,7 @@ import { Calendar } from "./ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 
 type DatePickerProps = {
-  date: Date;
+  date: Date | null;
   setDate: (date: Date) => void;
 };
 
@@ -33,7 +33,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({ date, setDate }) => {
       <PopoverContent className="w-auto p-0 text-primary">
         <Calendar
           mode="single"
-          selected={date}
+          selected={date!}
           onSelect={(e) => setDate(e as Date)}
           initialFocus
         />
