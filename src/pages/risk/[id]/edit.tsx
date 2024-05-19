@@ -8,16 +8,9 @@ import { api } from "~/utils/api";
 import Router from "next/router";
 import { useSession } from "next-auth/react";
 import { DatePicker } from "~/components/DatePicker";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "~/components/ui/select";
 import { Input } from "~/components/ui/input";
 import { Textarea } from "~/components/ui/textarea";
+import { CustomSelect } from "~/components/CustomSelect";
 
 const tableClass = "text-left pl-2 py-2";
 const tableClassBold = "text-left pl-2 py-2 font-bold";
@@ -194,7 +187,7 @@ export default function EditRiskPlan() {
                         <td className={tableClassBold}>Country</td>
                         <td className={tableClass}>
                           {countries && editableRiskPlanDetails && (
-                            <EditSelect
+                            <CustomSelect
                               placeholder={"Select a country"}
                               options={countries}
                               value={editableRiskPlanDetails.country}
@@ -211,7 +204,7 @@ export default function EditRiskPlan() {
                       <tr className={planDetailsClass}>
                         <td className={tableClassBold}>Currency</td>
                         <td className={tableClass}>
-                          <EditSelect
+                          <CustomSelect
                             placeholder={"Select a currency"}
                             options={currencies}
                             value={editableRiskPlanDetails.currency}
@@ -245,7 +238,7 @@ export default function EditRiskPlan() {
                       <tr className="divide-x divide-white bg-slate-100">
                         <td className={tableClassBold}>Coverage Type</td>
                         <td className={tableClass}>
-                          <EditSelect
+                          <CustomSelect
                             placeholder="Select a coverage type"
                             options={coverageTypes}
                             value={editableRiskPlanDetails.coverageType}
@@ -261,7 +254,7 @@ export default function EditRiskPlan() {
                       <tr className={designDetailsClass}>
                         <td className={tableClassBold}>Eligibility</td>
                         <td className={tableClass}>
-                          <EditSelect
+                          <CustomSelect
                             placeholder="Select an eligibility"
                             options={eligibility}
                             value={editableRiskPlanDetails.eligibility}
@@ -277,7 +270,7 @@ export default function EditRiskPlan() {
                       <tr className={designDetailsClass}>
                         <td className={tableClassBold}>Benefit Form</td>
                         <td className={tableClass}>
-                          <EditSelect
+                          <CustomSelect
                             placeholder="Select a benefit form"
                             options={["Fixed Amount", "Salary Multiple"]}
                             value={editableRiskPlanDetails.coverageForm}
@@ -337,7 +330,7 @@ export default function EditRiskPlan() {
                                 }}
                               />
                               <p className="px-2 pt-2">x</p>
-                              <EditSelect
+                              <CustomSelect
                                 placeholder="Select a salary definition"
                                 options={salaryDefinitions}
                                 value={
@@ -401,7 +394,7 @@ export default function EditRiskPlan() {
                           Employee Contribution
                         </td>
                         <td className={tableClass}>
-                          <EditSelect
+                          <CustomSelect
                             placeholder="Select an option"
                             options={employeeContributionOptions}
                             value={editableRiskPlanDetails.employeeContribution}
@@ -435,7 +428,7 @@ export default function EditRiskPlan() {
                           Employer Contribution
                         </td>
                         <td className={tableClass}>
-                          <EditSelect
+                          <CustomSelect
                             placeholder="Select an option"
                             options={employerContributionOptions}
                             value={editableRiskPlanDetails.employerContribution}
@@ -485,7 +478,7 @@ export default function EditRiskPlan() {
                       <tr className={financialDetailsClass}>
                         <td className={tableClassBold}>Insurer</td>
                         <td className={tableClass}>
-                          <EditSelect
+                          <CustomSelect
                             placeholder="Select an insurer"
                             options={insurers}
                             value={editableRiskPlanDetails.provider}
@@ -544,7 +537,7 @@ export default function EditRiskPlan() {
                       <tr className={financialDetailsClass}>
                         <td className={tableClassBold}>Intermediaries</td>
                         <td className={tableClass}>
-                          <EditSelect
+                          <CustomSelect
                             placeholder="Select a provider"
                             options={intermediaryTypes}
                             value={editableRiskPlanDetails.intermediaryType}
@@ -560,7 +553,7 @@ export default function EditRiskPlan() {
                       <tr className={financialDetailsClass}>
                         <td className={tableClassBold}>Intermediary</td>
                         <td className={tableClass}>
-                          <EditSelect
+                          <CustomSelect
                             placeholder="Select an intermediary"
                             options={intermediaryNames}
                             value={editableRiskPlanDetails.intermediaryName}
@@ -576,7 +569,7 @@ export default function EditRiskPlan() {
                       <tr className={financialDetailsClass}>
                         <td className={tableClassBold}>Remuneration Method</td>
                         <td className={tableClass}>
-                          <EditSelect
+                          <CustomSelect
                             placeholder="Select a method"
                             options={intermediaryRemunerationMethods}
                             value={
@@ -759,42 +752,6 @@ export default function EditRiskPlan() {
     </>
   );
 }
-
-type EditSelectProps = {
-  placeholder: string;
-  options: string[];
-  value: string;
-  setValue: (value: string) => void;
-};
-
-const EditSelect: React.FC<EditSelectProps> = ({
-  placeholder,
-  options,
-  value,
-  setValue,
-}) => {
-  return (
-    <Select
-      value={value}
-      onValueChange={(value) => {
-        setValue(value);
-      }}
-    >
-      <SelectTrigger className="w-48">
-        <SelectValue placeholder={placeholder} />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectGroup>
-          {options.map((item, idx) => (
-            <SelectItem key={idx} value={item ?? ""}>
-              {item}
-            </SelectItem>
-          ))}
-        </SelectGroup>
-      </SelectContent>
-    </Select>
-  );
-};
 
 type EditInputProps = {
   placeholder: string;

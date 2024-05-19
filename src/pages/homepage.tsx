@@ -20,10 +20,13 @@ export default function Dashboard() {
     api.client.getClientDetailsById.useQuery({
       clientId: sessionData?.user.activeClient ?? 0,
     });
-  const { data: riskPlans, status: riskStatus } =
-    api.riskPlan.getRiskPlansByClientId.useQuery({
-      clientId: sessionData?.user.activeClient ?? 0,
-    });
+  const {
+    data: riskPlans,
+    status: riskStatus,
+    refetch: refetchRiskPlans,
+  } = api.riskPlan.getRiskPlansByClientId.useQuery({
+    clientId: sessionData?.user.activeClient ?? 0,
+  });
 
   useClientSelector();
   if (
@@ -46,20 +49,8 @@ export default function Dashboard() {
         <Container>
           <div className="flex items-center justify-between">
             <h1 className="text-3xl font-bold">Benefit Homepage</h1>
-            <button
-              className="rounded bg-primary px-3 py-2 text-white hover:bg-primary-lt"
-              onClick={() => setOpenModal(true)}
-            >
-              Add Benefit
-            </button>
-            {/* <Link
-              href="/add_benefit"
-              className="rounded bg-primary px-3 py-2 text-white hover:bg-primary-lt"
-            >
-              Add Benefit
-            </Link> */}
+            <AddBenefitModal />
           </div>
-          <AddBenefitModal openModal={openModal} setOpenModal={setOpenModal} />
 
           <h2 className="my-4 block text-xl font-semibold ">Risk Plans</h2>
           <div>
