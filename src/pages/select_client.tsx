@@ -56,7 +56,7 @@ const SelectClient: NextPage = () => {
         activeClient: parseInt(userClient),
       });
 
-      void Router.push("/").catch((err) => {
+      void Router.push("/homepage").catch((err) => {
         console.log(err);
       });
     } catch (error) {
@@ -71,19 +71,19 @@ const SelectClient: NextPage = () => {
         <meta name="description" content="Quadar - Select Client" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="text-primary">
+      <main className="relative text-primary">
         <Header />
-        <div className="flex h-dvh items-center justify-center bg-gradient-to-br from-tertiary to-secondary p-6 pb-72 text-white">
+        <div className=" flex h-dvh items-center justify-center bg-gradient-to-br from-tertiary to-secondary p-6 pb-72 text-white">
           <div className="flex w-1/2 justify-between rounded border border-gray-100 bg-white px-4 shadow-2xl">
-            <div className="m-auto flex flex-col pr-4">
+            <div className="flex flex-col ">
               <Image
-                src="/RobotKeyboard.png"
-                alt="Benefitsphere Logo"
-                width={500}
-                height={500}
+                src="/Crayons.png"
+                alt="Crayons"
+                width={400}
+                height={300}
               />
             </div>
-            <div className="bg-alert-lt mx-auto flex h-1/4 w-4/5 flex-col items-center rounded p-2 py-4">
+            <div className="flex h-1/4 w-4/5 flex-col items-center rounded p-2 py-4">
               <h2 className="pb-2 text-center text-2xl font-bold text-danger">
                 Select a client
               </h2>
@@ -121,7 +121,11 @@ const SelectClient: NextPage = () => {
               </button>
             </div>
           </div>
+          <div className="absolute bottom-24 right-0">
+            <Image src="/RedDoor.png" alt="Red Door" width={500} height={300} />
+          </div>
         </div>
+
         <Footer />
       </main>
     </>

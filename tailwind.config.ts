@@ -21,9 +21,9 @@ const config = {
       colors: {
         primary: "#1B386D",
         "primary-lt": "#41587A",
-        secondary: "#00AB4E",
+        secondary: "#01AB40",
         "secondary-lt": "#D6F3ED",
-        tertiary: "#0198D8",
+        tertiary: "#019DE0",
         "tertiary-lt": "#C6EDFF",
         "tertiary-dk": "#0164AC",
         danger: "#EE3C8C",

@@ -68,7 +68,7 @@ export default function Header() {
   return (
     <header className="fixed w-full bg-white text-sm text-primary">
       <nav
-        className="mx-auto flex max-w-9xl items-center justify-between p-6 lg:px-8"
+        className=" max-w-9xl flex items-center justify-between p-6 lg:px-8"
         aria-label="Global"
       >
         <div className="flex items-end lg:flex-1">
