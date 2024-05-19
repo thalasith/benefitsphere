@@ -8,14 +8,14 @@ import NarrowContainer from "~/components/NarrowContainer";
 import Link from "next/link";
 
 export default function Rewards() {
-  const { clientId } = useRouter().query;
+  const { clientUrl } = useRouter().query;
   const { data: clientData } = api.client.getClientNameByUrl.useQuery({
-    url: clientId as string,
+    url: clientUrl as string,
   });
-  const client_id = clientData?.id ?? 0;
+  const clientId = clientData?.id ?? 0;
   const { data: clientCountries } =
     api.country.getCountryRelationsByClientId.useQuery({
-      clientId: client_id,
+      clientId: clientId,
     });
 
   return (

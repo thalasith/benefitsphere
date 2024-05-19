@@ -46,4 +46,18 @@ export const countryRouter = createTRPCRouter({
         clientId: input.clientId,
       });
     }),
+  getCountryByName: publicProcedure
+    .input(
+      z.object({
+        country: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const country = await ctx.db
+        .select()
+        .from(countries)
+        .where(eq(countries.country, input.country));
+
+      return country[0];
+    }),
 });
