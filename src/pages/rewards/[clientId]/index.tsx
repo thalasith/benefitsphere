@@ -2,7 +2,6 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import PublicHeader from "~/components/PublicHeader";
-
 import WideContainer from "~/components/WideContainer";
 import { api } from "~/utils/api";
 import NarrowContainer from "~/components/NarrowContainer";

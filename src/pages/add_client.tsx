@@ -1,6 +1,5 @@
 import Head from "next/head";
 import { useState } from "react";
-import { AddClientContainer } from "~/components/AddClientContainer";
 import { useSession } from "next-auth/react";
 import Router from "next/router";
 import { api } from "~/utils/api";
@@ -14,7 +13,6 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-  SelectLabel,
 } from "~/components/ui/select";
 import { Input } from "~/components/ui/input";
 

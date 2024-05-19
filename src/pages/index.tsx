@@ -2,7 +2,6 @@ import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { Footer } from "~/components/Footer";
 import Header from "~/components/Header";
-import { api } from "~/utils/api";
 
 export default function Home() {
   const { data: sessionData, status } = useSession();
@@ -21,7 +20,7 @@ export default function Home() {
 
       <main className="text-primary ">
         <Header />
-        <div className="from-tertiary to-danger flex h-dvh items-center justify-between bg-gradient-to-b p-6 text-white">
+        <div className="flex h-dvh items-center justify-between bg-gradient-to-b from-tertiary to-danger p-6 text-white">
           <h1 className="m-auto text-center text-6xl font-bold">
             Welcome to Benefitsphere
           </h1>
