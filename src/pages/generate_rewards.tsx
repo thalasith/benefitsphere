@@ -47,16 +47,9 @@ export default function GenerateRewards() {
   const handleGenerateTest = async () => {
     try {
       console.log("Generating test...");
-      const test = await generateTest
-        .mutateAsync({
-          question: "What is the best programming language?",
-        })
-        .catch((error) => {
-          console.error(error);
-        })
-        .then((res) => {
-          console.log(res);
-        });
+      const test = await generateTest.mutateAsync({
+        question: "What is the best programming language?",
+      });
       console.log(test);
     } catch (error) {
       console.error(error);
