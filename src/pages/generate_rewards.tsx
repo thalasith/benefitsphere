@@ -53,6 +53,9 @@ export default function GenerateRewards() {
         })
         .catch((error) => {
           console.error(error);
+        })
+        .then((res) => {
+          console.log(res);
         });
       console.log(test);
     } catch (error) {
