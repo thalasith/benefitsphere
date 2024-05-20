@@ -36,7 +36,7 @@ export default function GenerateRewards() {
       { country: country },
       { enabled: false }, // Disabled by default
     );
-  console.log(chosenPlans);
+
   const fetchRiskPlans = async () => {
     try {
       await refetchRiskPlans();
@@ -47,11 +47,12 @@ export default function GenerateRewards() {
 
   useEffect(() => {
     if (step === 2) {
+      setLoading(true);
       fetchRiskPlans()
         .catch(console.error)
-        .then(() => setLoading(false));
+        .finally(() => setLoading(false));
     }
-  }, [step, refetchRiskPlans]);
+  }, [step]);
 
   const handleGenerateTest = async () => {
     try {
@@ -127,10 +128,7 @@ export default function GenerateRewards() {
                       <TableCell>
                         <Checkbox
                           className="text-center"
-                          onCheckedChange={
-                            () => handleBoxCheck(riskPlan.id)
-                            // handleBoxCheck(riskPlan.id)
-                          }
+                          onCheckedChange={() => handleBoxCheck(riskPlan.id)}
                         />
                       </TableCell>
                     </TableRow>
