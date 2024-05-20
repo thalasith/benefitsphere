@@ -102,4 +102,24 @@ export const riskPlanRouter = createTRPCRouter({
         .set(input)
         .where(eq(riskPlans.id, input.id));
     }),
+
+  getRiskPlanDetailsByCountry: protectedProcedure
+    .input(
+      z.object({
+        country: z.string().min(1),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const riskPlansSummary = await ctx.db
+        .select({
+          id: riskPlans.id,
+          country: riskPlans.country,
+          coverageType: riskPlans.coverageType,
+          planName: riskPlans.planName,
+        })
+        .from(riskPlans)
+        .where(eq(riskPlans.country, input.country));
+
+      return riskPlansSummary;
+    }),
 });
