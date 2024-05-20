@@ -37,17 +37,19 @@ export default function GenerateRewards() {
       { enabled: false }, // Disabled by default
     );
   console.log(chosenPlans);
+  const fetchRiskPlans = async () => {
+    try {
+      await refetchRiskPlans();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
-    const fetchRiskPlans = async () => {
-      try {
-        await refetchRiskPlans();
-      } catch (error) {
-        console.error(error);
-      }
-    };
     if (step === 2) {
-      fetchRiskPlans();
+      fetchRiskPlans()
+        .catch(console.error)
+        .then(() => setLoading(false));
     }
   }, [step, refetchRiskPlans]);
 
