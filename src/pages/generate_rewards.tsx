@@ -58,7 +58,7 @@ export default function GenerateRewards() {
     try {
       console.log("Generating test...");
       const test = await generateTest.mutateAsync({
-        question: "What is the best programming language?",
+        planIds: chosenPlans,
       });
       console.log(test);
     } catch (error) {
@@ -135,7 +135,10 @@ export default function GenerateRewards() {
                   ))}
                 </TableBody>
               </Table>
-              <Button onClick={() => setStep(3)} className="mt-4 bg-primary">
+              <Button
+                onClick={() => handleGenerateTest()}
+                className="mt-4 bg-primary"
+              >
                 Next
               </Button>
             </div>

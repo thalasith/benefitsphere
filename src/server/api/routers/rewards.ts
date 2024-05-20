@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { eq, inArray } from "drizzle-orm";
 import { z } from "zod";
 import { generateText, generateObject } from "ai";
 import { openai } from "@ai-sdk/openai";
@@ -15,33 +15,31 @@ export const rewardsRouter = createTRPCRouter({
   createTest: protectedProcedure
     .input(
       z.object({
-        question: z.string().min(1),
+        planIds: z.array(z.number()),
       }),
     )
     .mutation(async ({ ctx, input }) => {
       try {
+        const riskPlanData = await ctx.db
+          .select()
+          .from(riskPlans)
+          .where(inArray(riskPlans.id, input.planIds));
+
+        // return riskPlanData;
+        console.log("Generating test...");
+
+        const prompt = `Generate an employee facing description for all the plans selected here where the benefit is ${JSON.stringify(riskPlanData)}`;
+
         const { object } = await generateObject({
           model,
           schema: z.object({
-            recipe: z.object({
-              name: z.string(),
-              ingredients: z.array(
-                z.object({
-                  name: z.string(),
-                  amount: z.string(),
-                }),
-              ),
-              steps: z.array(z.string()),
-            }),
+            clientId: z.number(),
+            employeeFacingDescription: z.string(),
           }),
-          prompt: "Generate a lasagna recipe.",
+          prompt: prompt,
         });
+        console.log(object);
         return { object };
-        // const riskPlanData = await ctx.db
-        //   .select()
-        //   .from(riskPlans)
-        //   .where(eq(riskPlans.clientId, 1));
-        // return riskPlanData;
       } catch (error) {
         console.log(error);
       }
