@@ -39,8 +39,15 @@ export default function GenerateRewards() {
   console.log(chosenPlans);
 
   useEffect(() => {
+    const fetchRiskPlans = async () => {
+      try {
+        await refetchRiskPlans();
+      } catch (error) {
+        console.error(error);
+      }
+    };
     if (step === 2) {
-      refetchRiskPlans();
+      fetchRiskPlans();
     }
   }, [step, refetchRiskPlans]);
 
