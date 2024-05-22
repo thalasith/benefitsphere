@@ -290,3 +290,22 @@ export const riskPlansRelations = relations(riskPlans, ({ one }) => ({
     references: [clients.id],
   }),
 }));
+
+export const rewards = createTable("rewards", {
+  id: serial("id").notNull().primaryKey(),
+  clientId: integer("client_id")
+    .notNull()
+    .references(() => clients.id),
+  country: varchar("country", { length: 255 }).notNull().default(""),
+  rewardDescription: varchar("rewardDescription", { length: 2000 })
+    .notNull()
+    .default(""),
+  rewardType: varchar("rewardType", { length: 255 }).notNull().default(""),
+});
+
+export const rewardsRelations = relations(rewards, ({ one }) => ({
+  client: one(clients, {
+    fields: [rewards.clientId],
+    references: [clients.id],
+  }),
+}));

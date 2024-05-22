@@ -17,6 +17,8 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/ui/table";
+import { Textarea } from "~/components/ui/textarea";
+import Link from "next/link";
 
 export default function GenerateRewards() {
   const { data: sessionData } = useSession();
@@ -24,6 +26,10 @@ export default function GenerateRewards() {
   const [country, setCountry] = useState("");
   const [loading, setLoading] = useState(false);
   const [chosenPlans, setChosenPlans] = useState<number[]>([]);
+
+  const { data: clientData } = api.client.getClientDetailsById.useQuery({
+    clientId: sessionData?.user.activeClient ?? 0,
+  });
 
   const { data: countryData } =
     api.country.getCountryRelationsByClientId.useQuery({
@@ -34,12 +40,26 @@ export default function GenerateRewards() {
   const { data: riskPlans, refetch: refetchRiskPlans } =
     api.riskPlan.getRiskPlanDetailsByCountry.useQuery(
       { country: country },
-      { enabled: false }, // Disabled by default
+      { enabled: false },
+    );
+
+  const { data: rewardsData, refetch: refetchRewardsData } =
+    api.reward.getRewardsByClientIdAndCountry.useQuery(
+      { country: country, clientId: sessionData?.user.activeClient ?? 0 },
+      { enabled: false },
     );
 
   const fetchRiskPlans = async () => {
     try {
       await refetchRiskPlans();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchRewardsPlans = async () => {
+    try {
+      await refetchRewardsData();
     } catch (error) {
       console.error(error);
     }
@@ -52,13 +72,28 @@ export default function GenerateRewards() {
         .catch(console.error)
         .finally(() => setLoading(false));
     }
-  }, [step]);
+    if (step === 1 && country !== "") {
+      fetchRewardsPlans()
+        .catch(console.error)
+        .finally(() => setLoading(false));
+    }
+  }, [step, country]);
+
+  const handleFirstStep = () => {
+    if (rewardsData === undefined) {
+      setStep(2);
+    } else {
+      setStep(3);
+    }
+  };
 
   const handleGenerateTest = async () => {
     try {
       console.log("Generating test...");
       const test = await generateTest.mutateAsync({
         planIds: chosenPlans,
+        country: country,
+        clientId: sessionData?.user.activeClient ?? 0,
       });
       console.log(test);
     } catch (error) {
@@ -100,12 +135,15 @@ export default function GenerateRewards() {
                 value={country}
                 setValue={setCountry}
               />
-              <Button onClick={() => setStep(2)} className="mt-4 bg-primary">
+              <Button
+                onClick={() => handleFirstStep()}
+                className="mt-4 bg-primary"
+              >
                 Next
               </Button>
             </div>
           )}
-          {step === 2 && (
+          {step === 2 && !rewardsData && (
             <div className="mt-8">
               <h2 className="mb-2 text-xl font-bold">Step 2: Choose plans</h2>
 
@@ -143,8 +181,16 @@ export default function GenerateRewards() {
               </Button>
             </div>
           )}
-
-          {/* <Button onClick={handleGenerateTest}>Generate Test</Button> */}
+          {rewardsData && step != 1 && (
+            <div className="mt-4">
+              A rewards page has already been generated for this country. Please
+              go to the rewards{" "}
+              <Link href={`/rewards/${clientData?.url}/${country}/edit`}>
+                here
+              </Link>{" "}
+              to view and edit these details.
+            </div>
+          )}
         </Container>
         <Footer />
       </main>

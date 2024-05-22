@@ -1,4 +1,4 @@
-import { eq, inArray } from "drizzle-orm";
+import { eq, inArray, and } from "drizzle-orm";
 import { z } from "zod";
 import { generateText, generateObject } from "ai";
 import { openai } from "@ai-sdk/openai";
@@ -8,7 +8,7 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import { clients, riskPlans } from "~/server/db/schema";
+import { clients, rewards, riskPlans } from "~/server/db/schema";
 const model = openai("gpt-3.5-turbo");
 
 export const rewardsRouter = createTRPCRouter({
@@ -16,6 +16,8 @@ export const rewardsRouter = createTRPCRouter({
     .input(
       z.object({
         planIds: z.array(z.number()),
+        country: z.string(),
+        clientId: z.number(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -25,23 +27,48 @@ export const rewardsRouter = createTRPCRouter({
           .from(riskPlans)
           .where(inArray(riskPlans.id, input.planIds));
 
-        // return riskPlanData;
         console.log("Generating test...");
 
-        const prompt = `Generate an employee facing description for all the plans selected here where the benefit is ${JSON.stringify(riskPlanData)}`;
+        const prompt = `The plan includes the following benefits: ${JSON.stringify(riskPlanData[0])} and would like to create a employee-facing description. Please generate a description for the employees. Just include a description of the benefit itself, the non-evidence limit, the benefit maximum, and who the insurer is. Don't add anything else. Create something like Okta provides you with insurance coverage in the event you contract a critical illness. The plan provides a coverage limit of 36 times your basic monthly salary, up to a cap.`;
 
-        const { object } = await generateObject({
+        const { text } = await generateText({
           model,
-          schema: z.object({
-            clientId: z.number(),
-            employeeFacingDescription: z.string(),
-          }),
-          prompt: prompt,
+          prompt,
         });
-        console.log(object);
-        return { object };
+
+        const data = {
+          clientId: input.clientId,
+          country: input.country,
+          rewardType: "Financial Protection",
+          rewardDescription: text,
+        };
+
+        await ctx.db.insert(rewards).values(data);
+
+        return data;
       } catch (error) {
         console.log(error);
       }
+    }),
+
+  getRewardsByClientIdAndCountry: protectedProcedure
+    .input(
+      z.object({
+        clientId: z.number(),
+        country: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const rewardsData = await ctx.db
+        .select()
+        .from(rewards)
+        .where(
+          and(
+            eq(rewards.clientId, input.clientId),
+            eq(rewards.country, input.country),
+          ),
+        );
+
+      return rewardsData;
     }),
 });
