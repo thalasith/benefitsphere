@@ -22,7 +22,7 @@ const financial_protection = {
   clientId: 1,
   description:
     "Client B understands the importance of financial protection for our employees and their families. We offer a range of benefits to help provide financial security in the event of illness, injury, or death.",
-  benefits: [
+  financial_protection: [
     {
       id: 1,
       name: "Life Insurance",
@@ -43,6 +43,22 @@ const financial_protection = {
       description:
         "If you are unable to work due to a disability, you receive a monthly payment equal to 60% of your basic monthly salary.",
       referencedPlan: "Client A - Long Term Disability Insurance Plan",
+    },
+  ],
+  financial_wellbeing: [
+    {
+      id: 1,
+      name: "Pension Plan",
+      description:
+        "You can contribute to a pension plan to save for retirement. We match your contributions up to 5% of your basic annual salary.",
+      referencedPlan: "Client A - Pension Plan",
+    },
+    {
+      id: 2,
+      name: "Employee Stock Purchase Plan",
+      description:
+        "You can purchase company stock at a discount through payroll deductions. You can contribute up to 10% of your basic annual salary.",
+      referencedPlan: "Client A - Employee Stock Purchase Plan",
     },
   ],
 };

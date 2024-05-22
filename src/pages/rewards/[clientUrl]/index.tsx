@@ -64,7 +64,7 @@ export default function Rewards() {
                 <Link
                   key={country.id}
                   className="flex justify-between rounded-md bg-white text-left shadow-md transition duration-300 ease-in-out hover:shadow-lg"
-                  href={`/rewards/${clientUrl ?? ""}/${countryString ?? ""}`}
+                  href={`/rewards/${clientUrl?.toString() ?? ""}/${countryString.toString() ?? ""}`}
                 >
                   <h2 className="p-4 text-xl font-bold">{country.country}</h2>
                   <Image
