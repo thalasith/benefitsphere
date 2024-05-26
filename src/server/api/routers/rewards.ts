@@ -12,7 +12,7 @@ import { clients, rewards, riskPlans } from "~/server/db/schema";
 const model = openai("gpt-3.5-turbo");
 
 export const rewardsRouter = createTRPCRouter({
-  createTest: protectedProcedure
+  createCountryRewards: protectedProcedure
     .input(
       z.object({
         planIds: z.array(z.number()),
@@ -29,23 +29,30 @@ export const rewardsRouter = createTRPCRouter({
 
         console.log("Generating test...");
 
-        const prompt = `The plan includes the following benefits: ${JSON.stringify(riskPlanData[0])} and would like to create a employee-facing description. Please generate a description for the employees. Just include a description of the benefit itself, the non-evidence limit, the benefit maximum, and who the insurer is. Don't add anything else. Create something like Okta provides you with insurance coverage in the event you contract a critical illness. The plan provides a coverage limit of 36 times your basic monthly salary, up to a cap.`;
+        riskPlanData.forEach(async (data) => {
+          const prompt = `The plan includes the following benefits: ${JSON.stringify(data)}
 
-        const { text } = await generateText({
-          model,
-          prompt,
+          Please generate an employee-facing description of the benefits. Just include a description of the benefit itself, the non-evidence limit, the benefit maximum, and who the insurer is. Create something similar to: "Okta provides you with insurance coverage in the event you contract a critical illness. The plan provides a coverage limit of 36 times your basic monthly salary, up to a cap."
+          
+          The generated description should sound compassionate and focus on the well-being of the employees and their loved ones.`;
+
+          const { text } = await generateText({
+            model,
+            prompt,
+          });
+
+          const promptedData = {
+            clientId: input.clientId,
+            country: input.country,
+            name: data?.coverageType,
+            category: "Financial Protection",
+            description: text,
+          };
+          console.log(promptedData);
+          await ctx.db.insert(rewards).values(promptedData);
         });
 
-        const data = {
-          clientId: input.clientId,
-          country: input.country,
-          rewardType: "Financial Protection",
-          rewardDescription: text,
-        };
-
-        await ctx.db.insert(rewards).values(data);
-
-        return data;
+        return { status: "success" };
       } catch (error) {
         console.log(error);
       }

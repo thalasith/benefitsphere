@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
@@ -103,13 +103,15 @@ export const riskPlanRouter = createTRPCRouter({
         .where(eq(riskPlans.id, input.id));
     }),
 
-  getRiskPlanDetailsByCountry: protectedProcedure
+  getRiskPlanDetailsByCountryAndClientId: protectedProcedure
     .input(
       z.object({
         country: z.string().min(1),
+        clientId: z.number().min(1),
       }),
     )
     .query(async ({ ctx, input }) => {
+      console.log("triggered!");
       const riskPlansSummary = await ctx.db
         .select({
           id: riskPlans.id,
@@ -118,7 +120,15 @@ export const riskPlanRouter = createTRPCRouter({
           planName: riskPlans.planName,
         })
         .from(riskPlans)
-        .where(eq(riskPlans.country, input.country));
+        .where(
+          and(
+            eq(riskPlans.country, input.country),
+            eq(riskPlans.clientId, input.clientId),
+          ),
+        );
+
+      console.log("country: ", input.country);
+      console.log(riskPlansSummary);
 
       return riskPlansSummary;
     }),

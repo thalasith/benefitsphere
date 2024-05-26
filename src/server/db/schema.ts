@@ -297,10 +297,9 @@ export const rewards = createTable("rewards", {
     .notNull()
     .references(() => clients.id),
   country: varchar("country", { length: 255 }).notNull().default(""),
-  rewardDescription: varchar("rewardDescription", { length: 2000 })
-    .notNull()
-    .default(""),
-  rewardType: varchar("rewardType", { length: 255 }).notNull().default(""),
+  name: varchar("name", { length: 255 }).notNull().default(""),
+  description: varchar("description", { length: 2000 }).notNull().default(""),
+  category: varchar("category", { length: 255 }).notNull().default(""),
 });
 
 export const rewardsRelations = relations(rewards, ({ one }) => ({

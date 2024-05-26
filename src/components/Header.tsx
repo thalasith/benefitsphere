@@ -97,7 +97,7 @@ export default function Header() {
         <Popover.Group className="hidden lg:flex lg:gap-x-12">
           <Link
             href="/homepage"
-            className="rounded-lg px-3 py-2 text-sm leading-6 hover:bg-slate-50"
+            className="rounded-lg px-2 py-2 text-sm leading-6 hover:bg-slate-50"
           >
             View your benefits
           </Link>
@@ -133,6 +133,19 @@ export default function Header() {
               </Popover.Panel>
             </Transition>
           </Popover>
+
+          <Link
+            href="/generate_rewards"
+            className="rounded-lg px-2 py-2 text-sm leading-6 hover:bg-slate-50"
+          >
+            Generate Country Rewards
+          </Link>
+          <Link
+            href="/benchmarking"
+            className="rounded-lg px-2 py-2 text-sm leading-6 hover:bg-slate-50"
+          >
+            Benchmarking
+          </Link>
         </Popover.Group>
 
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">

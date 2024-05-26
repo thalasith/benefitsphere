@@ -82,16 +82,6 @@ export default function Dashboard() {
                     </td>
                   </tr>
                 ))}
-                <tr key={2} className="divide-x divide-white bg-tertiary-lt">
-                  <td className={tableClass}>United Kingdom</td>
-                  <td className={tableClass}>AD&D</td>
-                  <td className={tableClass}>UK - AD&D Plan</td>
-                  <td className={tableClass}>
-                    <button className="my-1 rounded bg-primary px-2 py-0.5 text-white hover:bg-primary-lt">
-                      Details
-                    </button>
-                  </td>
-                </tr>
               </tbody>
             </table>
           </div>

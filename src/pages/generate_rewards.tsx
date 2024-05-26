@@ -36,10 +36,10 @@ export default function GenerateRewards() {
       clientId: sessionData?.user.activeClient ?? 0,
     });
   const countries = countryData?.map((country) => country.country ?? "") ?? [];
-  const generateTest = api.reward.createTest.useMutation();
+  const generateCountryRewards = api.reward.createCountryRewards.useMutation();
   const { data: riskPlans, refetch: refetchRiskPlans } =
-    api.riskPlan.getRiskPlanDetailsByCountry.useQuery(
-      { country: country },
+    api.riskPlan.getRiskPlanDetailsByCountryAndClientId.useQuery(
+      { country: country, clientId: sessionData?.user.activeClient ?? 0 },
       { enabled: false },
     );
 
@@ -51,6 +51,7 @@ export default function GenerateRewards() {
 
   const fetchRiskPlans = async () => {
     try {
+      console.log("fetching risk plans...");
       await refetchRiskPlans();
     } catch (error) {
       console.error(error);
@@ -59,6 +60,7 @@ export default function GenerateRewards() {
 
   const fetchRewardsPlans = async () => {
     try {
+      console.log("fetching rewards plans...");
       await refetchRewardsData();
     } catch (error) {
       console.error(error);
@@ -73,24 +75,23 @@ export default function GenerateRewards() {
         .finally(() => setLoading(false));
     }
     if (step === 1 && country !== "") {
-      fetchRewardsPlans()
-        .catch(console.error)
-        .finally(() => setLoading(false));
+      console.log("triggered on step 1");
+      refetchRewardsData();
     }
   }, [step, country]);
 
   const handleFirstStep = () => {
-    if (rewardsData === undefined) {
+    if (rewardsData === undefined || rewardsData.length === 0) {
       setStep(2);
     } else {
       setStep(3);
     }
   };
 
-  const handleGenerateTest = async () => {
+  const handleGenerateCountryRewards = async () => {
     try {
       console.log("Generating test...");
-      const test = await generateTest.mutateAsync({
+      const test = await generateCountryRewards.mutateAsync({
         planIds: chosenPlans,
         country: country,
         clientId: sessionData?.user.activeClient ?? 0,
@@ -143,7 +144,7 @@ export default function GenerateRewards() {
               </Button>
             </div>
           )}
-          {step === 2 && !rewardsData && (
+          {
             <div className="mt-8">
               <h2 className="mb-2 text-xl font-bold">Step 2: Choose plans</h2>
 
@@ -174,14 +175,14 @@ export default function GenerateRewards() {
                 </TableBody>
               </Table>
               <Button
-                onClick={() => handleGenerateTest()}
+                onClick={() => handleGenerateCountryRewards()}
                 className="mt-4 bg-primary"
               >
                 Next
               </Button>
             </div>
-          )}
-          {rewardsData && step != 1 && (
+          }
+          {(rewardsData || []).length > 0 && step != 1 && (
             <div className="mt-4">
               A rewards page has already been generated for this country. Please
               go to the rewards{" "}
@@ -191,6 +192,7 @@ export default function GenerateRewards() {
               to view and edit these details.
             </div>
           )}
+          {loading && <div>Loading...</div>}
         </Container>
         <Footer />
       </main>
