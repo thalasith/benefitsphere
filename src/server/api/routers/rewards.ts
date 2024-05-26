@@ -29,9 +29,9 @@ export const rewardsRouter = createTRPCRouter({
 
         console.log("Generating test...");
 
-        riskPlanData.forEach(async (data) => {
+        for (const data of riskPlanData) {
           const prompt = `The plan includes the following benefits: ${JSON.stringify(data)}
-
+      
           Please generate an employee-facing description of the benefits. Just include a description of the benefit itself, the non-evidence limit, the benefit maximum, and who the insurer is. Create something similar to: "Okta provides you with insurance coverage in the event you contract a critical illness. The plan provides a coverage limit of 36 times your basic monthly salary, up to a cap."
           
           The generated description should sound compassionate and focus on the well-being of the employees and their loved ones.`;
@@ -50,7 +50,7 @@ export const rewardsRouter = createTRPCRouter({
           };
           console.log(promptedData);
           await ctx.db.insert(rewards).values(promptedData);
-        });
+        }
 
         return { status: "success" };
       } catch (error) {

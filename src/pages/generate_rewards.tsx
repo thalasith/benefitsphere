@@ -76,7 +76,9 @@ export default function GenerateRewards() {
     }
     if (step === 1 && country !== "") {
       console.log("triggered on step 1");
-      refetchRewardsData();
+      refetchRewardsData()
+        .catch(console.error)
+        .finally(() => setLoading(false));
     }
   }, [step, country]);
 
