@@ -184,7 +184,7 @@ export default function GenerateRewards() {
               </Button>
             </div>
           }
-          {(rewardsData || []).length > 0 && step != 1 && (
+          {(rewardsData ?? []).length > 0 && step != 1 && (
             <div className="mt-4">
               A rewards page has already been generated for this country. Please
               go to the rewards{" "}
