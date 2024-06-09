@@ -135,7 +135,8 @@ export default function EditRiskPlan() {
     if (editableRiskPlanDetails.id === 0) return;
 
     riskPlanDetailsUpdate(editableRiskPlanDetails);
-    Router.push(`/risk/${idString}`).catch((err) => console.log(err));
+    // refresh and go back to the risk plan details page
+    Router.push(`/risk/${idString}`);
   };
 
   return (
@@ -152,7 +153,7 @@ export default function EditRiskPlan() {
             <div>
               <div className="flex justify-between">
                 <h1 className="text-3xl font-bold">
-                  Life Plan Details Editing
+                  {editableRiskPlanDetails.planName} Plan Details Editing
                 </h1>
                 <div>
                   <button

@@ -151,7 +151,9 @@ export default function GenerateRewards() {
               <h2 className="mb-2 text-xl font-bold">Step 2: Choose plans</h2>
 
               <Table>
-                <TableCaption>A list of your recent invoices.</TableCaption>
+                <TableCaption>
+                  A list of {clientData?.clientName}'s benefits.
+                </TableCaption>
                 <TableHeader>
                   <TableRow>
                     <TableHead className="w-[100px]">Id</TableHead>

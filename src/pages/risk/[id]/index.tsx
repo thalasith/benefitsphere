@@ -41,7 +41,9 @@ export default function RiskPlan() {
           {riskPlanDetails && (
             <div>
               <div className="flex justify-between">
-                <h1 className="text-3xl font-bold">Life Plan Details</h1>
+                <h1 className="text-3xl font-bold">
+                  {riskPlanDetails.planName} Plan Details
+                </h1>
                 <Link
                   href={`/risk/${idString}/edit`}
                   className="rounded-lg bg-primary px-4 py-1 text-lg font-bold text-white hover:bg-tertiary"
