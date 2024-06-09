@@ -154,7 +154,7 @@ export default function GenerateRewards() {
 
               <Table>
                 <TableCaption>
-                  A list of {clientData?.clientName}'s benefits.
+                  A list of {clientData?.clientName}&apos;s benefits.
                 </TableCaption>
                 <TableHeader>
                   <TableRow>
@@ -191,7 +191,7 @@ export default function GenerateRewards() {
 
           {(riskPlans ?? []).length === 0 && step != 1 && (
             <div className="mt-4">
-              You don't have any data to generate rewards with. Please go{" "}
+              You don&apos;t have any data to generate rewards with. Please go{" "}
               <Link href="/homepage" className="text-danger">
                 here
               </Link>{" "}

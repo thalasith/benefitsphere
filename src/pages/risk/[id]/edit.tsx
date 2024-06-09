@@ -136,7 +136,7 @@ export default function EditRiskPlan() {
 
     riskPlanDetailsUpdate(editableRiskPlanDetails);
     // refresh and go back to the risk plan details page
-    Router.push(`/risk/${idString}`);
+    Router.push(`/risk/${idString}`).catch(console.error);
   };
 
   return (
