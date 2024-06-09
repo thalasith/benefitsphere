@@ -67,6 +67,8 @@ export default function GenerateRewards() {
     }
   };
 
+  console.log("rewardsData", rewardsData);
+
   useEffect(() => {
     if (step === 2) {
       setLoading(true);
@@ -146,7 +148,7 @@ export default function GenerateRewards() {
               </Button>
             </div>
           )}
-          {
+          {(riskPlans ?? []).length > 0 && step != 1 && (
             <div className="mt-8">
               <h2 className="mb-2 text-xl font-bold">Step 2: Choose plans</h2>
 
@@ -185,15 +187,15 @@ export default function GenerateRewards() {
                 Next
               </Button>
             </div>
-          }
-          {(rewardsData ?? []).length > 0 && step != 1 && (
+          )}
+
+          {(riskPlans ?? []).length === 0 && step != 1 && (
             <div className="mt-4">
-              A rewards page has already been generated for this country. Please
-              go to the rewards{" "}
-              <Link href={`/rewards/${clientData?.url}/${country}/edit`}>
+              You don't have any data to generate rewards with. Please go{" "}
+              <Link href="/homepage" className="text-danger">
                 here
               </Link>{" "}
-              to view and edit these details.
+              to add some data.
             </div>
           )}
           {loading && <div>Loading...</div>}
