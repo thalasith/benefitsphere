@@ -8,7 +8,7 @@ import NarrowContainer from "~/components/NarrowContainer";
 import Link from "next/link";
 
 export default function EditRewards() {
-  const { clientUrl } = useRouter().query;
+  const { clientUrl } = useRouter().query || "";
   const { data: clientData } = api.client.getClientNameByUrl.useQuery({
     url: clientUrl as string,
   });
