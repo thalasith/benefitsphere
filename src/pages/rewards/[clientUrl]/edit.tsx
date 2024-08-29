@@ -17,9 +17,8 @@ export default function EditRewards() {
     api.country.getCountryRelationsByClientId.useQuery({
       clientId: clientId,
     });
-  const message = `We recognize the importance of total rewards and benefits in attracting, retaining, and engaging employees. We are committed to providing a comprehensive and competitive benefits package that offers flexibility and choice to meet the diverse needs of our employees and their families. 
-  
-  Please select a country below to view the benefits available.`;
+  const message =
+    "We recognize the importance of total rewards and benefits in attracting, retaining, and engaging employees. We are committed to providing a comprehensive and competitive benefits package that offers flexibility and choice to meet the diverse needs of our employees and their families.  Please select a country below to view the benefits available.";
 
   return (
     <>
