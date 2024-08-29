@@ -29,7 +29,7 @@ export default function Rewards() {
         <PublicHeader />
         <WideContainer>
           <div className="mb-4 flex justify-end">
-            <Link href={`/rewards/${clientUrl}/edit` || ""}>
+            <Link href={`/rewards/${clientUrl || ""}/edit`}>
               <button className="rounded-md bg-primary px-4 py-2 text-white transition-colors hover:bg-tertiary">
                 Edit Mode
               </button>
