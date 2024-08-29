@@ -31,7 +31,7 @@ export default function EditRewards() {
         <PublicHeader />
         <WideContainer>
           <div className="mb-4 flex justify-end">
-            <Link href={`/rewards/${clientUrl ?? ""}`}>
+            <Link href={`/rewards/${clientUrl?.toString()}`}>
               <button className="hover:bg-primary-dark rounded-md bg-primary px-4 py-2 text-white transition-colors">
                 Read Mode
               </button>
