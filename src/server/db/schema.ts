@@ -20,25 +20,6 @@ import { type AdapterAccount } from "next-auth/adapters";
  */
 export const createTable = pgTableCreator((name) => `benefitsphere_${name}`);
 
-export const posts = createTable(
-  "post",
-  {
-    id: serial("id").primaryKey(),
-    name: varchar("name", { length: 256 }),
-    createdById: varchar("createdById", { length: 255 })
-      .notNull()
-      .references(() => users.id),
-    createdAt: timestamp("created_at")
-      .default(sql`CURRENT_TIMESTAMP`)
-      .notNull(),
-    updatedAt: timestamp("updatedAt"),
-  },
-  (example) => ({
-    createdByIdIdx: index("createdById_idx").on(example.createdById),
-    nameIndex: index("name_idx").on(example.name),
-  }),
-);
-
 export const countries = createTable("country", {
   id: serial("id").primaryKey(),
   country: varchar("name", { length: 255 }),
@@ -290,6 +271,16 @@ export const riskPlansRelations = relations(riskPlans, ({ one }) => ({
     references: [clients.id],
   }),
 }));
+
+export const rewardsWelcomeMessage = createTable("rewardsWelcomeMessage", {
+  id: serial("id").notNull().primaryKey(),
+  clientId: integer("client_id")
+    .notNull()
+    .references(() => clients.id),
+  welcomeMessage: varchar("welcomeMessage", { length: 2000 })
+    .notNull()
+    .default(""),
+});
 
 export const rewards = createTable("rewards", {
   id: serial("id").notNull().primaryKey(),
