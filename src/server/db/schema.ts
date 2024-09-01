@@ -140,6 +140,14 @@ export const clients = createTable("client", {
   industry: varchar("industry", { length: 255 }),
   baseCurrency: varchar("baseCurrency", { length: 3 }),
   url: varchar("url", { length: 255 }),
+  rewardsWelcomeMessage: varchar("welcomeMrewardsWelcomeMessageessage", {
+    length: 2000,
+  })
+    .notNull()
+    .default(""),
+  rewardsPagePublished: boolean("rewardsPagePublished")
+    .notNull()
+    .default(false),
 });
 
 export const clientsRelations = relations(clients, ({ many }) => ({
@@ -271,16 +279,6 @@ export const riskPlansRelations = relations(riskPlans, ({ one }) => ({
     references: [clients.id],
   }),
 }));
-
-export const rewardsWelcomeMessage = createTable("rewardsWelcomeMessage", {
-  id: serial("id").notNull().primaryKey(),
-  clientId: integer("client_id")
-    .notNull()
-    .references(() => clients.id),
-  welcomeMessage: varchar("welcomeMessage", { length: 2000 })
-    .notNull()
-    .default(""),
-});
 
 export const rewards = createTable("rewards", {
   id: serial("id").notNull().primaryKey(),
