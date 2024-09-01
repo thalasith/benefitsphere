@@ -1,4 +1,3 @@
-import { postRouter } from "~/server/api/routers/post";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 import { clientRouter } from "./routers/clients";
 import { userRouter } from "./routers/users";
