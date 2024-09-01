@@ -2,7 +2,6 @@ import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 import { clientRouter } from "./routers/clients";
 import { userRouter } from "./routers/users";
 import { riskPlanRouter } from "./routers/riskPlans";
-import { uploadRouter } from "./routers/upload";
 import { countryRouter } from "./routers/countries";
 import { rewardsRouter } from "./routers/rewards";
 
@@ -16,7 +15,6 @@ export const appRouter = createTRPCRouter({
   country: countryRouter,
   user: userRouter,
   riskPlan: riskPlanRouter,
-  upload: uploadRouter,
   reward: rewardsRouter,
 });
 
