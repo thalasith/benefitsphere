@@ -33,7 +33,7 @@ export default function EditRewards() {
       rewardsTitle: title,
       rewardsWelcomeMessage: welcomeMessage,
     });
-    Router.push(`/rewards/${clientUrl}`).catch(console.error);
+    Router.push(`/rewards/${clientUrl?.toLocaleString()}`).catch(console.error);
   };
 
   return (
