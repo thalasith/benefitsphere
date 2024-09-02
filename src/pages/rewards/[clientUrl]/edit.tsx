@@ -1,11 +1,12 @@
 import Head from "next/head";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import Image from "next/image";
 import PublicHeader from "~/components/PublicHeader";
 import WideContainer from "~/components/WideContainer";
 import { api } from "~/utils/api";
 import NarrowContainer from "~/components/NarrowContainer";
 import Link from "next/link";
+import { useState } from "react";
 
 export default function EditRewards() {
   const { clientUrl } = useRouter().query || "";
@@ -17,8 +18,23 @@ export default function EditRewards() {
     api.country.getCountryRelationsByClientId.useQuery({
       clientId: clientId,
     });
-  const message =
-    "We recognize the importance of total rewards and benefits in attracting, retaining, and engaging employees. We are committed to providing a comprehensive and competitive benefits package that offers flexibility and choice to meet the diverse needs of our employees and their families.  Please select a country below to view the benefits available.";
+
+  const [title, setTitle] = useState(clientData?.rewardsTitle ?? "");
+  const [welcomeMessage, setWelcomeMessage] = useState(
+    clientData?.rewardsWelcomeMessage ?? "",
+  );
+
+  const { mutate: updateClient } =
+    api.client.updateClientRewardsDetailsById.useMutation();
+
+  const handleSaveChanges = () => {
+    updateClient({
+      clientId: clientId,
+      rewardsTitle: title,
+      rewardsWelcomeMessage: welcomeMessage,
+    });
+    Router.push(`/rewards/${clientUrl}`).catch(console.error);
+  };
 
   return (
     <>
@@ -31,8 +47,15 @@ export default function EditRewards() {
         <PublicHeader />
         <WideContainer>
           <div className="mb-4 flex justify-end">
+            <button
+              className="rounded-md bg-primary px-4 py-2 text-white transition-colors hover:bg-tertiary"
+              onClick={handleSaveChanges}
+            >
+              Save Changes
+            </button>
+
             <Link href={`/rewards/${clientUrl?.toString()}`}>
-              <button className="hover:bg-primary-dark rounded-md bg-primary px-4 py-2 text-white transition-colors">
+              <button className="ml-4 rounded-md bg-slate-500 px-4 py-2 text-white transition-colors hover:bg-tertiary">
                 Read Mode
               </button>
             </Link>
@@ -51,9 +74,10 @@ export default function EditRewards() {
                   type="text"
                   id="welcomeMessage"
                   name="welcomeMessage"
-                  className="mt-1 block w-full rounded-md border-gray-300 text-3xl font-bold shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  className="mt-1 block w-full rounded-md border-gray-300 bg-gray-100 pl-1 text-3xl font-bold shadow-sm "
                   placeholder="Enter welcome message"
-                  defaultValue="Welcome!"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
                 />
               </div>
 
@@ -62,9 +86,10 @@ export default function EditRewards() {
                   id="description"
                   name="description"
                   rows={4}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  className="mt-1 block w-full rounded-md border-gray-300 bg-gray-100 pl-1 shadow-sm "
                   placeholder="Enter description"
-                  defaultValue={message}
+                  value={welcomeMessage}
+                  onChange={(e) => setWelcomeMessage(e.target.value)}
                 ></textarea>
               </div>
             </div>

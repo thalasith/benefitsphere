@@ -140,6 +140,7 @@ export const clients = createTable("client", {
   industry: varchar("industry", { length: 255 }),
   baseCurrency: varchar("baseCurrency", { length: 3 }),
   url: varchar("url", { length: 255 }),
+  rewardsTitle: varchar("rewardsTitle", { length: 255 }),
   rewardsWelcomeMessage: varchar("rewardsWelcomeMessage", {
     length: 2000,
   })

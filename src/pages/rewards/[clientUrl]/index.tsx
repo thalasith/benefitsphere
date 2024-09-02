@@ -43,16 +43,9 @@ export default function Rewards() {
               height={250}
             />
             <div className="px-4 ">
-              <h1 className="text-3xl font-bold">Welcome!</h1>
-              <p className="text-lg">
-                {clientData?.clientName} recognizes the importance of total
-                rewards and benefits in attracting, retaining, and engaging
-                employees. We are committed to providing a comprehensive and
-                competitive benefits package that offers flexibility and choice
-                to meet the diverse needs of our employees and their families.
-                <br />
-                <br />
-                Please select a country below to view the benefits available.
+              <h1 className="text-3xl font-bold">{clientData?.rewardsTitle}</h1>
+              <p className="pt-2 text-lg">
+                {clientData?.rewardsWelcomeMessage}
               </p>
             </div>
           </div>
