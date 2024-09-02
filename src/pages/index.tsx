@@ -4,7 +4,7 @@ import { Footer } from "~/components/Footer";
 import Header from "~/components/Header";
 
 export default function Home() {
-  const { data: sessionData, status } = useSession();
+  const { status } = useSession();
 
   if (status === "loading") {
     return <p>Loading...</p>;

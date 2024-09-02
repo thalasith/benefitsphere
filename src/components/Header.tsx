@@ -21,6 +21,8 @@ export default function Header() {
     clientId: sessionData?.user.activeClient ?? 0,
   });
 
+  console.log(clientData);
+
   const Login = (
     <button
       className="rounded px-2 py-1 font-semibold leading-6 hover:bg-slate-50 hover:text-secondary"
@@ -135,10 +137,10 @@ export default function Header() {
           </Popover>
 
           <Link
-            href="/generate_rewards"
+            href={`/rewards/${clientData?.url?.toString()}`}
             className="rounded-lg px-2 py-2 text-sm leading-6 hover:bg-slate-50"
           >
-            Generate Country Rewards
+            Rewards Page
           </Link>
           <Link
             href="/benchmarking"

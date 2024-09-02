@@ -14,19 +14,14 @@ const tableHeadClass = "text-left pl-2 py-2";
 const isLoading = (status: string) => status === "loading";
 
 export default function Dashboard() {
-  const [openModal, setOpenModal] = useState(false);
   const { data: sessionData, status: sessionStatus } = useSession();
-  const { data: clientData, status: clientStatus } =
-    api.client.getClientDetailsById.useQuery({
-      clientId: sessionData?.user.activeClient ?? 0,
-    });
-  const {
-    data: riskPlans,
-    status: riskStatus,
-    refetch: refetchRiskPlans,
-  } = api.riskPlan.getRiskPlansByClientId.useQuery({
+  const { status: clientStatus } = api.client.getClientDetailsById.useQuery({
     clientId: sessionData?.user.activeClient ?? 0,
   });
+  const { data: riskPlans, status: riskStatus } =
+    api.riskPlan.getRiskPlansByClientId.useQuery({
+      clientId: sessionData?.user.activeClient ?? 0,
+    });
 
   useClientSelector();
   if (

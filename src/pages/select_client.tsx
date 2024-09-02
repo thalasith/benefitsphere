@@ -38,10 +38,6 @@ const SelectClient: NextPage = () => {
     });
   }
 
-  const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setUserClient(e.target.value);
-  };
-
   const handleSelect = async () => {
     if (!userClient) return;
 
