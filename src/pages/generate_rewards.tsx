@@ -35,7 +35,7 @@ export default function GenerateRewards() {
     <div className="flex flex-col items-center justify-center">
       <h1 className="text-3xl font-bold">No rewards to generate</h1>
       <button className="my-1 rounded bg-primary px-2 py-0.5 text-white hover:bg-primary-lt">
-        Click here to generate a rewards page!
+        Click here to generate a rewards page
       </button>
     </div>
   );
