@@ -31,88 +31,20 @@ export default function GenerateRewards() {
     clientId: sessionData?.user.activeClient ?? 0,
   });
 
-  const { data: countryData } =
-    api.country.getCountryRelationsByClientId.useQuery({
-      clientId: sessionData?.user.activeClient ?? 0,
-    });
-  const countries = countryData?.map((country) => country.country ?? "") ?? [];
-  const generateCountryRewards = api.reward.createCountryRewards.useMutation();
-  const { data: riskPlans, refetch: refetchRiskPlans } =
-    api.riskPlan.getRiskPlanDetailsByCountryAndClientId.useQuery(
-      { country: country, clientId: sessionData?.user.activeClient ?? 0 },
-      { enabled: false },
-    );
+  const NoRewards = (
+    <div className="flex flex-col items-center justify-center">
+      <h1 className="text-3xl font-bold">No rewards to generate</h1>
+      <button className="my-1 rounded bg-primary px-2 py-0.5 text-white hover:bg-primary-lt">
+        Click here to generate a rewards page!
+      </button>
+    </div>
+  );
 
-  const { data: rewardsData, refetch: refetchRewardsData } =
-    api.reward.getRewardsByClientIdAndCountry.useQuery(
-      { country: country, clientId: sessionData?.user.activeClient ?? 0 },
-      { enabled: false },
-    );
-
-  const fetchRiskPlans = async () => {
-    try {
-      console.log("fetching risk plans...");
-      await refetchRiskPlans();
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const fetchRewardsPlans = async () => {
-    try {
-      console.log("fetching rewards plans...");
-      await refetchRewardsData();
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  console.log("rewardsData", rewardsData);
-
-  useEffect(() => {
-    if (step === 2) {
-      setLoading(true);
-      fetchRiskPlans()
-        .catch(console.error)
-        .finally(() => setLoading(false));
-    }
-    if (step === 1 && country !== "") {
-      console.log("triggered on step 1");
-      refetchRewardsData()
-        .catch(console.error)
-        .finally(() => setLoading(false));
-    }
-  }, [step, country]);
-
-  const handleFirstStep = () => {
-    if (rewardsData === undefined || rewardsData.length === 0) {
-      setStep(2);
-    } else {
-      setStep(3);
-    }
-  };
-
-  const handleGenerateCountryRewards = async () => {
-    try {
-      console.log("Generating test...");
-      const test = await generateCountryRewards.mutateAsync({
-        planIds: chosenPlans,
-        country: country,
-        clientId: sessionData?.user.activeClient ?? 0,
-      });
-      console.log(test);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleBoxCheck = (id: number) => {
-    if (chosenPlans.includes(id)) {
-      setChosenPlans(chosenPlans.filter((planId) => planId !== id));
-    } else {
-      setChosenPlans([...chosenPlans, id]);
-    }
-  };
+  const Rewards = (
+    <div className="flex items-center justify-center">
+      <h1 className="text-3xl font-bold">Rewards are generated</h1>
+    </div>
+  );
 
   return (
     <>
@@ -124,81 +56,7 @@ export default function GenerateRewards() {
       <main className="text-primary">
         <Header />
         <Container>
-          <div className="flex items-center justify-between">
-            <h1 className="text-3xl font-bold">Generate Rewards Page</h1>
-          </div>
-          <p className="mt-4 text-lg">This page is used to generate rewards.</p>
-
-          {step === 1 && (
-            <div className="mt-8">
-              <h2 className="mb-2 text-xl font-bold">
-                Step 1: Choose a country
-              </h2>
-              <CustomSelect
-                placeholder="Select Benefit"
-                options={countries}
-                value={country}
-                setValue={setCountry}
-              />
-              <Button
-                onClick={() => handleFirstStep()}
-                className="mt-4 bg-primary"
-              >
-                Next
-              </Button>
-            </div>
-          )}
-          {(riskPlans ?? []).length > 0 && step != 1 && (
-            <div className="mt-8">
-              <h2 className="mb-2 text-xl font-bold">Step 2: Choose plans</h2>
-
-              <Table>
-                <TableCaption>
-                  A list of {clientData?.clientName}&apos;s benefits.
-                </TableCaption>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="w-[100px]">Id</TableHead>
-                    <TableHead>Plan Name</TableHead>
-                    <TableHead>Coverage Type</TableHead>
-                    <TableHead className="text-center">Check</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {riskPlans?.map((riskPlan, idx) => (
-                    <TableRow key={riskPlan.id}>
-                      <TableCell>{idx + 1}</TableCell>
-                      <TableCell>{riskPlan.planName}</TableCell>
-                      <TableCell>{riskPlan.coverageType}</TableCell>
-                      <TableCell>
-                        <Checkbox
-                          className="text-center"
-                          onCheckedChange={() => handleBoxCheck(riskPlan.id)}
-                        />
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-              <Button
-                onClick={() => handleGenerateCountryRewards()}
-                className="mt-4 bg-primary"
-              >
-                Next
-              </Button>
-            </div>
-          )}
-
-          {(riskPlans ?? []).length === 0 && step != 1 && (
-            <div className="mt-4">
-              You don&apos;t have any data to generate rewards with. Please go{" "}
-              <Link href="/homepage" className="text-danger">
-                here
-              </Link>{" "}
-              to add some data.
-            </div>
-          )}
-          {loading && <div>Loading...</div>}
+          {clientData?.rewardsWelcomeMessage === "" ? NoRewards : Rewards}
         </Container>
         <Footer />
       </main>
